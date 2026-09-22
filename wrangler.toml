@@ -6,3 +6,8 @@ compatibility_date = "2026-09-22"
 directory = "./public"
 binding = "ASSETS"
 run_worker_first = ["/api/*"]
+
+[[secrets_store_secrets]]
+binding = "OPENAI_API_KEY"
+store_id = "af0ccdc3b1cb4abca5046f3efa1cd3e1"
+secret_name = "OPENAI_API_KEY"
