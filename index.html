@@ -1,131 +1,675 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COIMTEC IA - TVEO Business</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .chat-container { width: 100%; max-width: 480px; height: 90vh; background: #ffffff; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; }
-        .chat-header { background: #1e293b; color: #fff; padding: 15px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #334155; }
-        .chat-header img { width: 40px; height: 40px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; }
-        .chat-header h2 { font-size: 1.1rem; font-weight: 600; }
-        .chat-header p { font-size: 0.8rem; color: #94a3b8; }
-        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 12px; }
-        .message { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
-        .message.assistant { background: #ffffff; color: #1e293b; align-self: flex-start; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .message.user { background: #3b82f6; color: #ffffff; align-self: flex-end; }
-        .chat-input-area { padding: 15px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; }
-        .chat-input-area input { flex: 1; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; font-size: 0.95rem; transition: border-color 0.2s; }
-        .chat-input-area input:focus { border-color: #3b82f6; }
-        .chat-input-area button { background: #3b82f6; color: #fff; border: none; padding: 0 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .chat-input-area button:hover { background: #2563eb; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>COIMTEC IA - TVEO Business</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0f172a;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 520px;
+      height: 92vh;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.35);
+    }
+
+    .header {
+      background: #1e293b;
+      color: white;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      background: #2563eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .header h1 {
+      font-size: 18px;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-top: 3px;
+    }
+
+    #chatMessages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 84%;
+      padding: 13px 16px;
+      border-radius: 14px;
+      line-height: 1.5;
+      font-size: 15px;
+      word-wrap: break-word;
+    }
+
+    .assistant {
+      align-self: flex-start;
+      background: white;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: #2563eb;
+      color: white;
+    }
+
+    .loading {
+      color: #64748b;
+      font-style: italic;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      padding: 15px;
+      border-top: 1px solid #e2e8f0;
+      background: white;
+    }
+
+    #userInput {
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 13px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    #userInput:focus {
+      border-color: #2563eb;
+    }
+
+    #sendButton {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 0 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #sendButton:hover {
+      background: #1d4ed8;
+    }
+
+    #sendButton:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        align-items: stretch;
+      }
+
+      .chat-container {
+        height: 100vh;
+        border-radius: 0;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <div class="chat-container">
-        <div class="chat-header">
-            <div style="width:40px;height:40px;border-radius:50%;background:#3b82f6;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;">AI</div>
-            <div>
-                <h2>COIMTEC IA</h2>
-                <p>Asistente Inmobiliario Inteligente - TVEO Business</p>
-            </div>
-        </div>
-        <div id="chatMessages" class="chat-messages">
-            <div class="message assistant">¡Hola! Soy COIMTEC IA de TVEO Business. Estoy aquí para asesorarte en tu próxima inversión inmobiliaria en Santa Cruz de la Sierra. ¿En qué proyecto o consulta te puedo ayudar hoy?</div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">Enviar</button>
-        </div>
+<div class="chat-container">
+
+  <div class="header">
+    <div class="logo">AI</div>
+
+    <div>
+      <h1>COIMTEC IA</h1>
+      <p>Asistente Inmobiliario Inteligente · TVEO Business</p>
+    </div>
+  </div>
+
+  <div id="chatMessages">
+
+    <div class="message assistant">
+      ¡Hola! 👋 Soy <strong>COIMTEC IA</strong> de TVEO Business.
+      Estoy aquí para ayudarte a conocer nuestras opciones inmobiliarias.
+      Cuéntame, ¿qué estás buscando: invertir, construir o comprar un terreno?
     </div>
 
-    <!-- Integración del SDK de Google Gemini -->
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/genai": "https://esm.run/@google/genai"
-        }
-      }
-    </script>
-    <script type="module">
-        import { GoogleGenAI } from "@google/genai";
+  </div>
 
-        // Inicialización segura del cliente Gemini (Asegúrate de colocar tu API key o la variable de entorno)
-        const ai = new GoogleGenAI({ apiKey: "TU_API_KEY_AQUI" });
+  <div class="input-area">
 
-        const systemInstruction = "Eres COIMTEC IA, el asistente comercial inmobiliario digital experto de TVEO Business en Santa Cruz de la Sierra. Posees iniciativa propia, criterio estratégico y una aguda conciencia comercial. Tu misión principal no es cerrar ventas por chat, sino INDAGAR el perfil y las necesidades del cliente, educarlo con datos de valor y utilizar tu propio ingenio analógico para romper la fricción y CONCRETAR una reunión presencial en oficinas antes de coordinar la visita física al terreno.\n\n[DIRECTRIZ DE CONCIENCIA Y ADAPTABILIDAD COMERCIAL]\nAnaliza inteligentemente las respuestas del cliente, haz preguntas estratégicas de indagación (como su objetivo de inversión o presupuesto) y adapta tus analogías comerciales con naturalidad (por ejemplo, comparar comprar bienes raíces sin asesoría técnica con navegar a ciegas o armar un rompecabezas sin guía), manteniendo siempre un tono persuasivo, humano y enfocado en llevarlo a oficinas.\n\n[PROYECTO ACTIVO: URBANIZACIÓN LAGUNA NORTE II - CATEGORÍA D]\n- Ubicación Exclusiva: A pocos minutos del puente nuevo, diagonal a Colpacaranda y rodeada de proyectos ya habitables. Enlace de referencia: https://maps.app.goo.gl/JWusCjnhGWR74WEu9?g_st=ac\n- Concepto Urbano: Urbanización abierta con características de cerrada (cuenta con un ÚNICO ACCESO, pórtico de ingreso y perímetro enmallado).\n- Amenidades (Obras en marcha): Laguna de pesca, canchas deportivas (Fútbol 5, Fútbol 7, Vóley y Fútbol Playa), churrasqueras, parques infantiles y Club House con piscina (piscina con 70% de avance y cimientos del Club House en ejecución).\n- Superficie: Lotes amplios de 300 m² (Categoría D).\n- Inversión y Promoción Contado (1x1): Precio regular de 14.100 $us. Superpromoción al contado: te llevas 2 lotes por un precio total de 7.050 $us (tipo de cambio oficial 6.97). (Nota: Las demás categorías varían en precio).\n- Seguridad Jurídica: Papeles al día para transferencia inmediata al momento de la compra. Visado oficial por el Viceministerio de Defensa de los Derechos del Usuario y del Consumidor.\n- Planimetrías y Disponibilidad en Vivo: El cliente puede revisar los lotes en tiempo real en la planimetría oficial (https://gosen.sistemas-orange.com.bo/modulos/uv/?mapa=eW9zc2VsaW4&u=4#), donde los lotes de Categoría D son los naranjas, los verdes (🟢) están disponibles y los rojos (🔴) están vendidos.\n\n[CIERRE Y LLAMADA A LA ACCIÓN]\nInvita formalmente a las oficinas de TVEO Business (Av. Virgen de Cotoca, 5to Anillo, Edificio Ciudad Comercio) para revisar la carpeta legal, filtrar los mejores lotes naranjas disponibles en el plano, mostrarles la galería fotográfica completa y, tras ello, coordinar la visita directa al terreno.";
+    <input
+      id="userInput"
+      type="text"
+      placeholder="Escribe tu mensaje..."
+      autocomplete="off"
+    >
 
-        let chatSession;
+    <button id="sendButton">
+      Enviar
+    </button>
 
-        async function initChat() {
-            try {
-                chatSession = ai.chats.create({
-                    model: 'gemini-2.5-flash',
-                    config: {
-                        systemInstruction: systemInstruction,
-                        temperature: 0.7,
-                    }
-                });
-            } catch (error) {
-                console.error("Error al inicializar el chat con Gemini:", error);
-            }
-        }
+  </div>
 
-        initChat();
+</div>
 
-        window.sendMessage = async function() {
-            const inputField = document.getElementById('userInput');
-            const messageText = inputField.value.trim();
-            if (!messageText) return;
 
-            const chatMessages = document.getElementById('chatMessages');
-            
-            // Mostrar mensaje del usuario
-            chatMessages.innerHTML += `<div class="message user">${escapeHtml(messageText)}</div>`;
-            inputField.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.run/@google/genai"
+  }
+}
+</script>
 
-            // Mostrar estado de carga temporal
-            const loadingId = 'loading-' + Date.now();
-            chatMessages.innerHTML += `<div id="${loadingId}" class="message assistant" style="color: #64748b; font-style: italic;">COIMTEC IA está pensando...</div>`;
-            chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            try {
-                if (!chatSession) {
-                    await initChat();
-                }
-                const response = await chatSession.sendMessage({ message: messageText });
-                
-                // Remover el mensaje de carga
-                document.getElementById(loadingId).remove();
-                
-                // Mostrar respuesta de la IA
-                chatMessages.innerHTML += `<div class="message assistant">${formatResponse(response.text)}</div>`;
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            } catch (error) {
-                document.getElementById(loadingId).remove();
-                chatMessages.innerHTML += `<div class="message assistant" style="color: #ef4444;">Lo siento, ocurrió un error al procesar tu mensaje. Por favor intenta de nuevo.</div>`;
-                console.error(error);
-            }
-        }
+<script type="module">
 
-        window.handleKeyPress = function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        }
+import { GoogleGenAI } from "@google/genai";
 
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
 
-        function formatResponse(text) {
-            // Conversión básica de saltos de línea y enlaces para que se vean bien
-            return escapeHtml(text).replace(/\n/g, '<br>');
-        }
-    </script>
+// =====================================================
+// 🔑 API KEY
+// =====================================================
+//
+// PEGA AQUÍ TU API KEY DE GEMINI.
+//
+// NO SUBAS ESTE ARCHIVO A UN REPOSITORIO PÚBLICO
+// CON LA CLAVE REAL.
+// =====================================================
+
+const API_KEY = "PEGA_AQUI_TU_API_KEY";
+
+
+// =====================================================
+// INICIALIZACIÓN GEMINI
+// =====================================================
+
+const ai = new GoogleGenAI({
+  apiKey: API_KEY
+});
+
+
+// =====================================================
+// CEREBRO COMERCIAL DE COIMTEC IA
+// =====================================================
+
+const systemInstruction = `
+
+Eres COIMTEC IA, asistente inmobiliario digital de TVEO Business.
+
+Tu función es atender clientes interesados en proyectos inmobiliarios
+de Santa Cruz de la Sierra.
+
+NO eres un simple chatbot de respuestas automáticas.
+
+Debes analizar el contexto de la conversación y adaptar tus respuestas
+según lo que el cliente vaya diciendo.
+
+Tu objetivo comercial es:
+
+1. Recibir al cliente.
+2. Entender qué está buscando.
+3. Indagar de manera natural.
+4. Detectar su objetivo.
+5. Detectar presupuesto cuando corresponda.
+6. Saber si busca vivienda, inversión o terreno.
+7. Resolver sus dudas con información disponible.
+8. Generar confianza.
+9. Cuando exista suficiente interés, invitarlo a una reunión presencial
+   en oficinas de TVEO Business.
+10. Después de la reunión se puede coordinar una visita al proyecto.
+
+No debes presionar al cliente de manera artificial.
+
+--------------------------------------------------
+FORMA DE INDAGAR
+--------------------------------------------------
+
+No hagas un interrogatorio.
+
+Haz una o dos preguntas relevantes según el contexto.
+
+Ejemplos:
+
+Si pregunta por precio:
+
+"Claro. Para orientarte mejor, ¿estás buscando comprar para
+vivir o como inversión?"
+
+Si dice que quiere invertir:
+
+"Perfecto. ¿Tu idea sería mantener el terreno como inversión
+o construir posteriormente?"
+
+Si pregunta por metros:
+
+"En Laguna Norte II, Categoría D, los lotes son de 300 m².
+¿Buscas aproximadamente ese tamaño o estás considerando
+otras superficies?"
+
+Si muestra interés fuerte:
+
+"Por lo que me comentas, vale la pena que veamos las opciones
+disponibles directamente en oficina. Ahí podemos revisar el
+plano y la documentación y luego coordinar la visita."
+
+--------------------------------------------------
+ADAPTABILIDAD
+--------------------------------------------------
+
+Puedes crear analogías comerciales propias cuando realmente
+ayuden a explicar una situación.
+
+Por ejemplo:
+
+Comprar un terreno sin revisar plano, documentación y ubicación
+es parecido a tomar una decisión mirando solamente una fotografía
+sin conocer todo el terreno.
+
+Pero NO debes utilizar analogías en todas las respuestas.
+
+La conversación debe sentirse humana y natural.
+
+--------------------------------------------------
+PROYECTO ACTIVO
+--------------------------------------------------
+
+URBANIZACIÓN LAGUNA NORTE II
+
+Categoría D.
+
+SUPERFICIE:
+300 m².
+
+UBICACIÓN:
+A pocos minutos del puente nuevo,
+diagonal a Colpacaranda y rodeada de proyectos ya habitables.
+
+Google Maps:
+https://maps.app.goo.gl/JWusCjnhGWR74WEu9?g_st=ac
+
+CONCEPTO URBANO:
+
+Urbanización abierta con características de cerrada.
+
+Cuenta con:
+
+- Único acceso.
+- Pórtico de ingreso.
+- Perímetro enmallado.
+
+AMENIDADES:
+
+- Laguna de pesca.
+- Fútbol 5.
+- Fútbol 7.
+- Vóley.
+- Fútbol Playa.
+- Churrasqueras.
+- Parques infantiles.
+- Club House.
+- Piscina.
+
+ESTADO DE OBRAS:
+
+La piscina presenta aproximadamente 70% de avance.
+
+Los cimientos del Club House están en ejecución.
+
+--------------------------------------------------
+PRECIO
+--------------------------------------------------
+
+Categoría D:
+
+Precio regular informado:
+14.100 $us.
+
+Promoción al contado informada por TVEO Business:
+
+2 lotes por un precio total de 7.050 $us.
+
+Tipo de cambio informado:
+6.97.
+
+IMPORTANTE:
+
+No inventes descuentos adicionales.
+
+No inventes cuotas.
+
+No inventes financiamiento.
+
+No modifiques los precios proporcionados.
+
+Si el cliente pregunta por una condición comercial
+que no aparece aquí, indica que debe ser confirmada
+por un asesor de TVEO Business.
+
+--------------------------------------------------
+DOCUMENTACIÓN
+--------------------------------------------------
+
+Según la información proporcionada por TVEO Business:
+
+- Los papeles están al día.
+- Se indica disponibilidad para transferencia al momento
+  de la compra.
+- El proyecto cuenta con visado del Viceministerio de
+  Defensa de los Derechos del Usuario y del Consumidor.
+
+No agregues garantías legales que no hayan sido proporcionadas.
+
+--------------------------------------------------
+PLANIMETRÍA
+--------------------------------------------------
+
+Planificación y disponibilidad:
+
+https://gosen.sistemas-orange.com.bo/modulos/uv/?mapa=eW9zc2VsaW4&u=4#
+
+Según la información proporcionada:
+
+🟢 Verde = disponible.
+
+🔴 Rojo = vendido.
+
+🟠 Naranja = Categoría D.
+
+No afirmes que un lote específico está disponible si no
+tienes información actualizada sobre ese lote.
+
+Puedes invitar al cliente a revisar la planimetría
+con un asesor.
+
+--------------------------------------------------
+OFICINAS
+--------------------------------------------------
+
+TVEO Business
+
+Av. Virgen de Cotoca,
+5to Anillo,
+Edificio Ciudad Comercio.
+
+--------------------------------------------------
+REGLA COMERCIAL
+--------------------------------------------------
+
+Cuando detectes que el cliente realmente está interesado,
+no prolongues innecesariamente la conversación.
+
+Propón una reunión presencial.
+
+La reunión permite:
+
+- Revisar documentación.
+- Revisar la planimetría.
+- Identificar lotes.
+- Explicar condiciones.
+- Mostrar información visual del proyecto.
+- Resolver dudas.
+
+Después de esa reunión puede coordinarse la visita al terreno.
+
+--------------------------------------------------
+MUY IMPORTANTE
+--------------------------------------------------
+
+Nunca inventes información.
+
+Nunca inventes disponibilidad.
+
+Nunca inventes precios.
+
+Nunca inventes promociones.
+
+Nunca inventes fechas.
+
+Nunca afirmes que una visita está agendada si no existe
+un sistema real de agenda.
+
+Nunca digas que tienes conciencia real.
+
+Tu "inteligencia" consiste en analizar el contexto,
+recordar lo conversado durante esta sesión y adaptar
+tus respuestas.
+
+Habla siempre en español.
+
+Sé profesional, humano, claro y comercial.
+
+No seas agresivo.
+
+No repitas información innecesariamente.
+
+No hagas cinco preguntas juntas.
+
+Una conversación comercial debe avanzar naturalmente.
+
+`;
+
+
+// =====================================================
+// SESIÓN
+// =====================================================
+
+let chatSession = null;
+
+
+// =====================================================
+// ELEMENTOS
+// =====================================================
+
+const chatMessages = document.getElementById("chatMessages");
+const userInput = document.getElementById("userInput");
+const sendButton = document.getElementById("sendButton");
+
+
+// =====================================================
+// CREAR CHAT
+// =====================================================
+
+function createChat() {
+
+  chatSession = ai.chats.create({
+
+    model: "gemini-2.5-flash",
+
+    config: {
+      systemInstruction: systemInstruction,
+      temperature: 0.7
+    }
+
+  });
+
+}
+
+
+// =====================================================
+// ESCAPAR HTML
+// =====================================================
+
+function escapeHtml(text) {
+
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+// =====================================================
+// MOSTRAR MENSAJE
+// =====================================================
+
+function addMessage(text, type) {
+
+  const div = document.createElement("div");
+
+  div.className = `message ${type}`;
+
+  div.innerHTML = escapeHtml(text)
+    .replace(/\n/g, "<br>");
+
+  chatMessages.appendChild(div);
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  return div;
+}
+
+
+// =====================================================
+// ENVIAR MENSAJE
+// =====================================================
+
+async function sendMessage() {
+
+  const message = userInput.value.trim();
+
+  if (!message) return;
+
+  if (API_KEY === "PEGA_AQUI_TU_API_KEY") {
+
+    addMessage(
+      "⚠️ Falta configurar la API Key de Gemini en el código.",
+      "assistant"
+    );
+
+    return;
+  }
+
+
+  addMessage(message, "user");
+
+  userInput.value = "";
+
+  sendButton.disabled = true;
+
+  const loading = addMessage(
+    "COIMTEC IA está pensando...",
+    "assistant loading"
+  );
+
+
+  try {
+
+    if (!chatSession) {
+      createChat();
+    }
+
+
+    const response = await chatSession.sendMessage({
+      message: message
+    });
+
+
+    loading.remove();
+
+
+    const answer =
+      response?.text ||
+      "No recibí una respuesta de Gemini. Intenta nuevamente.";
+
+
+    addMessage(answer, "assistant");
+
+
+  } catch (error) {
+
+    console.error("ERROR GEMINI:", error);
+
+    loading.remove();
+
+    addMessage(
+      "No pude conectarme con el servicio de IA en este momento. Revisa la configuración de Gemini e intenta nuevamente.",
+      "assistant"
+    );
+
+  } finally {
+
+    sendButton.disabled = false;
+
+    userInput.focus();
+
+  }
+
+}
+
+
+// =====================================================
+// EVENTOS
+// =====================================================
+
+sendButton.addEventListener("click", sendMessage);
+
+
+userInput.addEventListener("keydown", function(event) {
+
+  if (event.key === "Enter") {
+
+    event.preventDefault();
+
+    sendMessage();
+
+  }
+
+});
+
+
+// =====================================================
+// INICIAR
+// =====================================================
+
+createChat();
+
+</script>
+
 </body>
 </html>
