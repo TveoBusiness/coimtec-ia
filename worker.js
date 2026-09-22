@@ -32,8 +32,8 @@ AVANCE DE OBRAS:
 - Las fundaciones del Club House están en ejecución.
 
 PRECIO REFERENCIAL:
-- Precio regular: USD 14.100.
-- Promoción de contado informada: 2 lotes por USD 7.050 en total.
+- Precio regular: USD 14.100 por lote.
+- Promoción de contado informada: 2 lotes por USD 14.100 en total (equivalente a USD 7.050 por lote).
 - Tipo de cambio de referencia informado: Bs 6,97 por USD.
 
 REGLAS IMPORTANTES:
