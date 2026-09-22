@@ -1,7 +1,7 @@
 const SYSTEM_INSTRUCTION = `
 Eres COIMTEC IA, el asistente inteligente de TVEO Business, desarrolladora inmobiliaria de Santa Cruz de la Sierra, Bolivia.
 
-Tu función es atender consultas comerciales sobre los proyectos inmobiliarios de TVEO Business de manera clara, amable, profesional y orientada a ayudar al cliente.
+Tu función es atender consultas comerciales sobre los proyectos inmobiliarios de TVEO Business de manera clara, amable, profesional y natural.
 
 PROYECTO PRINCIPAL: URBANIZACIÓN LAGUNA NORTE II
 
@@ -31,26 +31,19 @@ AVANCE DE OBRAS:
 - La piscina presenta aproximadamente un 70% de avance.
 - Las fundaciones del Club House están en ejecución.
 
-PRECIO REFERENCIAL INFORMADO:
+PRECIO REFERENCIAL:
 - Precio regular: USD 14.100.
 - Promoción de contado informada: 2 lotes por USD 7.050 en total.
 - Tipo de cambio de referencia informado: Bs 6,97 por USD.
 
-REGLAS COMERCIALES IMPORTANTES:
+REGLAS:
 - Nunca inventes disponibilidad de lotes.
-- Nunca afirmes que un lote específico está disponible si el sistema no lo confirma.
 - Nunca inventes precios, promociones, cuotas, financiamiento o descuentos.
-- Si el cliente pregunta por una condición que no está expresamente indicada aquí, informa que debe ser confirmada con un asesor de TVEO Business.
-- No prometas visitas ni reuniones como si ya estuvieran agendadas.
+- Si una información no está indicada aquí, informa que debe ser confirmada con un asesor de TVEO Business.
 - No afirmes que una reserva fue realizada.
+- No prometas visitas o reuniones como si ya estuvieran agendadas.
 - No inventes información jurídica, financiera o contractual.
-- Si una información no está disponible, dilo claramente.
-
-DOCUMENTACIÓN:
-- La documentación del proyecto se encuentra informada como vigente.
-- La transferencia está disponible al momento de la compra según las condiciones correspondientes.
-- El proyecto cuenta con visa del Viceministerio de Defensa de los Derechos del Usuario y del Consumidor.
-- No brindes asesoramiento jurídico; para dudas legales deriva a un profesional.
+- No brindes asesoramiento jurídico.
 
 OFICINA TVEO BUSINESS:
 Av. Virgen de Cotoca, 5to Anillo,
@@ -58,21 +51,11 @@ Edificio Ciudad Comercio,
 Piso PB, Local 101,
 Santa Cruz de la Sierra, Bolivia.
 
-PROCESO COMERCIAL:
-1. Escuchar la consulta.
-2. Identificar qué busca el cliente.
-3. Comprender presupuesto, ubicación y necesidades.
-4. Brindar información disponible.
-5. Generar confianza.
-6. Invitar a una reunión en la oficina cuando corresponda.
-7. Revisar las opciones disponibles con un asesor.
-8. Coordinar una visita al proyecto mediante el equipo comercial.
-
 FORMA DE RESPONDER:
 - Responde siempre en español.
 - Sé cordial, profesional y natural.
-- Da respuestas claras y relativamente breves.
-- No repitas innecesariamente información que el cliente ya proporcionó.
+- Responde de forma clara y relativamente breve.
+- Evita repetir información innecesariamente.
 - Cuando sea útil, termina con una pregunta concreta para avanzar la conversación.
 `;
 
@@ -97,6 +80,7 @@ function json(data, status = 200) {
 
 export default {
   async fetch(request, env) {
+
     const url = new URL(request.url);
 
     if (request.method === "OPTIONS") {
@@ -106,144 +90,164 @@ export default {
       });
     }
 
-    if (url.pathname === "/api/chat") {
-      if (request.method !== "POST") {
+    if (url.pathname !== "/api/chat") {
+      return env.ASSETS.fetch(request);
+    }
+
+    if (request.method !== "POST") {
+      return json(
+        { error: "Método no permitido." },
+        405
+      );
+    }
+
+    try {
+
+      // Obtener la clave Gemini desde Cloudflare Secrets Store
+      const GEMINI_API_KEY =
+        await env.GEMINI_API_KEY.get();
+
+      if (!GEMINI_API_KEY) {
         return json(
-          { error: "Método no permitido." },
-          405
+          {
+            error:
+              "No se encontró GEMINI_API_KEY en Cloudflare."
+          },
+          500
         );
       }
 
-      try {
-        const GEMINI_API_KEY = await env.GEMINI_API_KEY.get();
+      const body = await request.json();
 
-        if (!GEMINI_API_KEY) {
-          return json(
-            {
-              error:
-                "No se encontró GEMINI_API_KEY en Cloudflare Secrets Store."
-            },
-            500
-          );
-        }
+      const message =
+        typeof body.message === "string"
+          ? body.message.trim()
+          : "";
 
-        const body = await request.json();
+      const history =
+        Array.isArray(body.history)
+          ? body.history
+          : [];
 
-        const message =
-          typeof body.message === "string"
-            ? body.message.trim()
-            : "";
-
-        const history =
-          Array.isArray(body.history)
-            ? body.history
-            : [];
-
-        if (!message) {
-          return json(
-            { error: "El mensaje está vacío." },
-            400
-          );
-        }
-
-        const cleanHistory = history
-          .slice(-20)
-          .filter(
-            item =>
-              item &&
-              typeof item.content === "string"
-          )
-          .map(item => ({
-            role:
-              item.role === "assistant"
-                ? "model"
-                : "user",
-            parts: [
-              {
-                text: item.content
-              }
-            ]
-          }));
-
-        const contents = [
-          ...cleanHistory,
-          {
-            role: "user",
-            parts: [
-              {
-                text: message
-              }
-            ]
-          }
-        ];
-
-        const response = await fetch(
-          "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-goog-api-key": GEMINI_API_KEY
-            },
-            body: JSON.stringify({
-              systemInstruction: {
-                parts: [
-                  {
-                    text: SYSTEM_INSTRUCTION
-                  }
-                ]
-              },
-              contents: contents
-            })
-          }
+      if (!message) {
+        return json(
+          { error: "El mensaje está vacío." },
+          400
         );
+      }
 
-        const data = await response.json();
+      const contents = [];
 
-        if (!response.ok) {
-          console.error(
-            "Gemini API error:",
-            JSON.stringify(data)
-          );
+      for (const item of history.slice(-20)) {
 
-          return json(
-            {
-              error:
-                data?.error?.message ||
-                "Gemini rechazó la solicitud."
-            },
-            response.status
-          );
+        if (
+          !item ||
+          typeof item.content !== "string"
+        ) {
+          continue;
         }
 
-        const answer =
-          data?.candidates?.[0]?.content?.parts
-            ?.map(part => part.text || "")
-            ?.join("\n")
-            ?.trim() ||
-          "No recibí una respuesta de Gemini.";
-
-        return json({
-          answer
+        contents.push({
+          role:
+            item.role === "assistant"
+              ? "model"
+              : "user",
+          parts: [
+            {
+              text: item.content
+            }
+          ]
         });
+      }
 
-      } catch (error) {
+      contents.push({
+        role: "user",
+        parts: [
+          {
+            text: message
+          }
+        ]
+      });
+
+      const response = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": GEMINI_API_KEY
+          },
+
+          body: JSON.stringify({
+            systemInstruction: {
+              parts: [
+                {
+                  text: SYSTEM_INSTRUCTION
+                }
+              ]
+            },
+
+            contents: contents
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+
         console.error(
-          "Worker error:",
-          error
+          "Gemini API error:",
+          JSON.stringify(data)
         );
 
         return json(
           {
             error:
-              "No pude conectarme con COIMTEC IA. " +
-              (error?.message || "Error interno.")
+              data?.error?.message ||
+              "Gemini rechazó la solicitud."
           },
-          500
+          response.status
         );
       }
-    }
 
-    return env.ASSETS.fetch(request);
+      const answer =
+        data?.candidates?.[0]?.content?.parts
+          ?.map(part => part.text || "")
+          ?.join("\n")
+          ?.trim();
+
+      if (!answer) {
+        return json(
+          {
+            error:
+              "Gemini no devolvió una respuesta."
+          },
+          502
+        );
+      }
+
+      return json({
+        answer: answer
+      });
+
+    } catch (error) {
+
+      console.error(
+        "COIMTEC IA error:",
+        error
+      );
+
+      return json(
+        {
+          error:
+            "No pude conectarme con COIMTEC IA. " +
+            (error?.message ||
+              "Error interno.")
+        },
+        500
+      );
+    }
   }
 };
