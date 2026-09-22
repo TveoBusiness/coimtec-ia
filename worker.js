@@ -76,16 +76,6 @@ FORMA DE RESPONDER:
 - Cuando sea útil, termina con una pregunta concreta para avanzar la conversación.
 `;
 
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Cache-Control": "no-store"
-    }
-  });
-}
-
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
@@ -94,11 +84,21 @@ function corsHeaders() {
   };
 }
 
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      "Cache-Control": "no-store",
+      ...corsHeaders()
+    }
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // CORS
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -106,7 +106,6 @@ export default {
       });
     }
 
-    // API de chat
     if (url.pathname === "/api/chat") {
       if (request.method !== "POST") {
         return json(
@@ -116,12 +115,14 @@ export default {
       }
 
       try {
-        // Secrets Store: obtener la clave mediante get()
-        const OPENAI_API_KEY = await env.OPENAI_API_KEY.get();
+        const GEMINI_API_KEY = await env.GEMINI_API_KEY.get();
 
-        if (!OPENAI_API_KEY) {
+        if (!GEMINI_API_KEY) {
           return json(
-            { error: "No se encontró OPENAI_API_KEY en Cloudflare Secrets Store." },
+            {
+              error:
+                "No se encontró GEMINI_API_KEY en Cloudflare Secrets Store."
+            },
             500
           );
         }
@@ -145,42 +146,54 @@ export default {
           );
         }
 
-        // Limitar historial para evitar solicitudes innecesariamente grandes
         const cleanHistory = history
           .slice(-20)
-          .filter(item =>
-            item &&
-            typeof item.role === "string" &&
-            typeof item.content === "string"
+          .filter(
+            item =>
+              item &&
+              typeof item.content === "string"
           )
           .map(item => ({
             role:
               item.role === "assistant"
-                ? "assistant"
+                ? "model"
                 : "user",
-            content: item.content
+            parts: [
+              {
+                text: item.content
+              }
+            ]
           }));
 
-        const input = [
+        const contents = [
           ...cleanHistory,
           {
             role: "user",
-            content: message
+            parts: [
+              {
+                text: message
+              }
+            ]
           }
         ];
 
         const response = await fetch(
-          "https://api.openai.com/v1/responses",
+          "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${OPENAI_API_KEY}`
+              "x-goog-api-key": GEMINI_API_KEY
             },
             body: JSON.stringify({
-              model: "gpt-5.6",
-              instructions: SYSTEM_INSTRUCTION,
-              input
+              systemInstruction: {
+                parts: [
+                  {
+                    text: SYSTEM_INSTRUCTION
+                  }
+                ]
+              },
+              contents: contents
             })
           }
         );
@@ -189,7 +202,7 @@ export default {
 
         if (!response.ok) {
           console.error(
-            "OpenAI API error:",
+            "Gemini API error:",
             JSON.stringify(data)
           );
 
@@ -197,36 +210,28 @@ export default {
             {
               error:
                 data?.error?.message ||
-                "OpenAI rechazó la solicitud."
+                "Gemini rechazó la solicitud."
             },
             response.status
           );
         }
 
         const answer =
-          data.output_text ||
-          data.output
-            ?.flatMap(item => item.content || [])
-            ?.filter(item => item.type === "output_text")
-            ?.map(item => item.text)
-            ?.join("\n") ||
-          "No recibí una respuesta de OpenAI.";
+          data?.candidates?.[0]?.content?.parts
+            ?.map(part => part.text || "")
+            ?.join("\n")
+            ?.trim() ||
+          "No recibí una respuesta de Gemini.";
 
-        return new Response(
-          JSON.stringify({ answer }),
-          {
-            status: 200,
-            headers: {
-              "Content-Type":
-                "application/json; charset=UTF-8",
-              "Cache-Control": "no-store",
-              ...corsHeaders()
-            }
-          }
-        );
+        return json({
+          answer
+        });
 
       } catch (error) {
-        console.error("Worker error:", error);
+        console.error(
+          "Worker error:",
+          error
+        );
 
         return json(
           {
@@ -239,7 +244,6 @@ export default {
       }
     }
 
-    // Todo lo demás lo maneja Cloudflare Assets
     return env.ASSETS.fetch(request);
   }
 };
