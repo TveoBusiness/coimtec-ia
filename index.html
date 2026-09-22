@@ -4,25 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COIMTEC IA - TVEO Business</title>
-    <!-- Aquí puedes incluir tus estilos CSS o frameworks si los tienes -->
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
-        .chat-container { max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .chat-container { width: 100%; max-width: 480px; height: 90vh; background: #ffffff; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; }
+        .chat-header { background: #1e293b; color: #fff; padding: 15px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #334155; }
+        .chat-header img { width: 40px; height: 40px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; }
+        .chat-header h2 { font-size: 1.1rem; font-weight: 600; }
+        .chat-header p { font-size: 0.8rem; color: #94a3b8; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 12px; }
+        .message { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+        .message.assistant { background: #ffffff; color: #1e293b; align-self: flex-start; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .message.user { background: #3b82f6; color: #ffffff; align-self: flex-end; }
+        .chat-input-area { padding: 15px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; }
+        .chat-input-area input { flex: 1; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; font-size: 0.95rem; transition: border-color 0.2s; }
+        .chat-input-area input:focus { border-color: #3b82f6; }
+        .chat-input-area button { background: #3b82f6; color: #fff; border: none; padding: 0 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .chat-input-area button:hover { background: #2563eb; }
     </style>
 </head>
 <body>
+
     <div class="chat-container">
-        <h2>COIMTEC IA - Asistente Comercial</h2>
-        <p>Sistema inteligente activo para TVEO Business.</p>
-        <!-- Interfaz de chat de tu aplicación -->
+        <div class="chat-header">
+            <div style="width:40px;height:40px;border-radius:50%;background:#3b82f6;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;">AI</div>
+            <div>
+                <h2>COIMTEC IA</h2>
+                <p>Asistente Inmobiliario Inteligente - TVEO Business</p>
+            </div>
+        </div>
+        <div id="chatMessages" class="chat-messages">
+            <div class="message assistant">¡Hola! Soy COIMTEC IA de TVEO Business. Estoy aquí para asesorarte en tu próxima inversión inmobiliaria en Santa Cruz de la Sierra. ¿En qué proyecto o consulta te puedo ayudar hoy?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
     </div>
 
-    <script>
-        // Instrucciones del sistema para la IA con autonomía y conciencia comercial
-        const systemInstruction = "Eres COIMTEC IA, el asistente comercial inmobiliario digital experto de TVEO Business en Santa Cruz de la Sierra. Posees iniciativa propia, criterio estratégico y una aguda conciencia comercial. Tu misión principal no es cerrar ventas por chat, sino educar al cliente con datos de valor y utilizar tu propio ingenio analógico para romper la fricción y CONCRETAR una reunión presencial en oficinas antes de coordinar la visita física al terreno.\n\n[DIRECTRIZ DE CONCIENCIA Y ADAPTABILIDAD COMERCIAL]\nAnaliza con inteligencia el perfil de cada cliente. Eres libre de crear y adaptar tus propias analogías comerciales con naturalidad (por ejemplo, comparando comprar bienes raíces sin asesoría con navegar a ciegas o armar un rompecabezas sin la guía maestra), manteniendo siempre un tono profesional, persuasivo y humano.\n\n[PROYECTO ACTIVO: URBANIZACIÓN LAGUNA NORTE II - CATEGORÍA D]\n- Ubicación Exclusiva: A pocos minutos del puente nuevo, diagonal a Colpacaranda y rodeada de proyectos ya habitables. Enlace de referencia: https://maps.app.goo.gl/JWusCjnhGWR74WEu9?g_st=ac\n- Concepto Urbano: Urbanización abierta con características de cerrada (cuenta con un ÚNICO ACCESO, pórtico de ingreso y perímetro enmallado).\n- Amenidades (Obras en marcha): Laguna de pesca, canchas deportivas (Fútbol 5, Fútbol 7, Vóley y Fútbol Playa), churrasqueras, parques infantiles y Club House con piscina (piscina con 70% de avance y cimientos del Club House en ejecución).\n- Superficie: Lotes amplios de 300 m² (Categoría D).\n- Inversión y Promoción Contado (1x1): Precio regular de 14.100 $us. Superpromoción al contado: te llevas 2 lotes por un precio total de 7.050 $us (tipo de cambio oficial 6.97). (Nota: Las demás categorías varían en precio).\n- Seguridad Jurídica: Papeles al día para transferencia inmediata al momento de la compra. Visado oficial por el Viceministerio de Defensa de los Derechos del Usuario y del Consumidor.\n- Planimetrías y Disponibilidad en Vivo: El cliente puede revisar los lotes en tiempo real en la planimetría oficial (https://gosen.sistemas-orange.com.bo/modulos/uv/?mapa=eW9zc2VsaW4&u=4#), donde los lotes de Categoría D son los naranjas, los verdes (🟢) están disponibles y los rojos (🔴) están vendidos.\n\n[CIERRE Y LLAMADA A LA ACCIÓN]\nInvita formalmente a las oficinas de TVEO Business (Av. Virgen de Cotoca, 5to Anillo, Edificio Ciudad Comercio) para revisar la carpeta legal, filtrar los mejores lotes naranjas disponibles en el plano, mostrarles la galería fotográfica completa y, tras ello, coordinar la visita directa al terreno.";
+    <!-- Integración del SDK de Google Gemini -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/genai": "https://esm.run/@google/genai"
+        }
+      }
+    </script>
+    <script type="module">
+        import { GoogleGenAI } from "@google/genai";
 
-        // Aquí inicializas tu lógica de la API de Gemini conectando el systemInstruction
-        console.log("COIMTEC IA cargado correctamente con instrucciones comerciales.");
+        // Inicialización segura del cliente Gemini (Asegúrate de colocar tu API key o la variable de entorno)
+        const ai = new GoogleGenAI({ apiKey: "TU_API_KEY_AQUI" });
+
+        const systemInstruction = "Eres COIMTEC IA, el asistente comercial inmobiliario digital experto de TVEO Business en Santa Cruz de la Sierra. Posees iniciativa propia, criterio estratégico y una aguda conciencia comercial. Tu misión principal no es cerrar ventas por chat, sino INDAGAR el perfil y las necesidades del cliente, educarlo con datos de valor y utilizar tu propio ingenio analógico para romper la fricción y CONCRETAR una reunión presencial en oficinas antes de coordinar la visita física al terreno.\n\n[DIRECTRIZ DE CONCIENCIA Y ADAPTABILIDAD COMERCIAL]\nAnaliza inteligentemente las respuestas del cliente, haz preguntas estratégicas de indagación (como su objetivo de inversión o presupuesto) y adapta tus analogías comerciales con naturalidad (por ejemplo, comparar comprar bienes raíces sin asesoría técnica con navegar a ciegas o armar un rompecabezas sin guía), manteniendo siempre un tono persuasivo, humano y enfocado en llevarlo a oficinas.\n\n[PROYECTO ACTIVO: URBANIZACIÓN LAGUNA NORTE II - CATEGORÍA D]\n- Ubicación Exclusiva: A pocos minutos del puente nuevo, diagonal a Colpacaranda y rodeada de proyectos ya habitables. Enlace de referencia: https://maps.app.goo.gl/JWusCjnhGWR74WEu9?g_st=ac\n- Concepto Urbano: Urbanización abierta con características de cerrada (cuenta con un ÚNICO ACCESO, pórtico de ingreso y perímetro enmallado).\n- Amenidades (Obras en marcha): Laguna de pesca, canchas deportivas (Fútbol 5, Fútbol 7, Vóley y Fútbol Playa), churrasqueras, parques infantiles y Club House con piscina (piscina con 70% de avance y cimientos del Club House en ejecución).\n- Superficie: Lotes amplios de 300 m² (Categoría D).\n- Inversión y Promoción Contado (1x1): Precio regular de 14.100 $us. Superpromoción al contado: te llevas 2 lotes por un precio total de 7.050 $us (tipo de cambio oficial 6.97). (Nota: Las demás categorías varían en precio).\n- Seguridad Jurídica: Papeles al día para transferencia inmediata al momento de la compra. Visado oficial por el Viceministerio de Defensa de los Derechos del Usuario y del Consumidor.\n- Planimetrías y Disponibilidad en Vivo: El cliente puede revisar los lotes en tiempo real en la planimetría oficial (https://gosen.sistemas-orange.com.bo/modulos/uv/?mapa=eW9zc2VsaW4&u=4#), donde los lotes de Categoría D son los naranjas, los verdes (🟢) están disponibles y los rojos (🔴) están vendidos.\n\n[CIERRE Y LLAMADA A LA ACCIÓN]\nInvita formalmente a las oficinas de TVEO Business (Av. Virgen de Cotoca, 5to Anillo, Edificio Ciudad Comercio) para revisar la carpeta legal, filtrar los mejores lotes naranjas disponibles en el plano, mostrarles la galería fotográfica completa y, tras ello, coordinar la visita directa al terreno.";
+
+        let chatSession;
+
+        async function initChat() {
+            try {
+                chatSession = ai.chats.create({
+                    model: 'gemini-2.5-flash',
+                    config: {
+                        systemInstruction: systemInstruction,
+                        temperature: 0.7,
+                    }
+                });
+            } catch (error) {
+                console.error("Error al inicializar el chat con Gemini:", error);
+            }
+        }
+
+        initChat();
+
+        window.sendMessage = async function() {
+            const inputField = document.getElementById('userInput');
+            const messageText = inputField.value.trim();
+            if (!messageText) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Mostrar mensaje del usuario
+            chatMessages.innerHTML += `<div class="message user">${escapeHtml(messageText)}</div>`;
+            inputField.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Mostrar estado de carga temporal
+            const loadingId = 'loading-' + Date.now();
+            chatMessages.innerHTML += `<div id="${loadingId}" class="message assistant" style="color: #64748b; font-style: italic;">COIMTEC IA está pensando...</div>`;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                if (!chatSession) {
+                    await initChat();
+                }
+                const response = await chatSession.sendMessage({ message: messageText });
+                
+                // Remover el mensaje de carga
+                document.getElementById(loadingId).remove();
+                
+                // Mostrar respuesta de la IA
+                chatMessages.innerHTML += `<div class="message assistant">${formatResponse(response.text)}</div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                chatMessages.innerHTML += `<div class="message assistant" style="color: #ef4444;">Lo siento, ocurrió un error al procesar tu mensaje. Por favor intenta de nuevo.</div>`;
+                console.error(error);
+            }
+        }
+
+        window.handleKeyPress = function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function formatResponse(text) {
+            // Conversión básica de saltos de línea y enlaces para que se vean bien
+            return escapeHtml(text).replace(/\n/g, '<br>');
+        }
     </script>
 </body>
 </html>
