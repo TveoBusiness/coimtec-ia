@@ -18,7 +18,7 @@ PROYECTOS INMOBILIARIOS DE TVEO BUSINESS:
   - Tipo de cambio: Bs 6,97 por USD.
 
 ### 2. SINAI DEL URUBÓ ECO-RESIDENCE
-- **Ubicación:** Zona privilegiada del Urubó.
+- **Ubicación:** Zona privilegiada del Urubó, a 15 minutos de Las Cruces.
 - **Superficie de lotes:** Terrenos desde 300 m².
 - **Concepto:** Eco-residence en una zona de alta exclusividad y naturaleza.
 - **Precios y financiamiento informados:**
@@ -53,3 +53,215 @@ FORMA DE RESPONDER:
 - Evita repetir información innecesariamente y no uses respuestas excesivamente técnicas.
 - Cuando sea útil, termina con una pregunta concreta para avanzar la conversación.
 `;
+
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS"
+  };
+}
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      "Cache-Control": "no-store",
+      ...corsHeaders()
+    }
+  });
+}
+
+export default {
+  async fetch(request, env) {
+
+    const url = new URL(request.url);
+
+    // CORS
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders()
+      });
+    }
+
+    // Archivos normales de la aplicación
+    if (url.pathname !== "/api/chat") {
+      return env.ASSETS.fetch(request);
+    }
+
+    // Solo POST para el chat
+    if (request.method !== "POST") {
+      return json(
+        {
+          error: "Método no permitido."
+        },
+        405
+      );
+    }
+
+    try {
+
+      // Obtener Gemini API Key desde Cloudflare Secrets Store
+      const GEMINI_API_KEY =
+        await env.GEMINI_API_KEY.get();
+
+      if (!GEMINI_API_KEY) {
+        return json(
+          {
+            error:
+              "No se encontró GEMINI_API_KEY en Cloudflare Secrets Store."
+          },
+          500
+        );
+      }
+
+      // Leer solicitud
+      const body = await request.json();
+
+      const message =
+        typeof body.message === "string"
+          ? body.message.trim()
+          : "";
+
+      const history =
+        Array.isArray(body.history)
+          ? body.history
+          : [];
+
+      if (!message) {
+        return json(
+          {
+            error: "El mensaje está vacío."
+          },
+          400
+        );
+      }
+
+      // Construir historial para Gemini
+      const contents = [];
+
+      for (const item of history.slice(-20)) {
+
+        if (
+          !item ||
+          typeof item.content !== "string"
+        ) {
+          continue;
+        }
+
+        contents.push({
+          role:
+            item.role === "assistant"
+              ? "model"
+              : "user",
+
+          parts: [
+            {
+              text: item.content
+            }
+          ]
+        });
+      }
+
+      // Mensaje actual
+      contents.push({
+        role: "user",
+
+        parts: [
+          {
+            text: message
+          }
+        ]
+      });
+
+      // Llamada a Gemini
+      const response = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": GEMINI_API_KEY
+          },
+
+          body: JSON.stringify({
+
+            systemInstruction: {
+              parts: [
+                {
+                  text: SYSTEM_INSTRUCTION
+                }
+              ]
+            },
+
+            contents: contents
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      // Error de Gemini
+      if (!response.ok) {
+
+        console.error(
+          "Gemini API error:",
+          JSON.stringify(data)
+        );
+
+        return json(
+          {
+            error:
+              data?.error?.message ||
+              "Gemini rechazó la solicitud."
+          },
+          response.status
+        );
+      }
+
+      // Obtener respuesta
+      const answer =
+        data?.candidates?.[0]?.content?.parts
+          ?.map(part => part.text || "")
+          ?.join("\n")
+          ?.trim();
+
+      if (!answer) {
+        return json(
+          {
+            error:
+              "Gemini no devolvió una respuesta."
+          },
+          502
+        );
+      }
+
+      // Respuesta correcta
+      return json({
+        answer: answer
+      });
+
+    } catch (error) {
+
+      console.error(
+        "COIMTEC IA error:",
+        error
+      );
+
+      return json(
+        {
+          error:
+            "No pude conectarme con COIMTEC IA. " +
+            (
+              error?.message ||
+              "Error interno."
+            )
+        },
+        500
+      );
+    }
+  }
+};
