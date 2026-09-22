@@ -5,7 +5,7 @@ Tu función es atender consultas comerciales sobre los proyectos inmobiliarios d
 
 PROYECTO PRINCIPAL: URBANIZACIÓN LAGUNA NORTE II
 
-Características:
+CARACTERÍSTICAS:
 - Urbanización ubicada en Santa Cruz de la Sierra.
 - Categoría D.
 - Lotes de 300 m².
@@ -36,14 +36,21 @@ PRECIO REFERENCIAL:
 - Promoción de contado informada: 2 lotes por USD 7.050 en total.
 - Tipo de cambio de referencia informado: Bs 6,97 por USD.
 
-REGLAS:
+REGLAS IMPORTANTES:
 - Nunca inventes disponibilidad de lotes.
-- Nunca inventes precios, promociones, cuotas, financiamiento o descuentos.
+- Nunca inventes precios.
+- Nunca inventes promociones.
+- Nunca inventes cuotas.
+- Nunca inventes financiamiento.
+- Nunca inventes descuentos.
 - Si una información no está indicada aquí, informa que debe ser confirmada con un asesor de TVEO Business.
 - No afirmes que una reserva fue realizada.
 - No prometas visitas o reuniones como si ya estuvieran agendadas.
-- No inventes información jurídica, financiera o contractual.
+- No inventes información jurídica.
+- No inventes información financiera.
+- No inventes información contractual.
 - No brindes asesoramiento jurídico.
+- Si el cliente pregunta algo que no conoces, dilo claramente y deriva la confirmación a un asesor de TVEO Business.
 
 OFICINA TVEO BUSINESS:
 Av. Virgen de Cotoca, 5to Anillo,
@@ -53,9 +60,12 @@ Santa Cruz de la Sierra, Bolivia.
 
 FORMA DE RESPONDER:
 - Responde siempre en español.
-- Sé cordial, profesional y natural.
+- Sé cordial.
+- Sé profesional.
+- Sé natural.
 - Responde de forma clara y relativamente breve.
 - Evita repetir información innecesariamente.
+- No uses respuestas excesivamente técnicas.
 - Cuando sea útil, termina con una pregunta concreta para avanzar la conversación.
 `;
 
@@ -83,6 +93,7 @@ export default {
 
     const url = new URL(request.url);
 
+    // CORS
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -90,20 +101,24 @@ export default {
       });
     }
 
+    // Archivos normales de la aplicación
     if (url.pathname !== "/api/chat") {
       return env.ASSETS.fetch(request);
     }
 
+    // Solo POST para el chat
     if (request.method !== "POST") {
       return json(
-        { error: "Método no permitido." },
+        {
+          error: "Método no permitido."
+        },
         405
       );
     }
 
     try {
 
-      // Obtener la clave Gemini desde Cloudflare Secrets Store
+      // Obtener Gemini API Key desde Cloudflare Secrets Store
       const GEMINI_API_KEY =
         await env.GEMINI_API_KEY.get();
 
@@ -111,12 +126,13 @@ export default {
         return json(
           {
             error:
-              "No se encontró GEMINI_API_KEY en Cloudflare."
+              "No se encontró GEMINI_API_KEY en Cloudflare Secrets Store."
           },
           500
         );
       }
 
+      // Leer solicitud
       const body = await request.json();
 
       const message =
@@ -131,11 +147,14 @@ export default {
 
       if (!message) {
         return json(
-          { error: "El mensaje está vacío." },
+          {
+            error: "El mensaje está vacío."
+          },
           400
         );
       }
 
+      // Construir historial para Gemini
       const contents = [];
 
       for (const item of history.slice(-20)) {
@@ -152,6 +171,7 @@ export default {
             item.role === "assistant"
               ? "model"
               : "user",
+
           parts: [
             {
               text: item.content
@@ -160,8 +180,10 @@ export default {
         });
       }
 
+      // Mensaje actual
       contents.push({
         role: "user",
+
         parts: [
           {
             text: message
@@ -169,8 +191,9 @@ export default {
         ]
       });
 
+      // Llamada a Gemini
       const response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent",
         {
           method: "POST",
 
@@ -180,6 +203,7 @@ export default {
           },
 
           body: JSON.stringify({
+
             systemInstruction: {
               parts: [
                 {
@@ -195,6 +219,7 @@ export default {
 
       const data = await response.json();
 
+      // Error de Gemini
       if (!response.ok) {
 
         console.error(
@@ -212,6 +237,7 @@ export default {
         );
       }
 
+      // Obtener respuesta
       const answer =
         data?.candidates?.[0]?.content?.parts
           ?.map(part => part.text || "")
@@ -228,6 +254,7 @@ export default {
         );
       }
 
+      // Respuesta correcta
       return json({
         answer: answer
       });
@@ -243,8 +270,10 @@ export default {
         {
           error:
             "No pude conectarme con COIMTEC IA. " +
-            (error?.message ||
-              "Error interno.")
+            (
+              error?.message ||
+              "Error interno."
+            )
         },
         500
       );
