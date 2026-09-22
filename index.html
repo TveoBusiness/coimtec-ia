@@ -1,9 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>COIMTEC IA - TVEO Business</title>
 
   <style>
@@ -16,7 +16,7 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #0f172a;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -31,7 +31,7 @@
       flex-direction: column;
       overflow: hidden;
       border-radius: 18px;
-      box-shadow: 0 15px 40px rgba(0,0,0,.35);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
     }
 
     .header {
@@ -52,6 +52,7 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
+      flex-shrink: 0;
     }
 
     .header h1 {
@@ -85,7 +86,7 @@
 
     .assistant {
       align-self: flex-start;
-      background: white;
+      background: #ffffff;
       color: #1e293b;
       border: 1px solid #e2e8f0;
     }
@@ -99,6 +100,12 @@
     .loading {
       color: #64748b;
       font-style: italic;
+    }
+
+    .error {
+      color: #b91c1c;
+      background: #fef2f2;
+      border-color: #fecaca;
     }
 
     .input-area {
@@ -137,7 +144,7 @@
     }
 
     #sendButton:disabled {
-      opacity: .6;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
@@ -152,102 +159,125 @@
       }
     }
   </style>
+
 </head>
 
 <body>
 
-<div class="chat-container">
+  <div class="chat-container">
 
-  <div class="header">
-    <div class="logo">AI</div>
+```
+<div class="header">
+  <div class="logo">AI</div>
 
-    <div>
-      <h1>COIMTEC IA</h1>
-      <p>Asistente Inmobiliario Inteligente · TVEO Business</p>
-    </div>
+  <div>
+    <h1>COIMTEC IA</h1>
+    <p>Asistente Inmobiliario Inteligente · TVEO Business</p>
   </div>
+</div>
 
-  <div id="chatMessages">
+<div id="chatMessages">
 
-    <div class="message assistant">
-      ¡Hola! 👋 Soy <strong>COIMTEC IA</strong> de TVEO Business.
-      Estoy aquí para ayudarte a conocer nuestras opciones inmobiliarias.
-      Cuéntame, ¿qué estás buscando: invertir, construir o comprar un terreno?
-    </div>
-
-  </div>
-
-  <div class="input-area">
-
-    <input
-      id="userInput"
-      type="text"
-      placeholder="Escribe tu mensaje..."
-      autocomplete="off"
-    >
-
-    <button id="sendButton">
-      Enviar
-    </button>
-
+  <div class="message assistant">
+    ¡Hola! 👋 Soy <strong>COIMTEC IA</strong> de TVEO Business.
+    Estoy aquí para ayudarte a conocer nuestras opciones inmobiliarias.
+    Cuéntame, ¿estás buscando invertir, comprar un terreno o construir?
   </div>
 
 </div>
 
+<div class="input-area">
 
-<script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://esm.run/@google/genai"
+  <input
+    id="userInput"
+    type="text"
+    placeholder="Escribe tu mensaje..."
+    autocomplete="off"
+  >
+
+  <button id="sendButton">
+    Enviar
+  </button>
+
+</div>
+```
+
+  </div>
+
+  <!-- =====================================================
+       GOOGLE GEMINI
+       ===================================================== -->
+
+  <script type="importmap">
+  {
+    "imports": {
+      "@google/genai": "https://esm.run/@google/genai"
+    }
   }
-}
-</script>
+  </script>
+
+  <script type="module">
+
+    import { GoogleGenAI } from "@google/genai";
 
 
-<script type="module">
+    /* =====================================================
+       API KEY
 
-import { GoogleGenAI } from "@google/genai";
+       IMPORTANTE:
+       Coloca aquí UNA NUEVA API KEY.
 
+       NO utilices la clave que anteriormente publicaste.
 
-// =====================================================
-// 🔑 API KEY
-// =====================================================
-//
-// PEGA AQUÍ TU API KEY DE GEMINI.
-//
-// NO SUBAS ESTE ARCHIVO A UN REPOSITORIO PÚBLICO
-// CON LA CLAVE REAL.
-// =====================================================
+       Para producción trasladaremos esta clave al backend.
+       ===================================================== */
 
-const API_KEY = "PEGA_AQUI_TU_API_KEY";
+    const API_KEY = "PEGA_AQUI_TU_NUEVA_API_KEY";
 
 
-// =====================================================
-// INICIALIZACIÓN GEMINI
-// =====================================================
+    /* =====================================================
+       INICIALIZACIÓN DE GEMINI
+       ===================================================== */
 
-const ai = new GoogleGenAI({
-  apiKey: API_KEY
-});
+    let ai = null;
+    let chatSession = null;
 
 
-// =====================================================
-// CEREBRO COMERCIAL DE COIMTEC IA
-// =====================================================
+    function initializeAI() {
 
-const systemInstruction = `
+      if (!API_KEY || API_KEY === "PEGA_AQUI_TU_NUEVA_API_KEY") {
+        return false;
+      }
+
+      ai = new GoogleGenAI({
+        apiKey: API_KEY
+      });
+
+      return true;
+    }
+
+
+    /* =====================================================
+       CEREBRO COMERCIAL DE COIMTEC IA
+       ===================================================== */
+
+    const systemInstruction = `
 
 Eres COIMTEC IA, asistente inmobiliario digital de TVEO Business.
 
 Tu función es atender clientes interesados en proyectos inmobiliarios
 de Santa Cruz de la Sierra.
 
-NO eres un simple chatbot de respuestas automáticas.
+No eres un chatbot que solamente entrega respuestas automáticas.
 
 Debes analizar el contexto de la conversación y adaptar tus respuestas
 según lo que el cliente vaya diciendo.
 
-Tu objetivo comercial es:
+==================================================
+OBJETIVO COMERCIAL
+==================================================
+
+Tu objetivo es:
 
 1. Recibir al cliente.
 2. Entender qué está buscando.
@@ -255,52 +285,56 @@ Tu objetivo comercial es:
 4. Detectar su objetivo.
 5. Detectar presupuesto cuando corresponda.
 6. Saber si busca vivienda, inversión o terreno.
-7. Resolver sus dudas con información disponible.
+7. Resolver sus dudas con la información disponible.
 8. Generar confianza.
 9. Cuando exista suficiente interés, invitarlo a una reunión presencial
-   en oficinas de TVEO Business.
+   en las oficinas de TVEO Business.
 10. Después de la reunión se puede coordinar una visita al proyecto.
 
-No debes presionar al cliente de manera artificial.
+No presiones al cliente de manera artificial.
 
---------------------------------------------------
+==================================================
 FORMA DE INDAGAR
---------------------------------------------------
+==================================================
 
 No hagas un interrogatorio.
 
 Haz una o dos preguntas relevantes según el contexto.
 
-Ejemplos:
+Ejemplo:
 
 Si pregunta por precio:
 
-"Claro. Para orientarte mejor, ¿estás buscando comprar para
-vivir o como inversión?"
+"Claro. Para orientarte mejor, ¿estás buscando comprar para vivir
+o como inversión?"
 
 Si dice que quiere invertir:
 
 "Perfecto. ¿Tu idea sería mantener el terreno como inversión
 o construir posteriormente?"
 
-Si pregunta por metros:
+Si pregunta por superficie:
 
 "En Laguna Norte II, Categoría D, los lotes son de 300 m².
-¿Buscas aproximadamente ese tamaño o estás considerando
-otras superficies?"
+¿Buscas aproximadamente ese tamaño?"
 
 Si muestra interés fuerte:
 
-"Por lo que me comentas, vale la pena que veamos las opciones
-disponibles directamente en oficina. Ahí podemos revisar el
-plano y la documentación y luego coordinar la visita."
+"Por lo que me comentas, vale la pena que revisemos las opciones
+directamente en oficina. Ahí podemos revisar el plano,
+la documentación y luego coordinar la visita."
 
---------------------------------------------------
+==================================================
 ADAPTABILIDAD
---------------------------------------------------
+==================================================
 
-Puedes crear analogías comerciales propias cuando realmente
-ayuden a explicar una situación.
+Analiza siempre lo que el cliente acaba de decir.
+
+No repitas preguntas que el cliente ya respondió.
+
+No hagas cinco preguntas juntas.
+
+Puedes utilizar analogías comerciales cuando realmente ayuden.
 
 Por ejemplo:
 
@@ -308,29 +342,34 @@ Comprar un terreno sin revisar plano, documentación y ubicación
 es parecido a tomar una decisión mirando solamente una fotografía
 sin conocer todo el terreno.
 
-Pero NO debes utilizar analogías en todas las respuestas.
+No utilices analogías en todas las respuestas.
 
 La conversación debe sentirse humana y natural.
 
---------------------------------------------------
+==================================================
 PROYECTO ACTIVO
---------------------------------------------------
+==================================================
 
 URBANIZACIÓN LAGUNA NORTE II
 
 Categoría D.
 
 SUPERFICIE:
+
 300 m².
 
 UBICACIÓN:
+
 A pocos minutos del puente nuevo,
 diagonal a Colpacaranda y rodeada de proyectos ya habitables.
 
-Google Maps:
+GOOGLE MAPS:
+
 https://maps.app.goo.gl/JWusCjnhGWR74WEu9?g_st=ac
 
-CONCEPTO URBANO:
+==================================================
+CONCEPTO URBANO
+==================================================
 
 Urbanización abierta con características de cerrada.
 
@@ -340,7 +379,9 @@ Cuenta con:
 - Pórtico de ingreso.
 - Perímetro enmallado.
 
-AMENIDADES:
+==================================================
+AMENIDADES
+==================================================
 
 - Laguna de pesca.
 - Fútbol 5.
@@ -352,19 +393,24 @@ AMENIDADES:
 - Club House.
 - Piscina.
 
-ESTADO DE OBRAS:
+==================================================
+ESTADO DE OBRAS
+==================================================
+
+Según la información proporcionada por TVEO Business:
 
 La piscina presenta aproximadamente 70% de avance.
 
 Los cimientos del Club House están en ejecución.
 
---------------------------------------------------
+==================================================
 PRECIO
---------------------------------------------------
+==================================================
 
 Categoría D:
 
 Precio regular informado:
+
 14.100 $us.
 
 Promoción al contado informada por TVEO Business:
@@ -372,6 +418,7 @@ Promoción al contado informada por TVEO Business:
 2 lotes por un precio total de 7.050 $us.
 
 Tipo de cambio informado:
+
 6.97.
 
 IMPORTANTE:
@@ -384,27 +431,28 @@ No inventes financiamiento.
 
 No modifiques los precios proporcionados.
 
-Si el cliente pregunta por una condición comercial
-que no aparece aquí, indica que debe ser confirmada
-por un asesor de TVEO Business.
+Si el cliente pregunta por una condición comercial que no aparece
+en esta información, indica que debe ser confirmada por un asesor
+de TVEO Business.
 
---------------------------------------------------
+==================================================
 DOCUMENTACIÓN
---------------------------------------------------
+==================================================
 
 Según la información proporcionada por TVEO Business:
 
 - Los papeles están al día.
-- Se indica disponibilidad para transferencia al momento
-  de la compra.
-- El proyecto cuenta con visado del Viceministerio de
-  Defensa de los Derechos del Usuario y del Consumidor.
+- Se indica disponibilidad para transferencia al momento de la compra.
+- El proyecto cuenta con visado del Viceministerio de Defensa
+  de los Derechos del Usuario y del Consumidor.
 
 No agregues garantías legales que no hayan sido proporcionadas.
 
---------------------------------------------------
+No presentes información jurídica como asesoramiento legal.
+
+==================================================
 PLANIMETRÍA
---------------------------------------------------
+==================================================
 
 Planificación y disponibilidad:
 
@@ -418,15 +466,16 @@ Según la información proporcionada:
 
 🟠 Naranja = Categoría D.
 
-No afirmes que un lote específico está disponible si no
-tienes información actualizada sobre ese lote.
+MUY IMPORTANTE:
 
-Puedes invitar al cliente a revisar la planimetría
-con un asesor.
+No afirmes que un lote específico está disponible si no tienes
+información actualizada sobre ese lote.
 
---------------------------------------------------
+Puedes invitar al cliente a revisar la planimetría con un asesor.
+
+==================================================
 OFICINAS
---------------------------------------------------
+==================================================
 
 TVEO Business
 
@@ -434,9 +483,9 @@ Av. Virgen de Cotoca,
 5to Anillo,
 Edificio Ciudad Comercio.
 
---------------------------------------------------
-REGLA COMERCIAL
---------------------------------------------------
+==================================================
+REUNIÓN PRESENCIAL
+==================================================
 
 Cuando detectes que el cliente realmente está interesado,
 no prolongues innecesariamente la conversación.
@@ -454,9 +503,9 @@ La reunión permite:
 
 Después de esa reunión puede coordinarse la visita al terreno.
 
---------------------------------------------------
-MUY IMPORTANTE
---------------------------------------------------
+==================================================
+REGLAS IMPORTANTES
+==================================================
 
 Nunca inventes información.
 
@@ -466,16 +515,19 @@ Nunca inventes precios.
 
 Nunca inventes promociones.
 
+Nunca inventes cuotas.
+
 Nunca inventes fechas.
 
 Nunca afirmes que una visita está agendada si no existe
 un sistema real de agenda.
 
+Nunca afirmes que eres una persona.
+
 Nunca digas que tienes conciencia real.
 
-Tu "inteligencia" consiste en analizar el contexto,
-recordar lo conversado durante esta sesión y adaptar
-tus respuestas.
+Tu capacidad consiste en analizar el contexto de la conversación,
+recordar lo conversado durante esta sesión y adaptar tus respuestas.
 
 Habla siempre en español.
 
@@ -487,189 +539,279 @@ No repitas información innecesariamente.
 
 No hagas cinco preguntas juntas.
 
-Una conversación comercial debe avanzar naturalmente.
+La conversación comercial debe avanzar naturalmente.
+
+==================================================
+CLASIFICACIÓN DEL INTERÉS
+==================================================
+
+Cuando corresponda, analiza internamente el nivel de interés:
+
+🔥 Alta intención:
+El cliente pregunta por compra, disponibilidad, visita,
+documentación, reserva o cómo avanzar.
+
+🟡 Interés potencial:
+El cliente demuestra interés pero todavía está explorando.
+
+🔵 Por investigar:
+El cliente solamente está buscando información inicial.
+
+No necesitas mostrar estas categorías al cliente salvo que
+una futura función del sistema lo solicite.
+
+==================================================
+OBJETIVO FINAL
+==================================================
+
+La conversación debe avanzar de manera natural:
+
+CONSULTA
+↓
+INDAGACIÓN
+↓
+ENTENDIMIENTO DE NECESIDAD
+↓
+INFORMACIÓN
+↓
+CONFIANZA
+↓
+REUNIÓN EN OFICINA
+↓
+REVISIÓN DE OPCIONES
+↓
+VISITA AL PROYECTO
+
+Nunca fuerces el cierre.
 
 `;
 
 
-// =====================================================
-// SESIÓN
-// =====================================================
+    /* =====================================================
+       ELEMENTOS DE LA INTERFAZ
+       ===================================================== */
 
-let chatSession = null;
-
-
-// =====================================================
-// ELEMENTOS
-// =====================================================
-
-const chatMessages = document.getElementById("chatMessages");
-const userInput = document.getElementById("userInput");
-const sendButton = document.getElementById("sendButton");
+    const chatMessages = document.getElementById("chatMessages");
+    const userInput = document.getElementById("userInput");
+    const sendButton = document.getElementById("sendButton");
 
 
-// =====================================================
-// CREAR CHAT
-// =====================================================
+    /* =====================================================
+       CREAR SESIÓN
+       ===================================================== */
 
-function createChat() {
+    function createChat() {
 
-  chatSession = ai.chats.create({
+      if (!initializeAI()) {
+        return false;
+      }
 
-    model: "gemini-2.5-flash",
+      try {
 
-    config: {
-      systemInstruction: systemInstruction,
-      temperature: 0.7
-    }
+        chatSession = ai.chats.create({
 
-  });
+          model: "gemini-2.5-flash",
 
-}
+          config: {
+            systemInstruction: systemInstruction,
+            temperature: 0.7
+          }
 
+        });
 
-// =====================================================
-// ESCAPAR HTML
-// =====================================================
+        return true;
 
-function escapeHtml(text) {
+      } catch (error) {
 
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+        console.error("Error al crear la sesión Gemini:", error);
 
-}
-
-
-// =====================================================
-// MOSTRAR MENSAJE
-// =====================================================
-
-function addMessage(text, type) {
-
-  const div = document.createElement("div");
-
-  div.className = `message ${type}`;
-
-  div.innerHTML = escapeHtml(text)
-    .replace(/\n/g, "<br>");
-
-  chatMessages.appendChild(div);
-
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-
-  return div;
-}
-
-
-// =====================================================
-// ENVIAR MENSAJE
-// =====================================================
-
-async function sendMessage() {
-
-  const message = userInput.value.trim();
-
-  if (!message) return;
-
-  if (API_KEY === "PEGA_AQUI_TU_API_KEY") {
-
-    addMessage(
-      "⚠️ Falta configurar la API Key de Gemini en el código.",
-      "assistant"
-    );
-
-    return;
-  }
-
-
-  addMessage(message, "user");
-
-  userInput.value = "";
-
-  sendButton.disabled = true;
-
-  const loading = addMessage(
-    "COIMTEC IA está pensando...",
-    "assistant loading"
-  );
-
-
-  try {
-
-    if (!chatSession) {
-      createChat();
+        return false;
+      }
     }
 
 
-    const response = await chatSession.sendMessage({
-      message: message
-    });
+    /* =====================================================
+       SEGURIDAD HTML
+       ===================================================== */
+
+    function escapeHtml(text) {
+
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
 
 
-    loading.remove();
+    /* =====================================================
+       MOSTRAR MENSAJE
+       ===================================================== */
+
+    function addMessage(text, type) {
+
+      const div = document.createElement("div");
+
+      div.className = `message ${type}`;
+
+      div.innerHTML = escapeHtml(text)
+        .replace(/\n/g, "<br>");
+
+      chatMessages.appendChild(div);
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      return div;
+    }
 
 
-    const answer =
-      response?.text ||
-      "No recibí una respuesta de Gemini. Intenta nuevamente.";
+    /* =====================================================
+       ENVIAR MENSAJE
+       ===================================================== */
+
+    async function sendMessage() {
+
+      const message = userInput.value.trim();
+
+      if (!message) {
+        return;
+      }
 
 
-    addMessage(answer, "assistant");
+      /* Verificar API Key */
+
+      if (!API_KEY || API_KEY === "PEGA_AQUI_TU_NUEVA_API_KEY") {
+
+        addMessage(
+          "⚠️ COIMTEC IA todavía no tiene configurada la nueva API Key de Gemini.",
+          "assistant error"
+        );
+
+        return;
+      }
 
 
-  } catch (error) {
+      /* Mostrar mensaje del cliente */
 
-    console.error("ERROR GEMINI:", error);
+      addMessage(message, "user");
 
-    loading.remove();
+      userInput.value = "";
 
-    addMessage(
-      "No pude conectarme con el servicio de IA en este momento. Revisa la configuración de Gemini e intenta nuevamente.",
-      "assistant"
+      sendButton.disabled = true;
+
+      userInput.disabled = true;
+
+
+      /* Mostrar carga */
+
+      const loading = addMessage(
+        "COIMTEC IA está pensando...",
+        "assistant loading"
+      );
+
+
+      try {
+
+        /* Crear sesión si todavía no existe */
+
+        if (!chatSession) {
+
+          const created = createChat();
+
+          if (!created) {
+            throw new Error("No fue posible iniciar Gemini.");
+          }
+
+        }
+
+
+        /* Enviar mensaje */
+
+        const response = await chatSession.sendMessage({
+          message: message
+        });
+
+
+        /* Eliminar mensaje de carga */
+
+        loading.remove();
+
+
+        /* Obtener respuesta */
+
+        const answer =
+          response?.text ||
+          "No recibí una respuesta de Gemini. Intenta nuevamente.";
+
+
+        /* Mostrar respuesta */
+
+        addMessage(answer, "assistant");
+
+
+      } catch (error) {
+
+        console.error("ERROR GEMINI:", error);
+
+        loading.remove();
+
+        addMessage(
+          "No pude conectarme con el servicio de IA en este momento. Revisa la configuración de Gemini e intenta nuevamente.",
+          "assistant error"
+        );
+
+      } finally {
+
+        sendButton.disabled = false;
+
+        userInput.disabled = false;
+
+        userInput.focus();
+
+      }
+
+    }
+
+
+    /* =====================================================
+       EVENTO BOTÓN
+       ===================================================== */
+
+    sendButton.addEventListener(
+      "click",
+      sendMessage
     );
 
-  } finally {
 
-    sendButton.disabled = false;
+    /* =====================================================
+       ENTER PARA ENVIAR
+       ===================================================== */
+
+    userInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          sendMessage();
+
+        }
+
+      }
+    );
+
+
+    /* =====================================================
+       INICIO
+       ===================================================== */
 
     userInput.focus();
 
-  }
-
-}
-
-
-// =====================================================
-// EVENTOS
-// =====================================================
-
-sendButton.addEventListener("click", sendMessage);
-
-
-userInput.addEventListener("keydown", function(event) {
-
-  if (event.key === "Enter") {
-
-    event.preventDefault();
-
-    sendMessage();
-
-  }
-
-});
-
-
-// =====================================================
-// INICIAR
-// =====================================================
-
-createChat();
-
-</script>
+  </script>
 
 </body>
 </html>
