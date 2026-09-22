@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>COIMTEC IA - TVEO Business</title>
+  <title>COIMTEC IA</title>
 
   <style>
     * {
@@ -15,147 +16,240 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: #0f172a;
-      min-height: 100vh;
+      background: #f4f6f8;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .chat-container {
+    .app {
       width: 100%;
-      max-width: 520px;
-      height: 92vh;
+      max-width: 900px;
+      height: 95vh;
       background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      border-radius: 18px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
     }
 
+    /* ENCABEZADO */
+
     .header {
-      background: #1e293b;
+      background: #111827;
       color: white;
-      padding: 18px;
+      padding: 20px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
     }
 
     .logo {
-      width: 44px;
-      height: 44px;
-      background: #2563eb;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
+      background: #ffffff;
+      color: #111827;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .header-info h1 {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .header-info p {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    .status {
+      margin-left: auto;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-
-    .header h1 {
-      font-size: 18px;
-    }
-
-    .header p {
+      gap: 7px;
       font-size: 12px;
-      color: #cbd5e1;
-      margin-top: 3px;
+      color: #86efac;
     }
 
-    #chatMessages {
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      background: #22c55e;
+      border-radius: 50%;
+    }
+
+    /* CHAT */
+
+    .chat {
       flex: 1;
       overflow-y: auto;
-      padding: 20px;
+      padding: 25px;
       background: #f8fafc;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
     }
 
     .message {
-      max-width: 84%;
+      display: flex;
+      margin-bottom: 18px;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .bubble {
+      max-width: 75%;
       padding: 13px 16px;
-      border-radius: 14px;
+      border-radius: 15px;
+      font-size: 14px;
       line-height: 1.5;
-      font-size: 15px;
+      white-space: pre-wrap;
       word-wrap: break-word;
     }
 
-    .assistant {
-      align-self: flex-start;
+    .message.bot .bubble {
       background: #ffffff;
-      color: #1e293b;
-      border: 1px solid #e2e8f0;
+      color: #1f2937;
+      border: 1px solid #e5e7eb;
+      border-top-left-radius: 5px;
     }
 
-    .user {
-      align-self: flex-end;
-      background: #2563eb;
+    .message.user .bubble {
+      background: #111827;
       color: white;
+      border-top-right-radius: 5px;
     }
 
-    .loading {
-      color: #64748b;
-      font-style: italic;
+    /* ESCRIBIENDO */
+
+    .typing {
+      display: none;
+      margin-bottom: 15px;
     }
 
-    .error {
-      color: #b91c1c;
-      background: #fef2f2;
-      border-color: #fecaca;
+    .typing .bubble {
+      display: flex;
+      gap: 4px;
+      align-items: center;
     }
+
+    .typing span {
+      width: 7px;
+      height: 7px;
+      background: #9ca3af;
+      border-radius: 50%;
+      animation: blink 1.2s infinite;
+    }
+
+    .typing span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+      0%, 80%, 100% {
+        opacity: 0.3;
+      }
+
+      40% {
+        opacity: 1;
+      }
+    }
+
+    /* AREA DE ESCRITURA */
 
     .input-area {
+      padding: 15px;
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .input-box {
       display: flex;
       gap: 10px;
-      padding: 15px;
-      border-top: 1px solid #e2e8f0;
-      background: white;
+      align-items: flex-end;
     }
 
-    #userInput {
+    textarea {
       flex: 1;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 13px;
-      font-size: 15px;
+      resize: none;
+      min-height: 48px;
+      max-height: 130px;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 13px;
       outline: none;
+      font-family: inherit;
+      font-size: 14px;
     }
 
-    #userInput:focus {
-      border-color: #2563eb;
+    textarea:focus {
+      border-color: #111827;
     }
 
-    #sendButton {
+    button {
+      width: 50px;
+      height: 48px;
       border: none;
-      background: #2563eb;
+      border-radius: 13px;
+      background: #111827;
       color: white;
-      padding: 0 20px;
-      border-radius: 10px;
       cursor: pointer;
-      font-weight: bold;
+      font-size: 18px;
+      transition: 0.2s;
     }
 
-    #sendButton:hover {
-      background: #1d4ed8;
+    button:hover {
+      background: #374151;
     }
 
-    #sendButton:disabled {
-      opacity: 0.6;
+    button:disabled {
+      opacity: 0.5;
       cursor: not-allowed;
     }
+
+    .footer {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    /* CELULAR */
 
     @media (max-width: 600px) {
       body {
         align-items: stretch;
       }
 
-      .chat-container {
+      .app {
         height: 100vh;
         border-radius: 0;
+      }
+
+      .chat {
+        padding: 15px;
+      }
+
+      .bubble {
+        max-width: 85%;
+      }
+
+      .header {
+        padding: 15px;
+      }
+
+      .status {
+        display: none;
       }
     }
   </style>
@@ -163,155 +257,171 @@
 
 <body>
 
-  <div class="chat-container">
+  <div class="app">
 
-    <div class="header">
-      <div class="logo">AI</div>
+    <!-- ENCABEZADO -->
+    <header class="header">
 
-      <div>
+      <div class="logo">
+        CI
+      </div>
+
+      <div class="header-info">
         <h1>COIMTEC IA</h1>
         <p>Asistente Inteligente · TVEO Business</p>
       </div>
-    </div>
 
-    <div id="chatMessages">
+      <div class="status">
+        <div class="status-dot"></div>
+        En línea
+      </div>
 
-      <div class="message assistant">
-        ¡Hola! 👋 Soy <strong>COIMTEC IA</strong> de TVEO Business.
-        <br><br>
-        Estoy aquí para ayudarte con información sobre nuestros proyectos inmobiliarios.
-        <br><br>
-        Cuéntame, ¿estás buscando invertir, comprar un terreno o construir?
+    </header>
+
+
+    <!-- CHAT -->
+    <main class="chat" id="chat">
+
+      <div class="message bot">
+        <div class="bubble">
+          Hola, soy COIMTEC IA. 👋
+
+          Estoy listo para ayudarte con información comercial, clientes, proyectos inmobiliarios y gestión de ventas.
+
+          ¿En qué podemos trabajar?
+        </div>
+      </div>
+
+    </main>
+
+
+    <!-- INDICADOR ESCRIBIENDO -->
+    <div class="typing" id="typing">
+
+      <div class="bubble">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
 
     </div>
 
-    <div class="input-area">
 
-      <input
-        id="userInput"
-        type="text"
-        placeholder="Escribe tu mensaje..."
-        autocomplete="off"
-      >
+    <!-- AREA DE MENSAJE -->
+    <section class="input-area">
 
-      <button id="sendButton">
-        Enviar
-      </button>
+      <div class="input-box">
 
-    </div>
+        <textarea
+          id="messageInput"
+          placeholder="Escribe tu mensaje..."
+          rows="1"
+        ></textarea>
+
+        <button
+          id="sendButton"
+          onclick="sendMessage()"
+          title="Enviar"
+        >
+          ➤
+        </button>
+
+      </div>
+
+      <div class="footer">
+        COIMTEC IA · TVEO Business
+      </div>
+
+    </section>
 
   </div>
 
+
   <script>
 
-    /*
-    ============================================================
-    COIMTEC IA
-    ============================================================
+    let conversationHistory = [];
 
-    Este frontend NO contiene ninguna API KEY.
 
-    La comunicación se realiza mediante:
-
-    index.html
-          ↓
-       /api/chat
-          ↓
-       OpenAI
-
-    La clave de OpenAI permanece en el servidor.
-    ============================================================
-    */
-
-    const chatMessages = document.getElementById("chatMessages");
-    const userInput = document.getElementById("userInput");
+    const messageInput = document.getElementById("messageInput");
     const sendButton = document.getElementById("sendButton");
-
-    // Historial de la conversación actual
-    const conversationHistory = [];
-
-
-    /*
-    ============================================================
-    SEGURIDAD HTML
-    ============================================================
-    */
-
-    function escapeHtml(text) {
-
-      return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
+    const chat = document.getElementById("chat");
+    const typing = document.getElementById("typing");
 
 
     /*
-    ============================================================
-    MOSTRAR MENSAJE
-    ============================================================
+      AGREGAR MENSAJE AL CHAT
     */
 
     function addMessage(text, type) {
 
-      const div = document.createElement("div");
+      const message = document.createElement("div");
 
-      div.className = `message ${type}`;
+      message.className = "message " + type;
 
-      div.innerHTML = escapeHtml(text)
-        .replace(/\n/g, "<br>");
+      const bubble = document.createElement("div");
 
-      chatMessages.appendChild(div);
+      bubble.className = "bubble";
 
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+      bubble.textContent = text;
 
-      return div;
+      message.appendChild(bubble);
 
+      chat.appendChild(message);
+
+      chat.scrollTop = chat.scrollHeight;
     }
 
 
     /*
-    ============================================================
-    ENVIAR MENSAJE A COIMTEC
-    ============================================================
+      INDICADOR DE ESCRITURA
+    */
+
+    function showTyping() {
+
+      typing.style.display = "flex";
+
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+
+    function hideTyping() {
+
+      typing.style.display = "none";
+    }
+
+
+    /*
+      ENVIAR MENSAJE
     */
 
     async function sendMessage() {
 
-      const message = userInput.value.trim();
+      const message = messageInput.value.trim();
 
       if (!message) {
         return;
       }
 
-      // Mostrar mensaje del cliente
+
+      // Mostrar mensaje del usuario
       addMessage(message, "user");
 
+
       // Limpiar campo
-      userInput.value = "";
+      messageInput.value = "";
 
-      // Desactivar controles
+      messageInput.style.height = "48px";
+
+
+      // Desactivar botón
       sendButton.disabled = true;
-      userInput.disabled = true;
 
-      // Mostrar carga
-      const loading = addMessage(
-        "COIMTEC IA está pensando...",
-        "assistant loading"
-      );
+
+      // Mostrar escribiendo
+      showTyping();
 
 
       try {
-
-        /*
-        --------------------------------------------------------
-        Enviar mensaje al backend
-        --------------------------------------------------------
-        */
 
         const response = await fetch("/api/chat", {
 
@@ -338,37 +448,16 @@
         if (!response.ok) {
 
           throw new Error(
-            data?.error || "Error del servidor"
+            data.error || "No se pudo conectar con COIMTEC IA."
           );
 
         }
 
 
-        // Eliminar mensaje de carga
-        loading.remove();
+        const answer = data.answer || "No recibí una respuesta.";
 
 
-        /*
-        --------------------------------------------------------
-        Obtener respuesta de COIMTEC
-        --------------------------------------------------------
-        */
-
-        const answer =
-          data?.answer ||
-          "No recibí una respuesta. Intenta nuevamente.";
-
-
-        // Mostrar respuesta
-        addMessage(answer, "assistant");
-
-
-        /*
-        --------------------------------------------------------
-        Guardar conversación
-        --------------------------------------------------------
-        */
-
+        // Guardar conversación
         conversationHistory.push({
 
           role: "user",
@@ -387,24 +476,30 @@
         });
 
 
+        // Mostrar respuesta
+        addMessage(answer, "bot");
+
+
       } catch (error) {
 
-        console.error("Error COIMTEC:", error);
+        console.error(error);
 
-        loading.remove();
 
         addMessage(
-          "No pude conectarme con COIMTEC en este momento. Intenta nuevamente.",
-          "assistant error"
+
+          "No pude procesar tu mensaje en este momento. Verifica la conexión con el servidor.",
+
+          "bot"
+
         );
 
       } finally {
 
+        hideTyping();
+
         sendButton.disabled = false;
 
-        userInput.disabled = false;
-
-        userInput.focus();
+        messageInput.focus();
 
       }
 
@@ -412,48 +507,39 @@
 
 
     /*
-    ============================================================
-    BOTÓN ENVIAR
-    ============================================================
+      ENTER = ENVIAR
+      SHIFT + ENTER = NUEVA LÍNEA
     */
 
-    sendButton.addEventListener(
-      "click",
-      sendMessage
-    );
+    messageInput.addEventListener("keydown", function(event) {
 
+      if (event.key === "Enter" && !event.shiftKey) {
 
-    /*
-    ============================================================
-    ENTER PARA ENVIAR
-    ============================================================
-    */
+        event.preventDefault();
 
-    userInput.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (event.key === "Enter") {
-
-          event.preventDefault();
-
-          sendMessage();
-
-        }
+        sendMessage();
 
       }
-    );
+
+    });
 
 
     /*
-    ============================================================
-    INICIO
-    ============================================================
+      AJUSTAR ALTURA DEL TEXTAREA
     */
 
-    userInput.focus();
+    messageInput.addEventListener("input", function() {
+
+      this.style.height = "48px";
+
+      this.style.height =
+        Math.min(this.scrollHeight, 130) + "px";
+
+    });
+
 
   </script>
 
 </body>
 </html>
+```
