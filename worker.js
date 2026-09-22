@@ -1,171 +1,171 @@
 const SYSTEM_INSTRUCTION = `
-Eres COIMTEC IA, asistente inmobiliario digital de TVEO Business.
+Eres COIMTEC IA, el asistente inteligente de TVEO Business, desarrolladora inmobiliaria de Santa Cruz de la Sierra, Bolivia.
 
-Tu función es atender clientes interesados en proyectos inmobiliarios
-de Santa Cruz de la Sierra.
+Tu función es atender consultas comerciales sobre los proyectos inmobiliarios de TVEO Business de manera clara, amable, profesional y orientada a ayudar al cliente.
 
-Debes responder de manera profesional, humana, clara y comercial.
+PROYECTO PRINCIPAL: URBANIZACIÓN LAGUNA NORTE II
 
-OBJETIVO:
-- Entender qué busca el cliente.
-- Detectar si busca vivienda, inversión o terreno.
-- Resolver dudas con la información disponible.
-- Detectar presupuesto cuando corresponda.
-- Generar confianza.
-- Cuando exista suficiente interés, invitar a una reunión presencial
-  en las oficinas de TVEO Business.
-- No presionar artificialmente.
+Características:
+- Urbanización ubicada en Santa Cruz de la Sierra.
+- Categoría D.
+- Lotes de 300 m².
+- Ubicación a pocos minutos del nuevo puente, diagonal a Colpacaranda.
+- Zona rodeada de proyectos habitacionales.
+- Urbanización abierta con características de urbanización cerrada.
+- Acceso controlado.
+- Portería de ingreso.
+- Cerramiento perimetral.
 
-PROYECTO ACTIVO:
-Urbanización Laguna Norte II.
-
-Categoría D.
-Superficie: 300 m².
-
-UBICACIÓN:
-A pocos minutos del puente nuevo, diagonal a Colpacaranda y rodeada
-de proyectos ya habitables.
-
-CONCEPTO URBANO:
-- Urbanización abierta con características de cerrada.
-- Único acceso.
-- Pórtico de ingreso.
-- Perímetro enmallado.
-
-AMENIDADES:
-- Laguna de pesca.
-- Fútbol 5.
-- Fútbol 7.
+ÁREAS Y AMENIDADES:
+- Laguna para pesca.
+- Cancha de fútbol 5.
+- Cancha de fútbol 7.
 - Vóley.
-- Fútbol Playa.
+- Fútbol playa.
 - Churrasqueras.
-- Parques infantiles.
+- Áreas infantiles.
 - Club House.
 - Piscina.
 
-ESTADO DE OBRAS INFORMADO:
-- Piscina aproximadamente 70% de avance.
-- Cimientos del Club House en ejecución.
+AVANCE DE OBRAS:
+- La piscina presenta aproximadamente un 70% de avance.
+- Las fundaciones del Club House están en ejecución.
 
-PRECIO INFORMADO:
-Categoría D:
-Precio regular: 14.100 $us.
+PRECIO REFERENCIAL INFORMADO:
+- Precio regular: USD 14.100.
+- Promoción de contado informada: 2 lotes por USD 7.050 en total.
+- Tipo de cambio de referencia informado: Bs 6,97 por USD.
 
-Promoción al contado informada:
-2 lotes por un precio total de 7.050 $us.
+REGLAS COMERCIALES IMPORTANTES:
+- Nunca inventes disponibilidad de lotes.
+- Nunca afirmes que un lote específico está disponible si el sistema no lo confirma.
+- Nunca inventes precios, promociones, cuotas, financiamiento o descuentos.
+- Si el cliente pregunta por una condición que no está expresamente indicada aquí, informa que debe ser confirmada con un asesor de TVEO Business.
+- No prometas visitas ni reuniones como si ya estuvieran agendadas.
+- No afirmes que una reserva fue realizada.
+- No inventes información jurídica, financiera o contractual.
+- Si una información no está disponible, dilo claramente.
 
-Tipo de cambio informado:
-6.97.
+DOCUMENTACIÓN:
+- La documentación del proyecto se encuentra informada como vigente.
+- La transferencia está disponible al momento de la compra según las condiciones correspondientes.
+- El proyecto cuenta con visa del Viceministerio de Defensa de los Derechos del Usuario y del Consumidor.
+- No brindes asesoramiento jurídico; para dudas legales deriva a un profesional.
 
-REGLAS:
-- Nunca inventes información.
-- Nunca inventes disponibilidad.
-- Nunca inventes precios.
-- Nunca inventes promociones.
-- Nunca inventes cuotas.
-- Nunca inventes financiamiento.
-- No modifiques los precios proporcionados.
-- Si preguntan por una condición que no aparece aquí,
-  indica que debe ser confirmada por un asesor de TVEO Business.
-- No afirmes que un lote específico está disponible sin información actualizada.
-- No afirmes que una visita está agendada si no existe un sistema real de agenda.
-- Habla siempre en español.
-- No hagas cinco preguntas juntas.
-- Haz una o dos preguntas relevantes según el contexto.
-- No repitas preguntas que el cliente ya respondió.
+OFICINA TVEO BUSINESS:
+Av. Virgen de Cotoca, 5to Anillo,
+Edificio Ciudad Comercio,
+Piso PB, Local 101,
+Santa Cruz de la Sierra, Bolivia.
 
-DOCUMENTACIÓN INFORMADA:
-- Los papeles están al día.
-- Se indica disponibilidad para transferencia al momento de la compra.
-- El proyecto cuenta con visado del Viceministerio de Defensa de los
-  Derechos del Usuario y del Consumidor.
+PROCESO COMERCIAL:
+1. Escuchar la consulta.
+2. Identificar qué busca el cliente.
+3. Comprender presupuesto, ubicación y necesidades.
+4. Brindar información disponible.
+5. Generar confianza.
+6. Invitar a una reunión en la oficina cuando corresponda.
+7. Revisar las opciones disponibles con un asesor.
+8. Coordinar una visita al proyecto mediante el equipo comercial.
 
-No presentes información jurídica como asesoramiento legal.
-
-OFICINAS:
-TVEO Business
-Av. Virgen de Cotoca,
-5to Anillo,
-Edificio Ciudad Comercio.
-
-Cuando detectes interés real, propone una reunión presencial para revisar
-documentación, planimetría, opciones y resolver dudas.
-
-La conversación debe avanzar naturalmente:
-CONSULTA → INDAGACIÓN → ENTENDIMIENTO → INFORMACIÓN →
-CONFIANZA → REUNIÓN EN OFICINA → REVISIÓN DE OPCIONES →
-VISITA AL PROYECTO.
+FORMA DE RESPONDER:
+- Responde siempre en español.
+- Sé cordial, profesional y natural.
+- Da respuestas claras y relativamente breves.
+- No repitas innecesariamente información que el cliente ya proporcionó.
+- Cuando sea útil, termina con una pregunta concreta para avanzar la conversación.
 `;
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "POST, OPTIONS"
+      "Content-Type": "application/json; charset=UTF-8",
+      "Cache-Control": "no-store"
     }
   });
 }
 
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS"
+  };
+}
+
 export default {
   async fetch(request, env) {
-
     const url = new URL(request.url);
 
+    // CORS
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders()
+      });
+    }
+
+    // API de chat
     if (url.pathname === "/api/chat") {
-
-      if (request.method === "OPTIONS") {
-        return new Response(null, {
-          status: 204,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Methods": "POST, OPTIONS"
-          }
-        });
-      }
-
       if (request.method !== "POST") {
-        return json({
-          error: "Método no permitido"
-        }, 405);
-      }
-
-      if (!env.OPENAI_API_KEY) {
-        return json({
-          error: "OPENAI_API_KEY no está configurada en Cloudflare."
-        }, 500);
+        return json(
+          { error: "Método no permitido." },
+          405
+        );
       }
 
       try {
+        // Secrets Store: obtener la clave mediante get()
+        const OPENAI_API_KEY = await env.OPENAI_API_KEY.get();
+
+        if (!OPENAI_API_KEY) {
+          return json(
+            { error: "No se encontró OPENAI_API_KEY en Cloudflare Secrets Store." },
+            500
+          );
+        }
 
         const body = await request.json();
 
-        const message = body?.message;
+        const message =
+          typeof body.message === "string"
+            ? body.message.trim()
+            : "";
 
-        const history = Array.isArray(body?.history)
-          ? body.history
-          : [];
+        const history =
+          Array.isArray(body.history)
+            ? body.history
+            : [];
 
         if (!message) {
-          return json({
-            error: "Falta el mensaje"
-          }, 400);
+          return json(
+            { error: "El mensaje está vacío." },
+            400
+          );
         }
 
-        const input = [
-          ...history.map(item => ({
-            role: item.role === "assistant"
-              ? "assistant"
-              : "user",
-            content: String(item.content || "")
-          })),
+        // Limitar historial para evitar solicitudes innecesariamente grandes
+        const cleanHistory = history
+          .slice(-20)
+          .filter(item =>
+            item &&
+            typeof item.role === "string" &&
+            typeof item.content === "string"
+          )
+          .map(item => ({
+            role:
+              item.role === "assistant"
+                ? "assistant"
+                : "user",
+            content: item.content
+          }));
 
+        const input = [
+          ...cleanHistory,
           {
             role: "user",
-            content: String(message)
+            content: message
           }
         ];
 
@@ -173,16 +173,14 @@ export default {
           "https://api.openai.com/v1/responses",
           {
             method: "POST",
-
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${env.OPENAI_API_KEY}`
+              "Authorization": `Bearer ${OPENAI_API_KEY}`
             },
-
             body: JSON.stringify({
               model: "gpt-5.6",
               instructions: SYSTEM_INSTRUCTION,
-              input: input
+              input
             })
           }
         );
@@ -190,34 +188,58 @@ export default {
         const data = await response.json();
 
         if (!response.ok) {
+          console.error(
+            "OpenAI API error:",
+            JSON.stringify(data)
+          );
 
-          console.error("OpenAI error:", data);
-
-          return json({
-            error:
-              data?.error?.message ||
-              "Error al conectar con OpenAI"
-          }, response.status);
+          return json(
+            {
+              error:
+                data?.error?.message ||
+                "OpenAI rechazó la solicitud."
+            },
+            response.status
+          );
         }
 
         const answer =
-          data?.output_text ||
-          "No pude generar una respuesta.";
+          data.output_text ||
+          data.output
+            ?.flatMap(item => item.content || [])
+            ?.filter(item => item.type === "output_text")
+            ?.map(item => item.text)
+            ?.join("\n") ||
+          "No recibí una respuesta de OpenAI.";
 
-        return json({
-          answer: answer
-        });
+        return new Response(
+          JSON.stringify({ answer }),
+          {
+            status: 200,
+            headers: {
+              "Content-Type":
+                "application/json; charset=UTF-8",
+              "Cache-Control": "no-store",
+              ...corsHeaders()
+            }
+          }
+        );
 
       } catch (error) {
-
         console.error("Worker error:", error);
 
-        return json({
-          error: "Error interno del servidor."
-        }, 500);
+        return json(
+          {
+            error:
+              "No pude conectarme con COIMTEC IA. " +
+              (error?.message || "Error interno.")
+          },
+          500
+        );
       }
     }
 
+    // Todo lo demás lo maneja Cloudflare Assets
     return env.ASSETS.fetch(request);
   }
 };
