@@ -33,7 +33,7 @@
             height: 90vh;
             background: #fff;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, .10);
+            box-shadow: 0 4px 20px rgba(0,0,0,.10);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -104,7 +104,10 @@
             border-bottom-left-radius: 2px;
         }
 
-        /* BOTÓN WHATSAPP */
+        /* =====================================================
+           BOTÓN WHATSAPP
+        ===================================================== */
+
         .whatsapp-button {
             display: flex;
             align-items: center;
@@ -114,14 +117,16 @@
             margin-top: 14px;
             padding: 14px 18px;
             background: #25d366;
-            color: #fff !important;
-            text-decoration: none !important;
+            color: #ffffff;
+            border: none;
             border-radius: 10px;
             font-size: .92rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, .28);
+            box-shadow: 0 4px 12px rgba(37,211,102,.28);
             transition: .2s ease;
+            appearance: none;
+            -webkit-appearance: none;
         }
 
         .whatsapp-button:hover {
@@ -136,6 +141,10 @@
         .whatsapp-icon {
             font-size: 1.3rem;
         }
+
+        /* =====================================================
+           INPUT
+        ===================================================== */
 
         .chat-input-area {
             padding: 15px;
@@ -178,6 +187,10 @@
             cursor: not-allowed;
         }
 
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
         .loading {
             display: flex;
             align-items: center;
@@ -201,9 +214,7 @@
         }
 
         @keyframes loading {
-            0%,
-            60%,
-            100% {
+            0%, 60%, 100% {
                 transform: translateY(0);
                 opacity: .4;
             }
@@ -213,6 +224,10 @@
                 opacity: 1;
             }
         }
+
+        /* =====================================================
+           MÓVIL
+        ===================================================== */
 
         @media (max-width: 600px) {
 
@@ -254,6 +269,7 @@
 <div class="chat-container">
 
     <!-- ENCABEZADO -->
+
     <div class="chat-header">
 
         <img
@@ -270,21 +286,25 @@
 
 
     <!-- MENSAJES -->
+
     <div
         class="chat-messages"
         id="chatMessages"
     >
 
         <div class="message assistant">
+
             ¡Hola! Soy COIMTEC IA de TVEO Business.
 
             ¿En qué proyecto inmobiliario te gustaría que te ayude hoy?
+
         </div>
 
     </div>
 
 
-    <!-- ENTRADA -->
+    <!-- INPUT -->
+
     <div class="chat-input-area">
 
         <input
@@ -356,7 +376,7 @@ function scrollChat() {
 
 
 /* =========================================================
-   MENSAJE DEL USUARIO
+   MENSAJE USUARIO
 ========================================================= */
 
 function appendUserMessage(text) {
@@ -378,22 +398,16 @@ function appendUserMessage(text) {
 
 
 /* =========================================================
-   CREAR BOTÓN WHATSAPP
+   BOTÓN WHATSAPP
 ========================================================= */
 
 function createWhatsAppButton() {
 
     const button =
-        document.createElement("a");
+        document.createElement("button");
 
-    button.href =
-        WHATSAPP_URL;
-
-    button.target =
-        "_blank";
-
-    button.rel =
-        "noopener noreferrer";
+    button.type =
+        "button";
 
     button.className =
         "whatsapp-button";
@@ -403,13 +417,25 @@ function createWhatsAppButton() {
         <span>HABLAR CON UN ASESOR</span>
     `;
 
+
+    button.addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                WHATSAPP_URL;
+
+        }
+    );
+
+
     return button;
 
 }
 
 
 /* =========================================================
-   LIMPIAR ENLACES DE WHATSAPP DEL TEXTO DE GEMINI
+   LIMPIAR URL DE WHATSAPP DEL TEXTO
 ========================================================= */
 
 function cleanWhatsAppLinks(text) {
@@ -418,11 +444,13 @@ function cleanWhatsAppLinks(text) {
         return "";
     }
 
+
     let limpio =
         text.replace(
             /https?:\/\/(?:www\.)?wa\.me\/message\/[^\s<>"')\]]+/gi,
             ""
         );
+
 
     limpio =
         limpio.replace(
@@ -430,11 +458,13 @@ function cleanWhatsAppLinks(text) {
             ""
         );
 
+
     limpio =
         limpio.replace(
             /👉/g,
             ""
         );
+
 
     return limpio
         .replace(/\n\s*\n\s*\n/g, "\n\n")
@@ -453,11 +483,13 @@ function necesitaAsesor(text) {
         return false;
     }
 
+
     const texto =
         text
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "");
+
 
     const frases = [
 
@@ -517,6 +549,7 @@ function necesitaAsesor(text) {
 
     ];
 
+
     return frases.some(
         frase =>
             texto.includes(frase)
@@ -526,7 +559,7 @@ function necesitaAsesor(text) {
 
 
 /* =========================================================
-   MENSAJE DEL ASISTENTE
+   RESPUESTA DEL ASISTENTE
 ========================================================= */
 
 function appendAssistantMessage(
@@ -560,11 +593,6 @@ function appendAssistantMessage(
     }
 
 
-    /*
-     * SI EL CLIENTE SOLICITA ASESOR
-     * SE CREA EL BOTÓN
-     */
-
     if (showWhatsApp === true) {
 
         div.appendChild(
@@ -582,7 +610,7 @@ function appendAssistantMessage(
 
 
 /* =========================================================
-   CARGANDO
+   LOADING
 ========================================================= */
 
 function showLoading() {
@@ -612,7 +640,7 @@ function showLoading() {
 
 
 /* =========================================================
-   OCULTAR CARGANDO
+   OCULTAR LOADING
 ========================================================= */
 
 function hideLoading() {
@@ -661,7 +689,7 @@ async function sendMessage() {
     try {
 
         /* ==============================================
-           GUARDAR MENSAJE DEL USUARIO
+           HISTORIAL USUARIO
         ============================================== */
 
         chatHistory.push({
@@ -682,7 +710,7 @@ async function sendMessage() {
 
 
         /* ==============================================
-           ENVIAR AL WORKER
+           API
         ============================================== */
 
         const response =
@@ -727,7 +755,7 @@ async function sendMessage() {
 
 
         /* ==============================================
-           RESPUESTA DE COIMTEC IA
+           RESPUESTA
         ============================================== */
 
         const answer =
@@ -736,7 +764,7 @@ async function sendMessage() {
 
 
         /* ==============================================
-           GUARDAR RESPUESTA DEL ASISTENTE
+           HISTORIAL ASISTENTE
         ============================================== */
 
         chatHistory.push({
@@ -757,14 +785,13 @@ async function sendMessage() {
 
 
         /* ==============================================
-           DETECTAR ASESOR
-           
-           Funciona aunque Worker no mande
-           whatsapp:true.
+           BOTÓN WHATSAPP
+
+           Se activa directamente por el mensaje
+           del cliente.
         ============================================== */
 
         const showWhatsApp =
-            data.whatsapp === true ||
             necesitaAsesor(text);
 
 
@@ -813,7 +840,7 @@ async function sendMessage() {
 
 
 /* =========================================================
-   BOTÓN ENVIAR
+   CLICK ENVIAR
 ========================================================= */
 
 sendButton.addEventListener(
@@ -823,7 +850,7 @@ sendButton.addEventListener(
 
 
 /* =========================================================
-   ENTER PARA ENVIAR
+   ENTER
 ========================================================= */
 
 userInput.addEventListener(
@@ -843,7 +870,7 @@ userInput.addEventListener(
 
 
 /* =========================================================
-   ENFOCAR CAMPO
+   FOCUS
 ========================================================= */
 
 userInput.focus();
