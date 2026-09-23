@@ -1,3 +1,4 @@
+```javascript
 export default async function handler(req, res) {
 
   if (req.method !== "POST") {
@@ -13,7 +14,6 @@ export default async function handler(req, res) {
       history = []
     } = req.body || {};
 
-
     if (!message) {
       return res.status(400).json({
         error: "Falta el mensaje"
@@ -22,11 +22,34 @@ export default async function handler(req, res) {
 
 
     /* =====================================================
-       WHATSAPP
+       CONFIGURACIÓN
     ===================================================== */
+
+    const GEMINI_API_KEY =
+      process.env.GEMINI_API_KEY;
 
     const WHATSAPP_URL =
       "https://wa.me/message/PJBMLOLZEDVPF1";
+
+    /*
+      Usamos Gemini Flash.
+    */
+
+    const GEMINI_MODEL =
+      "gemini-3.8-flash";
+
+
+    if (!GEMINI_API_KEY) {
+
+      console.error(
+        "Falta GEMINI_API_KEY"
+      );
+
+      return res.status(500).json({
+        error: "No está configurada GEMINI_API_KEY"
+      });
+
+    }
 
 
     /* =====================================================
@@ -36,11 +59,10 @@ export default async function handler(req, res) {
     function solicitaAsesor(texto) {
 
       const textoNormalizado =
-        texto
+        String(texto)
           .toLowerCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "");
-
 
       const frases = [
 
@@ -54,13 +76,13 @@ export default async function handler(req, res) {
 
         "whatsapp",
 
-        "direccioname",
-
-        "derivame",
-
         "contactar",
+        "contactame",
 
         "comunicarme",
+
+        "direccioname",
+        "derivame",
 
         "hablar con alguien",
 
@@ -100,7 +122,6 @@ export default async function handler(req, res) {
 
       ];
 
-
       return frases.some(
         frase =>
           textoNormalizado.includes(frase)
@@ -119,39 +140,60 @@ Eres COIMTEC IA, asistente inmobiliario digital de TVEO Business.
 Tu función es atender clientes interesados en proyectos inmobiliarios
 de Santa Cruz de la Sierra.
 
-Debes analizar el contexto de la conversación y responder de manera
-profesional, humana, clara y comercial.
+Debes responder siempre en español.
+
+Tu comunicación debe ser:
+
+- Humana.
+- Profesional.
+- Clara.
+- Comercial.
+- Amable.
+- Natural.
+
+No debes parecer un robot.
 
 OBJETIVO:
 
-- Entender qué busca el cliente.
-- Detectar si busca vivienda, inversión o terreno.
-- Resolver dudas con la información disponible.
-- Detectar presupuesto cuando corresponda.
-- Generar confianza.
-- Cuando exista suficiente interés, invitar a una reunión presencial
-  en las oficinas de TVEO Business.
-- No presionar artificialmente.
+1. Entender qué busca el cliente.
+2. Detectar si busca vivienda, inversión o terreno.
+3. Resolver sus dudas con la información disponible.
+4. Detectar presupuesto cuando corresponda.
+5. Generar confianza.
+6. Guiar naturalmente al cliente hacia una reunión con TVEO Business.
+7. No presionar artificialmente.
 
-PROYECTO ACTIVO:
+==================================================
+PROYECTO ACTIVO
+==================================================
+
 Urbanización Laguna Norte II.
 
 Categoría D.
-Superficie: 300 m².
 
-UBICACIÓN:
+Superficie:
+300 m².
 
-A pocos minutos del puente nuevo, diagonal a Colpacaranda y rodeada
-de proyectos ya habitables.
+==================================================
+UBICACIÓN
+==================================================
 
-CONCEPTO URBANO:
+A pocos minutos del puente nuevo,
+diagonal a Colpacaranda,
+rodeada de proyectos ya habitables.
+
+==================================================
+CONCEPTO URBANO
+==================================================
 
 - Urbanización abierta con características de cerrada.
 - Único acceso.
 - Pórtico de ingreso.
 - Perímetro enmallado.
 
-AMENIDADES:
+==================================================
+AMENIDADES
+==================================================
 
 - Laguna de pesca.
 - Fútbol 5.
@@ -163,126 +205,224 @@ AMENIDADES:
 - Club House.
 - Piscina.
 
-ESTADO DE OBRAS INFORMADO:
+==================================================
+ESTADO DE OBRAS INFORMADO
+==================================================
 
 - Piscina aproximadamente 70% de avance.
 - Cimientos del Club House en ejecución.
 
-PRECIO INFORMADO:
+==================================================
+PRECIO INFORMADO
+==================================================
 
 Categoría D:
-Precio regular: 14.100 $us.
+
+Precio regular:
+14.100 $us.
 
 Promoción al contado informada:
-2 lotes por un precio total de 7.050 $us.
+
+2 lotes por un precio total de:
+7.050 $us.
 
 Tipo de cambio informado:
 6.97.
 
-REGLAS:
+==================================================
+REGLAS IMPORTANTES
+==================================================
 
-- Nunca inventes información.
-- Nunca inventes disponibilidad.
-- Nunca inventes precios.
-- Nunca inventes promociones.
-- Nunca inventes cuotas.
-- Nunca inventes financiamiento.
-- No modifiques los precios proporcionados.
-- Si preguntan por una condición que no aparece aquí, indica que debe
-  ser confirmada por un asesor de TVEO Business.
-- No afirmes que un lote específico está disponible sin información
-  actualizada.
-- No afirmes que una visita está agendada si no existe un sistema real
-  de agenda.
-- Habla siempre en español.
-- No hagas cinco preguntas juntas.
-- Haz una o dos preguntas relevantes según el contexto.
-- No repitas preguntas que el cliente ya respondió.
+Nunca inventes:
 
-DOCUMENTACIÓN INFORMADA:
+- precios;
+- promociones;
+- cuotas;
+- financiamiento;
+- disponibilidad;
+- características;
+- fechas;
+- teléfonos;
+- nombres de asesores.
 
-- Los papeles están al día.
-- Se indica disponibilidad para transferencia al momento de la compra.
-- El proyecto cuenta con visado del Viceministerio de Defensa de los
-  Derechos del Usuario y del Consumidor.
+No modifiques los precios proporcionados.
+
+No afirmes que un lote específico está disponible
+si no tienes información actualizada.
+
+No afirmes que una visita está agendada
+porque no existe un sistema real de agenda.
+
+Si el cliente pregunta algo que no está en esta información,
+indica que debe ser confirmado por un asesor de TVEO Business.
 
 No presentes información jurídica como asesoramiento legal.
 
-OFICINAS:
+==================================================
+DOCUMENTACIÓN
+==================================================
+
+Los papeles están al día.
+
+Se indica disponibilidad para transferencia
+al momento de la compra.
+
+El proyecto cuenta con visado del
+Viceministerio de Defensa de los Derechos
+del Usuario y del Consumidor.
+
+==================================================
+OFICINAS
+==================================================
 
 TVEO Business
+
 Av. Virgen de Cotoca,
 5to Anillo,
 Edificio Ciudad Comercio.
 
-Cuando detectes interés real, propone una reunión presencial para revisar
-documentación, planimetría, opciones y resolver dudas.
+Cuando detectes interés real,
+puedes invitar al cliente a una reunión presencial
+para revisar documentación, planimetría,
+opciones y resolver dudas.
 
-La conversación debe avanzar naturalmente:
+==================================================
+FLUJO COMERCIAL
+==================================================
 
-CONSULTA →
-INDAGACIÓN →
-ENTENDIMIENTO →
-INFORMACIÓN →
-CONFIANZA →
-REUNIÓN EN OFICINA →
-REVISIÓN DE OPCIONES →
-VISITA AL PROYECTO.
+CONSULTA
+↓
+INDAGACIÓN
+↓
+ENTENDIMIENTO
+↓
+INFORMACIÓN
+↓
+CONFIANZA
+↓
+REUNIÓN EN OFICINA
+↓
+REVISIÓN DE OPCIONES
+↓
+VISITA AL PROYECTO
 
-Si el cliente solicita hablar con un asesor, vendedor o ventas,
-puedes indicarle que puede continuar la atención por WhatsApp.
+==================================================
+ASESOR
+==================================================
+
+Si el cliente solicita hablar con un asesor,
+asesora, vendedor o ventas:
+
+Indícale de manera natural que puede continuar
+la atención directamente por WhatsApp.
 
 No inventes números de teléfono.
+
+No escribas enlaces de WhatsApp dentro de tu respuesta.
+El sistema mostrará automáticamente el botón correspondiente.
 `;
 
 
     /* =====================================================
-       CONSTRUIR HISTORIAL
+       CONSTRUIR HISTORIAL PARA GEMINI
     ===================================================== */
 
-    const messages = [
+    const contents = [];
 
-      {
-        role: "system",
-        content: systemInstruction
-      },
 
-      ...history,
+    for (const item of history) {
 
-      {
-        role: "user",
-        content: message
+      if (!item || !item.content) {
+        continue;
       }
 
-    ];
+      const role =
+        item.role === "assistant"
+          ? "model"
+          : "user";
+
+      contents.push({
+
+        role: role,
+
+        parts: [
+          {
+            text: String(item.content)
+          }
+        ]
+
+      });
+
+    }
 
 
     /* =====================================================
-       OPENAI
+       MENSAJE ACTUAL
     ===================================================== */
 
-    const response = await fetch(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        method: "POST",
+    contents.push({
 
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization":
-            `Bearer ${process.env.OPENAI_API_KEY}`
-        },
+      role: "user",
 
-        body: JSON.stringify({
+      parts: [
+        {
+          text: message
+        }
+      ]
 
-          model: "gpt-5.6",
+    });
 
-          messages: messages,
 
-          temperature: 0.7
+    /* =====================================================
+       LLAMADA A GEMINI
+    ===================================================== */
 
-        })
-      }
-    );
+    const geminiUrl =
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+
+
+    const response =
+      await fetch(
+        geminiUrl,
+        {
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            "x-goog-api-key":
+              GEMINI_API_KEY
+
+          },
+
+          body: JSON.stringify({
+
+            system_instruction: {
+
+              parts: [
+                {
+                  text: systemInstruction
+                }
+              ]
+
+            },
+
+            contents: contents,
+
+            generationConfig: {
+
+              temperature: 0.7,
+
+              maxOutputTokens: 800
+
+            }
+
+          })
+
+        }
+      );
 
 
     const data =
@@ -290,13 +430,13 @@ No inventes números de teléfono.
 
 
     /* =====================================================
-       ERROR OPENAI
+       ERROR GEMINI
     ===================================================== */
 
     if (!response.ok) {
 
       console.error(
-        "OpenAI error:",
+        "Gemini error:",
         data
       );
 
@@ -305,7 +445,10 @@ No inventes números de teléfono.
       ).json({
 
         error:
-          "Error al conectar con OpenAI"
+          "Error al conectar con Gemini",
+
+        details:
+          data?.error?.message || null
 
       });
 
@@ -313,16 +456,22 @@ No inventes números de teléfono.
 
 
     /* =====================================================
-       RESPUESTA
+       EXTRAER RESPUESTA
     ===================================================== */
 
     const answer =
-      data?.choices?.[0]?.message?.content ||
+      data
+        ?.candidates?.[0]
+        ?.content?.parts
+        ?.map(part => part.text || "")
+        .join("")
+        .trim()
+      ||
       "No pude generar una respuesta.";
 
 
     /* =====================================================
-       DETECTAR SI NECESITA ASESOR
+       DETECTAR ASESOR
     ===================================================== */
 
     const necesitaAsesor =
@@ -330,7 +479,7 @@ No inventes números de teléfono.
 
 
     /* =====================================================
-       RESPUESTA PARA INDEX.HTML
+       RESPUESTA AL FRONTEND
     ===================================================== */
 
     return res.status(200).json({
@@ -365,3 +514,4 @@ No inventes números de teléfono.
   }
 
 }
+```
