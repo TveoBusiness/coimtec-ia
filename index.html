@@ -565,6 +565,27 @@ function appendUserMessage(text) {
 
 function createWhatsAppButton(url) {
 
+    const link = document.createElement("a");
+
+    link.href = "https://wa.me/message/PJBMLOLZEDVPF1";
+
+    link.textContent = "💬 HABLAR CON UN ASESOR";
+
+    link.style.display = "block";
+    link.style.width = "100%";
+    link.style.padding = "16px";
+    link.style.marginTop = "14px";
+    link.style.background = "#25d366";
+    link.style.color = "#ffffff";
+    link.style.textAlign = "center";
+    link.style.textDecoration = "none";
+    link.style.borderRadius = "10px";
+    link.style.fontWeight = "bold";
+    link.style.cursor = "pointer";
+
+    return link;
+}
+
     const link =
         document.createElement("a");
 
