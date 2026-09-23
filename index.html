@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,15 +31,11 @@ body {
     height: 90vh;
     background: #ffffff;
     border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
-
-/* =========================
-   HEADER
-========================= */
 
 .chat-header {
     background: #0b192c;
@@ -68,10 +65,6 @@ body {
     color: #25d366;
     font-size: 13px;
 }
-
-/* =========================
-   CHAT
-========================= */
 
 .chat-messages {
     flex: 1;
@@ -107,10 +100,6 @@ body {
     border-bottom-left-radius: 3px;
 }
 
-/* =========================
-   WHATSAPP
-========================= */
-
 .whatsapp-area {
     padding: 10px 15px;
     background: #f8f9fa;
@@ -136,7 +125,7 @@ body {
     font-weight: bold;
     cursor: pointer;
 
-    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.25);
+    box-shadow: 0 4px 10px rgba(37,211,102,0.25);
 
     transition:
         transform 0.15s ease,
@@ -146,16 +135,17 @@ body {
 
 .whatsapp-button:hover {
     background: #1ebe5d;
-    box-shadow: 0 6px 14px rgba(37, 211, 102, 0.35);
+    box-shadow: 0 6px 14px rgba(37,211,102,0.35);
 }
 
 .whatsapp-button:active {
     transform: scale(0.98);
 }
 
-/* =========================
-   INPUT
-========================= */
+.whatsapp-response {
+    width: 100%;
+    margin-top: 10px;
+}
 
 .chat-input-area {
     display: flex;
@@ -168,12 +158,9 @@ body {
 .chat-input-area input {
     flex: 1;
     min-width: 0;
-
     padding: 13px 14px;
-
     border: 1px solid #dddddd;
     border-radius: 9px;
-
     outline: none;
     font-size: 15px;
 }
@@ -184,13 +171,10 @@ body {
 
 .chat-input-area button {
     padding: 0 18px;
-
     border: none;
     border-radius: 9px;
-
     background: #25d366;
     color: #ffffff;
-
     font-weight: bold;
     cursor: pointer;
 }
@@ -203,10 +187,6 @@ body {
     opacity: 0.6;
     cursor: not-allowed;
 }
-
-/* =========================
-   LOADING
-========================= */
 
 .loading {
     display: flex;
@@ -230,9 +210,7 @@ body {
 }
 
 @keyframes loading {
-    0%,
-    60%,
-    100% {
+    0%, 60%, 100% {
         transform: translateY(0);
         opacity: 0.4;
     }
@@ -242,10 +220,6 @@ body {
         opacity: 1;
     }
 }
-
-/* =========================
-   CELULAR
-========================= */
 
 @media (max-width: 600px) {
 
@@ -277,7 +251,6 @@ body {
 
 <div class="chat-container">
 
-    <!-- HEADER -->
     <div class="chat-header">
 
         <img
@@ -292,7 +265,6 @@ body {
 
     </div>
 
-    <!-- MENSAJES -->
     <div id="chatMessages" class="chat-messages">
 
         <div class="message assistant">
@@ -302,7 +274,6 @@ body {
 
     </div>
 
-    <!-- WHATSAPP -->
     <div class="whatsapp-area">
 
         <a
@@ -317,7 +288,6 @@ body {
 
     </div>
 
-    <!-- INPUT -->
     <div class="chat-input-area">
 
         <input
@@ -340,18 +310,8 @@ body {
 
 <script>
 
-/* =========================
-   CONFIGURACIÓN
-========================= */
-
 const API_URL = "/api/chat";
-
 const WHATSAPP_URL = "https://wa.me/59177136686";
-
-
-/* =========================
-   ELEMENTOS
-========================= */
 
 const chatMessages =
     document.getElementById("chatMessages");
@@ -365,30 +325,15 @@ const sendButton =
 const whatsappButton =
     document.getElementById("whatsappButton");
 
-
-/* =========================
-   WHATSAPP
-========================= */
+let chatHistory = [];
 
 if (whatsappButton) {
     whatsappButton.href = WHATSAPP_URL;
 }
 
-
-/* =========================
-   HISTORIAL
-========================= */
-
-let chatHistory = [];
-
-
-/* =========================
-   SCROLL
-========================= */
-
 function scrollChat() {
 
-    setTimeout(function () {
+    setTimeout(function() {
 
         chatMessages.scrollTop =
             chatMessages.scrollHeight;
@@ -396,11 +341,6 @@ function scrollChat() {
     }, 50);
 
 }
-
-
-/* =========================
-   MENSAJE USUARIO
-========================= */
 
 function appendUserMessage(text) {
 
@@ -416,11 +356,6 @@ function appendUserMessage(text) {
     scrollChat();
 
 }
-
-
-/* =========================
-   LIMPIAR RESPUESTA
-========================= */
 
 function limpiarRespuesta(text) {
 
@@ -443,17 +378,57 @@ function limpiarRespuesta(text) {
 
 }
 
+function mostrarBotonWhatsApp() {
 
-/* =========================
-   MENSAJE IA
-========================= */
+    const viejo =
+        document.getElementById("whatsappResponseButton");
 
-function appendAssistantMessage(text) {
+    if (viejo) {
+        viejo.remove();
+    }
+
+    const contenedor =
+        document.createElement("div");
+
+    contenedor.id =
+        "whatsappResponseButton";
+
+    contenedor.className =
+        "whatsapp-response";
+
+    const boton =
+        document.createElement("a");
+
+    boton.className =
+        "whatsapp-button";
+
+    boton.href =
+        WHATSAPP_URL;
+
+    boton.target =
+        "_blank";
+
+    boton.rel =
+        "noopener noreferrer";
+
+    boton.textContent =
+        "💬 HABLAR CON UN ASESOR POR WHATSAPP";
+
+    contenedor.appendChild(boton);
+
+    chatMessages.appendChild(contenedor);
+
+    scrollChat();
+
+}
+
+function appendAssistantMessage(text, mostrarWhatsApp) {
 
     const div =
         document.createElement("div");
 
-    div.className = "message assistant";
+    div.className =
+        "message assistant";
 
     const cleanText =
         limpiarRespuesta(text);
@@ -472,14 +447,13 @@ function appendAssistantMessage(text) {
 
     chatMessages.appendChild(div);
 
+    if (mostrarWhatsApp) {
+        mostrarBotonWhatsApp();
+    }
+
     scrollChat();
 
 }
-
-
-/* =========================
-   LOADING
-========================= */
 
 function showLoading() {
 
@@ -506,11 +480,6 @@ function showLoading() {
 
 }
 
-
-/* =========================
-   OCULTAR LOADING
-========================= */
-
 function hideLoading() {
 
     const loading =
@@ -522,11 +491,6 @@ function hideLoading() {
 
 }
 
-
-/* =========================
-   ENVIAR MENSAJE
-========================= */
-
 async function sendMessage() {
 
     const text =
@@ -537,7 +501,6 @@ async function sendMessage() {
     }
 
     sendButton.disabled = true;
-
     userInput.disabled = true;
 
     appendUserMessage(text);
@@ -554,12 +517,9 @@ async function sendMessage() {
         });
 
         if (chatHistory.length > 20) {
-
             chatHistory =
                 chatHistory.slice(-20);
-
         }
-
 
         const response =
             await fetch(
@@ -579,44 +539,38 @@ async function sendMessage() {
                 }
             );
 
+        const data =
+            await response.json();
+
+        hideLoading();
 
         if (!response.ok) {
 
             throw new Error(
+                data.error ||
                 "HTTP " + response.status
             );
 
         }
 
-
-        const data =
-            await response.json();
-
-
-        hideLoading();
-
-
         const answer =
             data.answer ||
             "No pude generar una respuesta.";
-
 
         chatHistory.push({
             role: "assistant",
             content: answer
         });
 
-
         if (chatHistory.length > 20) {
-
             chatHistory =
                 chatHistory.slice(-20);
-
         }
 
-
-        appendAssistantMessage(answer);
-
+        appendAssistantMessage(
+            answer,
+            data.whatsapp === true
+        );
 
     } catch (error) {
 
@@ -625,43 +579,30 @@ async function sendMessage() {
             error
         );
 
-
         hideLoading();
 
-
         appendAssistantMessage(
-            "No pude conectarme con COIMTEC IA. Por favor, intenta nuevamente."
+            "No pude conectarme con COIMTEC IA. Por favor, intenta nuevamente.",
+            false
         );
 
     }
 
-
     sendButton.disabled = false;
-
     userInput.disabled = false;
 
     userInput.focus();
 
 }
 
-
-/* =========================
-   BOTÓN ENVIAR
-========================= */
-
 sendButton.addEventListener(
     "click",
     sendMessage
 );
 
-
-/* =========================
-   ENTER
-========================= */
-
 userInput.addEventListener(
     "keydown",
-    function (event) {
+    function(event) {
 
         if (event.key === "Enter") {
 
@@ -674,25 +615,10 @@ userInput.addEventListener(
     }
 );
 
-
-/* =========================
-   INICIO
-========================= */
-
 userInput.focus();
-
-
-/* =========================
-   DIAGNÓSTICO
-========================= */
 
 console.log(
     "COIMTEC IA cargado correctamente."
-);
-
-console.log(
-    "Botón WhatsApp:",
-    whatsappButton
 );
 
 console.log(
@@ -704,3 +630,4 @@ console.log(
 
 </body>
 </html>
+```
