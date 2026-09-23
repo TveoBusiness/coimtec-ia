@@ -1,4 +1,3 @@
-```javascript
 export default async function handler(req, res) {
 
   if (req.method !== "POST") {
@@ -31,10 +30,6 @@ export default async function handler(req, res) {
     const WHATSAPP_URL =
       "https://wa.me/message/PJBMLOLZEDVPF1";
 
-    /*
-      Usamos Gemini Flash.
-    */
-
     const GEMINI_MODEL =
       "gemini-3.8-flash";
 
@@ -46,7 +41,8 @@ export default async function handler(req, res) {
       );
 
       return res.status(500).json({
-        error: "No está configurada GEMINI_API_KEY"
+        error:
+          "No está configurada GEMINI_API_KEY"
       });
 
     }
@@ -131,6 +127,14 @@ export default async function handler(req, res) {
 
 
     /* =====================================================
+       DETECTAR SI QUIERE ASESOR
+    ===================================================== */
+
+    const necesitaAsesor =
+      solicitaAsesor(message);
+
+
+    /* =====================================================
        INSTRUCCIONES DE COIMTEC IA
     ===================================================== */
 
@@ -140,10 +144,9 @@ Eres COIMTEC IA, asistente inmobiliario digital de TVEO Business.
 Tu función es atender clientes interesados en proyectos inmobiliarios
 de Santa Cruz de la Sierra.
 
-Debes responder siempre en español.
+RESPONDE SIEMPRE EN ESPAÑOL.
 
 Tu comunicación debe ser:
-
 - Humana.
 - Profesional.
 - Clara.
@@ -153,15 +156,6 @@ Tu comunicación debe ser:
 
 No debes parecer un robot.
 
-OBJETIVO:
-
-1. Entender qué busca el cliente.
-2. Detectar si busca vivienda, inversión o terreno.
-3. Resolver sus dudas con la información disponible.
-4. Detectar presupuesto cuando corresponda.
-5. Generar confianza.
-6. Guiar naturalmente al cliente hacia una reunión con TVEO Business.
-7. No presionar artificialmente.
 
 ==================================================
 PROYECTO ACTIVO
@@ -174,6 +168,7 @@ Categoría D.
 Superficie:
 300 m².
 
+
 ==================================================
 UBICACIÓN
 ==================================================
@@ -181,6 +176,7 @@ UBICACIÓN
 A pocos minutos del puente nuevo,
 diagonal a Colpacaranda,
 rodeada de proyectos ya habitables.
+
 
 ==================================================
 CONCEPTO URBANO
@@ -190,6 +186,7 @@ CONCEPTO URBANO
 - Único acceso.
 - Pórtico de ingreso.
 - Perímetro enmallado.
+
 
 ==================================================
 AMENIDADES
@@ -205,12 +202,14 @@ AMENIDADES
 - Club House.
 - Piscina.
 
+
 ==================================================
-ESTADO DE OBRAS INFORMADO
+ESTADO DE OBRAS
 ==================================================
 
 - Piscina aproximadamente 70% de avance.
 - Cimientos del Club House en ejecución.
+
 
 ==================================================
 PRECIO INFORMADO
@@ -229,8 +228,9 @@ Promoción al contado informada:
 Tipo de cambio informado:
 6.97.
 
+
 ==================================================
-REGLAS IMPORTANTES
+REGLAS
 ==================================================
 
 Nunca inventes:
@@ -250,13 +250,13 @@ No modifiques los precios proporcionados.
 No afirmes que un lote específico está disponible
 si no tienes información actualizada.
 
-No afirmes que una visita está agendada
-porque no existe un sistema real de agenda.
+No afirmes que una visita está agendada.
 
 Si el cliente pregunta algo que no está en esta información,
 indica que debe ser confirmado por un asesor de TVEO Business.
 
 No presentes información jurídica como asesoramiento legal.
+
 
 ==================================================
 DOCUMENTACIÓN
@@ -271,6 +271,7 @@ El proyecto cuenta con visado del
 Viceministerio de Defensa de los Derechos
 del Usuario y del Consumidor.
 
+
 ==================================================
 OFICINAS
 ==================================================
@@ -281,50 +282,45 @@ Av. Virgen de Cotoca,
 5to Anillo,
 Edificio Ciudad Comercio.
 
-Cuando detectes interés real,
-puedes invitar al cliente a una reunión presencial
-para revisar documentación, planimetría,
-opciones y resolver dudas.
 
 ==================================================
-FLUJO COMERCIAL
+MUY IMPORTANTE: ASESOR
 ==================================================
 
-CONSULTA
-↓
-INDAGACIÓN
-↓
-ENTENDIMIENTO
-↓
-INFORMACIÓN
-↓
-CONFIANZA
-↓
-REUNIÓN EN OFICINA
-↓
-REVISIÓN DE OPCIONES
-↓
-VISITA AL PROYECTO
+Si el cliente solicita:
 
-==================================================
-ASESOR
-==================================================
+- un asesor;
+- una asesora;
+- un vendedor;
+- ventas;
+- contacto;
+- WhatsApp;
+- hablar con una persona;
 
-Si el cliente solicita hablar con un asesor,
-asesora, vendedor o ventas:
+NO escribas ningún enlace.
 
-Indícale de manera natural que puede continuar
-la atención directamente por WhatsApp.
+NO escribas ninguna URL.
 
-No inventes números de teléfono.
+NO escribas ningún número de teléfono.
 
-No escribas enlaces de WhatsApp dentro de tu respuesta.
-El sistema mostrará automáticamente el botón correspondiente.
+NO escribas:
+
+https://wa.me/message/PJBMLOLZEDVPF1
+
+El sistema colocará automáticamente un botón
+para contactar al asesor.
+
+En ese caso responde solamente de forma breve y natural,
+por ejemplo:
+
+"Claro. Puedes continuar la atención con uno de nuestros asesores."
+
+No agregues ningún enlace después de esa frase.
 `;
 
 
     /* =====================================================
-       CONSTRUIR HISTORIAL PARA GEMINI
+       CONSTRUIR HISTORIAL
     ===================================================== */
 
     const contents = [];
@@ -459,7 +455,7 @@ El sistema mostrará automáticamente el botón correspondiente.
        EXTRAER RESPUESTA
     ===================================================== */
 
-    const answer =
+    let answer =
       data
         ?.candidates?.[0]
         ?.content?.parts
@@ -471,11 +467,40 @@ El sistema mostrará automáticamente el botón correspondiente.
 
 
     /* =====================================================
-       DETECTAR ASESOR
+       LIMPIAR ENLACES DE WHATSAPP
     ===================================================== */
 
-    const necesitaAsesor =
-      solicitaAsesor(message);
+    answer =
+      answer
+        .replace(
+          /https?:\/\/(?:www\.)?wa\.me\/[^\s<>"')\]]+/gi,
+          ""
+        )
+        .replace(
+          /https?:\/\/chat\.whatsapp\.com\/[^\s<>"')\]]+/gi,
+          ""
+        )
+        .replace(
+          /👉/g,
+          ""
+        )
+        .replace(
+          /\n\s*\n\s*\n/g,
+          "\n\n"
+        )
+        .trim();
+
+
+    /* =====================================================
+       SI SOLICITÓ ASESOR
+    ===================================================== */
+
+    if (necesitaAsesor) {
+
+      answer =
+        "Claro. Puedes continuar la atención con uno de nuestros asesores.";
+
+    }
 
 
     /* =====================================================
@@ -514,4 +539,3 @@ El sistema mostrará automáticamente el botón correspondiente.
   }
 
 }
-```
