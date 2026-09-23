@@ -1,439 +1,458 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b192c">
-
-<title>COIMTEC IA</title>
-
-<style>
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #eef3f8;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* CONTENEDOR PRINCIPAL */
-.app {
-    width: 100%;
-    max-width: 520px;
-    height: 100vh;
-    max-height: 900px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(0,0,0,0.15);
-}
-
-/* CABECERA */
-.header {
-    background: linear-gradient(135deg, #071526, #0b2a4a);
-    color: white;
-    padding: 16px 18px;
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    z-index: 5;
-}
-
-.logo {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: white;
-    padding: 2px;
-}
-
-.header-info {
-    flex: 1;
-}
-
-.header-title {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: .3px;
-}
-
-.header-subtitle {
-    margin-top: 4px;
-    font-size: 12px;
-    opacity: .82;
-}
-
-/* ESTADO */
-.status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: #b8ffd1;
-    margin-top: 5px;
-}
-
-.status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #28d76f;
-    box-shadow: 0 0 7px rgba(40,215,111,.8);
-}
-
-/* CHAT */
-.chat {
-    flex: 1;
-    overflow-y: auto;
-    padding: 18px 15px;
-    background:
-        linear-gradient(
-            rgba(245,248,252,.95),
-            rgba(245,248,252,.95)
-        );
-    scroll-behavior: smooth;
-}
-
-/* MENSAJES */
-.message {
-    max-width: 88%;
-    margin-bottom: 14px;
-    padding: 12px 14px;
-    border-radius: 15px;
-    line-height: 1.5;
-    font-size: 14px;
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
-}
-
-.message.user {
-    margin-left: auto;
-    background: #0b3d91;
-    color: white;
-    border-bottom-right-radius: 4px;
-    box-shadow: 0 3px 8px rgba(11,61,145,.2);
-}
-
-.message.ai {
-    margin-right: auto;
-    background: white;
-    color: #17212b;
-    border: 1px solid #e1e7ee;
-    border-bottom-left-radius: 4px;
-    box-shadow: 0 3px 10px rgba(0,0,0,.06);
-}
-
-.ai-text {
-    white-space: pre-wrap;
-}
-
-/* BOTÓN WHATSAPP */
-.whatsapp-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-
-    width: 100%;
-    max-width: 340px;
-
-    margin-top: 14px;
-    padding: 14px 18px;
-
-    background: #25D366;
-    color: white !important;
-
-    text-decoration: none !important;
-
-    border-radius: 12px;
-
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: .2px;
-
-    cursor: pointer;
-
-    box-shadow: 0 5px 14px rgba(37,211,102,.28);
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-}
-
-.whatsapp-button:hover {
-    background: #20bd5b;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(37,211,102,.35);
-}
-
-.whatsapp-button:active {
-    transform: scale(.98);
-}
-
-.whatsapp-icon {
-    font-size: 21px;
-    line-height: 1;
-}
-
-/* LOADING */
-.loading {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.loading span {
-    width: 7px;
-    height: 7px;
-    background: #7b8794;
-    border-radius: 50%;
-    animation: loading 1.2s infinite ease-in-out;
-}
-
-.loading span:nth-child(2) {
-    animation-delay: .15s;
-}
-
-.loading span:nth-child(3) {
-    animation-delay: .30s;
-}
-
-@keyframes loading {
-    0%, 60%, 100% {
-        transform: translateY(0);
-        opacity: .45;
-    }
-
-    30% {
-        transform: translateY(-5px);
-        opacity: 1;
-    }
-}
-
-/* ZONA DE ESCRITURA */
-.input-area {
-    display: flex;
-    gap: 9px;
-    padding: 12px;
-    background: white;
-    border-top: 1px solid #e4e9ef;
-}
-
-.input {
-    flex: 1;
-    min-width: 0;
-
-    border: 1px solid #d5dde7;
-    border-radius: 12px;
-
-    padding: 12px 14px;
-
-    font-size: 14px;
-    outline: none;
-
-    background: #f8fafc;
-
-    transition:
-        border .2s ease,
-        box-shadow .2s ease;
-}
-
-.input:focus {
-    border-color: #0b3d91;
-    box-shadow: 0 0 0 3px rgba(11,61,145,.08);
-    background: white;
-}
-
-.send-button {
-    border: none;
-    border-radius: 12px;
-
-    min-width: 52px;
-
-    background: #0b3d91;
-    color: white;
-
-    font-size: 20px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition:
-        background .2s ease,
-        transform .2s ease;
-}
-
-.send-button:hover {
-    background: #092f70;
-}
-
-.send-button:active {
-    transform: scale(.95);
-}
-
-.send-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-}
-
-/* MENSAJE INICIAL */
-.welcome {
-    text-align: center;
-    color: #687586;
-    padding: 25px 15px;
-    font-size: 13px;
-}
-
-.welcome strong {
-    display: block;
-    color: #0b3d91;
-    font-size: 17px;
-    margin-bottom: 7px;
-}
-
-/* SCROLLBAR */
-.chat::-webkit-scrollbar {
-    width: 5px;
-}
-
-.chat::-webkit-scrollbar-thumb {
-    background: #c6ced8;
-    border-radius: 10px;
-}
-
-/* MÓVIL */
-@media (max-width: 600px) {
-
-    body {
-        align-items: stretch;
-    }
-
-    .app {
-        max-width: none;
-        max-height: none;
-        height: 100vh;
-        border-radius: 0;
-    }
-
-    .header {
-        padding: 13px 14px;
-    }
-
-    .logo {
-        width: 47px;
-        height: 47px;
-    }
-
-    .header-title {
-        font-size: 18px;
-    }
-
-    .chat {
-        padding: 15px 11px;
-    }
-
-    .message {
-        max-width: 92%;
-        font-size: 14px;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b192c">
+
+    <title>COIMTEC IA - Asistente Comercial</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* =========================
+           CONTENEDOR
+        ========================== */
+
+        .chat-container {
+            width: 100%;
+            max-width: 480px;
+            height: 90vh;
+
+            background: #ffffff;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.10);
+
+            display: flex;
+            flex-direction: column;
+
+            overflow: hidden;
+        }
+
+        /* =========================
+           CABECERA
+        ========================== */
+
+        .chat-header {
+            background: #0b192c;
+            color: white;
+
+            padding: 15px 20px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .chat-header img {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            border: 2px solid #25d366;
+
+            background: white;
+        }
+
+        .chat-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .chat-header span {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 0.8rem;
+
+            color: #25d366;
+        }
+
+        /* =========================
+           CHAT
+        ========================== */
+
+        .chat-messages {
+            flex: 1;
+
+            padding: 20px;
+
+            overflow-y: auto;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 12px;
+
+            background: #fcfcfc;
+        }
+
+        /* =========================
+           MENSAJES
+        ========================== */
+
+        .message {
+            max-width: 85%;
+
+            padding: 12px 16px;
+
+            border-radius: 12px;
+
+            font-size: 0.95rem;
+
+            line-height: 1.5;
+
+            word-wrap: break-word;
+
+            overflow-wrap: anywhere;
+
+            white-space: pre-wrap;
+        }
+
+        .message.user {
+            background: #0b192c;
+
+            color: white;
+
+            align-self: flex-end;
+
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.assistant {
+            background: #e4e6eb;
+
+            color: #333333;
+
+            align-self: flex-start;
+
+            border-bottom-left-radius: 2px;
+        }
+
+        /* =========================
+           BOTÓN WHATSAPP
+        ========================== */
+
+        .whatsapp-button {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            width: 100%;
+
+            margin-top: 14px;
+
+            padding: 14px 18px;
+
+            background: #25d366;
+
+            color: #ffffff !important;
+
+            text-decoration: none !important;
+
+            border-radius: 10px;
+
+            font-size: 0.92rem;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 12px rgba(37, 211, 102, 0.28);
+
+            transition:
+                background 0.2s ease,
+                transform 0.15s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .whatsapp-button:hover {
+            background: #1ebe5d;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 6px 15px rgba(37, 211, 102, 0.35);
+        }
+
+        .whatsapp-button:active {
+            transform: scale(0.98);
+        }
+
+        .whatsapp-icon {
+            font-size: 1.3rem;
+        }
+
+        /* =========================
+           INPUT
+        ========================== */
+
+        .chat-input-area {
+            padding: 15px;
+
+            background: white;
+
+            border-top: 1px solid #eaeaea;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 12px 15px;
+
+            border: 1px solid #dddddd;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 0.95rem;
+        }
+
+        .chat-input-area input:focus {
+            border-color: #25d366;
+        }
+
+        .chat-input-area button {
+            background: #25d366;
+
+            color: white;
+
+            border: none;
+
+            padding: 0 20px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.15s ease;
+        }
+
+        .chat-input-area button:hover {
+            background: #1ebe5d;
+        }
+
+        .chat-input-area button:active {
+            transform: scale(0.97);
+        }
+
+        .chat-input-area button:disabled {
+            opacity: 0.6;
+
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           LOADING
+        ========================== */
+
+        .loading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+        }
+
+        .loading span {
+            width: 7px;
+            height: 7px;
+
+            background: #777;
+
+            border-radius: 50%;
+
+            animation: loading 1.2s infinite ease-in-out;
+        }
+
+        .loading span:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .loading span:nth-child(3) {
+            animation-delay: 0.30s;
+        }
+
+        @keyframes loading {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+
+            30% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+
+        /* =========================
+           CELULAR
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            body {
+                height: 100dvh;
+
+                background: white;
+
+                align-items: stretch;
+            }
+
+            .chat-container {
+                width: 100%;
+                max-width: 100%;
+
+                height: 100dvh;
+
+                border-radius: 0;
+
+                box-shadow: none;
+            }
+
+            .chat-messages {
+                padding: 15px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .chat-input-area {
+                padding: 10px;
+            }
+
+            .chat-input-area button {
+                padding: 0 16px;
+            }
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-<div class="app">
+<div class="chat-container">
 
-    <!-- CABECERA -->
-    <div class="header">
+
+    <!-- =========================
+         CABECERA
+    ========================== -->
+
+    <div class="chat-header">
 
         <!--
-        IMPORTANTE:
-        Puedes reemplazar esta imagen por tu logo real de COIMTEC.
+        COLOCA AQUÍ EL BASE64 COMPLETO DE TU LOGO ACTUAL.
         -->
+
         <img
-            class="logo"
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
-            alt="COIMTEC"
+            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA="
+            alt="CoimTec IA"
         >
 
-        <div class="header-info">
+        <div>
 
-            <h1 class="header-title">
+            <h2>
                 COIMTEC IA
-            </h1>
+            </h2>
 
-            <div class="header-subtitle">
-                Asistente virtual de TVEO Business
-            </div>
-
-            <div class="status">
-                <span class="status-dot"></span>
-                En línea
-            </div>
+            <span>
+                ● En línea
+            </span>
 
         </div>
 
     </div>
 
 
-    <!-- CHAT -->
-    <div id="chat" class="chat">
+    <!-- =========================
+         MENSAJES
+    ========================== -->
 
-        <div class="welcome">
-            <strong>¡Hola! 👋</strong>
+    <div
+        class="chat-messages"
+        id="chatMessages"
+    >
 
-            Soy COIMTEC IA, tu asistente virtual.
+        <div class="message assistant">
 
-            <br><br>
+            ¡Hola! Soy COIMTEC IA de TVEO Business.
 
-            Puedo ayudarte con información sobre nuestros
-            proyectos inmobiliarios, precios, modalidades de
-            financiamiento y visitas.
+            ¿En qué proyecto inmobiliario te gustaría que te ayude hoy?
 
         </div>
 
     </div>
 
 
-    <!-- INPUT -->
-    <div class="input-area">
+    <!-- =========================
+         INPUT
+    ========================== -->
+
+    <div class="chat-input-area">
 
         <input
-            id="messageInput"
-            class="input"
+            id="userInput"
             type="text"
-            placeholder="Escribe tu consulta..."
+            placeholder="Escribe tu consulta aquí..."
             autocomplete="off"
         >
 
         <button
             id="sendButton"
-            class="send-button"
             type="button"
-            aria-label="Enviar"
         >
-            ➤
+            Enviar
         </button>
 
     </div>
+
 
 </div>
 
@@ -454,9 +473,14 @@ const WHATSAPP_URL =
    ELEMENTOS
 ========================================================= */
 
-const chat = document.getElementById("chat");
-const input = document.getElementById("messageInput");
-const sendButton = document.getElementById("sendButton");
+const chatMessages =
+    document.getElementById("chatMessages");
+
+const userInput =
+    document.getElementById("userInput");
+
+const sendButton =
+    document.getElementById("sendButton");
 
 
 /* =========================================================
@@ -472,164 +496,204 @@ let chatHistory = [];
 
 function scrollChat() {
 
-    setTimeout(() => {
+    setTimeout(function () {
 
-        chat.scrollTop = chat.scrollHeight;
+        chatMessages.scrollTop =
+            chatMessages.scrollHeight;
 
     }, 50);
+
 }
 
 
 /* =========================================================
-   MENSAJE DE USUARIO
+   MOSTRAR MENSAJE DEL USUARIO
 ========================================================= */
 
-function agregarMensajeUsuario(texto) {
+function appendUserMessage(text) {
 
-    const mensaje = document.createElement("div");
+    const div =
+        document.createElement("div");
 
-    mensaje.className = "message user";
+    div.className =
+        "message user";
 
-    mensaje.textContent = texto;
+    div.textContent =
+        text;
 
-    chat.appendChild(mensaje);
+    chatMessages.appendChild(div);
 
     scrollChat();
+
 }
 
 
 /* =========================================================
-   BOTÓN WHATSAPP
+   CREAR BOTÓN WHATSAPP
 ========================================================= */
 
-function crearBotonWhatsApp(contenedor) {
+function createWhatsAppButton() {
 
-    const boton = document.createElement("a");
+    const button =
+        document.createElement("a");
 
-    boton.href = WHATSAPP_URL;
 
-    boton.target = "_blank";
+    /*
+     * ESTO ES MUY IMPORTANTE.
+     *
+     * No mostramos la URL.
+     *
+     * Creamos directamente un
+     * elemento <a> real.
+     */
 
-    boton.rel = "noopener noreferrer";
+    button.href =
+        WHATSAPP_URL;
 
-    boton.className = "whatsapp-button";
+    button.target =
+        "_blank";
 
-    boton.innerHTML = `
-        <span class="whatsapp-icon">💬</span>
-        <span>HABLAR CON UN ASESOR</span>
+    button.rel =
+        "noopener noreferrer";
+
+    button.className =
+        "whatsapp-button";
+
+
+    button.innerHTML = `
+        <span class="whatsapp-icon">
+            💬
+        </span>
+
+        <span>
+            HABLAR CON UN ASESOR
+        </span>
     `;
 
-    contenedor.appendChild(boton);
+
+    return button;
+
 }
 
 
 /* =========================================================
-   PROCESAR RESPUESTA DE LA IA
+   LIMPIAR URL DE WHATSAPP DE LA RESPUESTA
 ========================================================= */
 
-function agregarMensajeIA(texto, mostrarWhatsApp = false) {
+function cleanWhatsAppLinks(text) {
 
-    const mensaje = document.createElement("div");
+    if (!text) {
 
-    mensaje.className = "message ai";
+        return "";
 
-
-    /*
-    Detectamos cualquier URL de WhatsApp
-    que Gemini pueda devolver.
-    */
-
-    const regexWhatsApp =
-        /https?:\/\/(?:www\.)?wa\.me\/[^\s<>"')\]]+/gi;
-
-
-    const encontrado =
-        texto.match(regexWhatsApp);
+    }
 
 
     /*
-    También detectamos Markdown:
+     * Elimina:
 
-    [Hablar con asesor](https://wa.me/...)
-    */
+       https://wa.me/message/PJBMLOLZEDVPF1
 
-    const tieneMarkdownWhatsApp =
-        /\[[^\]]*\]\(\s*https?:\/\/(?:www\.)?wa\.me\/[^)]+\)/i
-        .test(texto);
+     * aunque tenga puntuación después.
+     */
 
-
-    /*
-    Si el Worker indica whatsapp=true,
-    también mostramos el botón.
-    */
-
-    const debeMostrarBoton =
-        mostrarWhatsApp ||
-        encontrado ||
-        tieneMarkdownWhatsApp;
+    let limpio =
+        text.replace(
+            /https?:\/\/(?:www\.)?wa\.me\/[^\s<>"')\]]+/gi,
+            ""
+        );
 
 
     /*
-    Eliminamos los enlaces del texto.
-    */
+     * Elimina también Markdown:
 
-    let textoLimpio = texto;
+       [WhatsApp](https://wa.me/...)
+     */
 
-
-    // Eliminar enlaces Markdown de WhatsApp
-    textoLimpio = textoLimpio.replace(
-        /\[[^\]]*\]\(\s*https?:\/\/(?:www\.)?wa\.me\/[^)]+\)/gi,
-        ""
-    );
-
-
-    // Eliminar URL directa de WhatsApp
-    textoLimpio = textoLimpio.replace(
-        /https?:\/\/(?:www\.)?wa\.me\/[^\s<>"')\]]+/gi,
-        ""
-    );
+    limpio =
+        limpio.replace(
+            /\[[^\]]*\]\(\s*https?:\/\/(?:www\.)?wa\.me\/[^)]+\)/gi,
+            ""
+        );
 
 
-    /*
-    Limpiamos espacios y líneas sobrantes.
-    */
-
-    textoLimpio = textoLimpio
+    return limpio
         .replace(/\n\s*\n\s*\n/g, "\n\n")
         .trim();
 
+}
+
+
+/* =========================================================
+   MOSTRAR MENSAJE DEL ASISTENTE
+========================================================= */
+
+function appendAssistantMessage(
+    text,
+    showWhatsApp
+) {
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "message assistant";
+
 
     /*
-    Mostrar texto de la IA.
-    */
+     * Limpiamos cualquier URL.
+     */
 
-    if (textoLimpio) {
+    const cleanText =
+        cleanWhatsAppLinks(text);
 
-        const textoElemento =
+
+    /*
+     * Texto de la IA.
+     */
+
+    if (cleanText) {
+
+        const textElement =
             document.createElement("div");
 
-        textoElemento.className = "ai-text";
+        textElement.textContent =
+            cleanText;
 
-        textoElemento.textContent = textoLimpio;
+        div.appendChild(
+            textElement
+        );
 
-        mensaje.appendChild(textoElemento);
     }
 
 
     /*
-    BOTÓN WHATSAPP
-    */
+     * =====================================================
+     * AQUÍ ESTÁ LA CLAVE
+     * =====================================================
+     *
+     * Si el Worker devuelve:
+     *
+     * whatsapp: true
+     *
+     * creamos el botón directamente.
+     */
 
-    if (debeMostrarBoton) {
+    if (showWhatsApp === true) {
 
-        crearBotonWhatsApp(mensaje);
+        const button =
+            createWhatsAppButton();
+
+        div.appendChild(button);
 
     }
 
 
-    chat.appendChild(mensaje);
+    chatMessages.appendChild(div);
 
     scrollChat();
+
 }
 
 
@@ -637,38 +701,49 @@ function agregarMensajeIA(texto, mostrarWhatsApp = false) {
    LOADING
 ========================================================= */
 
-function mostrarLoading() {
+function showLoading() {
 
-    const mensaje = document.createElement("div");
+    const div =
+        document.createElement("div");
 
-    mensaje.className = "message ai";
+    div.className =
+        "message assistant";
 
-    mensaje.id = "loadingMessage";
+    div.id =
+        "loadingMessage";
 
-    mensaje.innerHTML = `
+
+    div.innerHTML = `
         <div class="loading">
+
             <span></span>
             <span></span>
             <span></span>
+
         </div>
     `;
 
-    chat.appendChild(mensaje);
+
+    chatMessages.appendChild(div);
 
     scrollChat();
+
 }
 
 
-function quitarLoading() {
+function hideLoading() {
 
     const loading =
-        document.getElementById("loadingMessage");
+        document.getElementById(
+            "loadingMessage"
+        );
 
     if (loading) {
 
         loading.remove();
 
     }
+
 }
 
 
@@ -676,13 +751,13 @@ function quitarLoading() {
    ENVIAR MENSAJE
 ========================================================= */
 
-async function enviarMensaje() {
+async function sendMessage() {
 
-    const texto =
-        input.value.trim();
+    const text =
+        userInput.value.trim();
 
 
-    if (!texto) {
+    if (!text) {
 
         return;
 
@@ -690,40 +765,43 @@ async function enviarMensaje() {
 
 
     /*
-    Evitar doble envío.
-    */
+     * Desactivar controles
+     */
 
-    sendButton.disabled = true;
+    sendButton.disabled =
+        true;
 
-    input.disabled = true;
-
-
-    /*
-    Mostrar mensaje del cliente.
-    */
-
-    agregarMensajeUsuario(texto);
+    userInput.disabled =
+        true;
 
 
     /*
-    Limpiar input.
-    */
+     * Mostrar mensaje usuario
+     */
 
-    input.value = "";
+    appendUserMessage(text);
 
 
     /*
-    Loading.
-    */
+     * Limpiar input
+     */
 
-    mostrarLoading();
+    userInput.value =
+        "";
+
+
+    /*
+     * Loading
+     */
+
+    showLoading();
 
 
     try {
 
         /*
-        Guardar mensaje en historial.
-        */
+         * Historial
+         */
 
         chatHistory.push({
 
@@ -731,7 +809,7 @@ async function enviarMensaje() {
 
             parts: [
                 {
-                    text: texto
+                    text: text
                 }
             ]
 
@@ -739,11 +817,12 @@ async function enviarMensaje() {
 
 
         /*
-        Limitar historial para no enviar
-        demasiada información.
-        */
+         * Máximo 20 mensajes
+         */
 
-        if (chatHistory.length > 20) {
+        if (
+            chatHistory.length > 20
+        ) {
 
             chatHistory =
                 chatHistory.slice(-20);
@@ -752,71 +831,80 @@ async function enviarMensaje() {
 
 
         /*
-        Enviar al Worker.
-        */
+         * ==============================================
+         * LLAMADA AL CLOUDFLARE WORKER
+         * ==============================================
+         */
 
-        const respuesta =
-            await fetch(API_URL, {
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    method: "POST",
 
-                method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                headers: {
+                    body: JSON.stringify({
 
-                    "Content-Type":
-                        "application/json"
+                        message: text,
 
-                },
+                        history:
+                            chatHistory
 
-                body: JSON.stringify({
+                    })
 
-                    message: texto,
-
-                    history: chatHistory
-
-                })
-
-            });
+                }
+            );
 
 
         /*
-        Verificar respuesta HTTP.
-        */
+         * Error HTTP
+         */
 
-        if (!respuesta.ok) {
+        if (!response.ok) {
 
             throw new Error(
-                "Error HTTP " +
-                respuesta.status
+                "HTTP " +
+                response.status
             );
 
         }
 
 
+        /*
+         * JSON
+         */
+
         const data =
-            await respuesta.json();
+            await response.json();
 
 
         /*
-        Quitar loading.
-        */
+         * Quitar loading
+         */
 
-        quitarLoading();
+        hideLoading();
 
 
         /*
-        Respuesta de Gemini.
-        */
+         * ==============================================
+         * RESPUESTA DE GEMINI
+         * ==============================================
+         */
 
-        const respuestaIA =
+        const answer =
             data.answer ||
-            data.response ||
-            data.text ||
             "No pude obtener una respuesta.";
 
 
         /*
-        Guardar respuesta en historial.
-        */
+         * ==============================================
+         * GUARDAR RESPUESTA
+         * ==============================================
+         */
 
         chatHistory.push({
 
@@ -824,7 +912,7 @@ async function enviarMensaje() {
 
             parts: [
                 {
-                    text: respuestaIA
+                    text: answer
                 }
             ]
 
@@ -832,53 +920,64 @@ async function enviarMensaje() {
 
 
         /*
-        IMPORTANTE:
+         * ==============================================
+         * WHATSAPP
+         * ==============================================
+         *
+         * El Worker debe devolver:
+         *
+         * whatsapp: true
+         *
+         * cuando detecta que el cliente quiere
+         * hablar con un asesor.
+         */
 
-        data.whatsapp viene desde el Worker.
-
-        Si es true, mostramos el botón
-        independientemente de que Gemini
-        haya escrito o no el enlace.
-        */
-
-        const mostrarWhatsApp =
+        const showWhatsApp =
             data.whatsapp === true;
 
 
         /*
-        Mostrar respuesta.
-        */
+         * ==============================================
+         * MOSTRAR RESPUESTA
+         * ==============================================
+         */
 
-        agregarMensajeIA(
-            respuestaIA,
-            mostrarWhatsApp
+        appendAssistantMessage(
+            answer,
+            showWhatsApp
         );
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "COIMTEC IA:",
+            error
+        );
 
 
-        quitarLoading();
+        hideLoading();
 
 
-        agregarMensajeIA(
-            "Lo siento, ocurrió un problema al procesar tu consulta. Por favor, intenta nuevamente."
+        appendAssistantMessage(
+            "Error de conexión con COIMTEC IA. Por favor, intenta nuevamente.",
+            false
         );
 
     }
 
 
     /*
-    Reactivar controles.
-    */
+     * Reactivar controles
+     */
 
-    sendButton.disabled = false;
+    sendButton.disabled =
+        false;
 
-    input.disabled = false;
+    userInput.disabled =
+        false;
 
-    input.focus();
+    userInput.focus();
 
 }
 
@@ -889,26 +988,25 @@ async function enviarMensaje() {
 
 sendButton.addEventListener(
     "click",
-    enviarMensaje
+    sendMessage
 );
 
 
 /* =========================================================
-   ENTER PARA ENVIAR
+   ENTER
 ========================================================= */
 
-input.addEventListener(
+userInput.addEventListener(
     "keydown",
     function(event) {
 
         if (
-            event.key === "Enter" &&
-            !event.shiftKey
+            event.key === "Enter"
         ) {
 
             event.preventDefault();
 
-            enviarMensaje();
+            sendMessage();
 
         }
 
@@ -920,7 +1018,7 @@ input.addEventListener(
    INICIO
 ========================================================= */
 
-input.focus();
+userInput.focus();
 
 </script>
 
