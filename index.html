@@ -33,7 +33,7 @@
             height: 90vh;
             background: #fff;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,.10);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .10);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -104,6 +104,7 @@
             border-bottom-left-radius: 2px;
         }
 
+        /* BOTÓN WHATSAPP */
         .whatsapp-button {
             display: flex;
             align-items: center;
@@ -119,7 +120,7 @@
             font-size: .92rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(37,211,102,.28);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, .28);
             transition: .2s ease;
         }
 
@@ -200,7 +201,9 @@
         }
 
         @keyframes loading {
-            0%, 60%, 100% {
+            0%,
+            60%,
+            100% {
                 transform: translateY(0);
                 opacity: .4;
             }
@@ -212,6 +215,7 @@
         }
 
         @media (max-width: 600px) {
+
             body {
                 height: 100dvh;
                 background: #fff;
@@ -249,7 +253,9 @@
 
 <div class="chat-container">
 
+    <!-- ENCABEZADO -->
     <div class="chat-header">
+
         <img
             src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA="
             alt="CoimTec IA"
@@ -259,17 +265,28 @@
             <h2>COIMTEC IA</h2>
             <span>● En línea</span>
         </div>
+
     </div>
 
-    <div class="chat-messages" id="chatMessages">
+
+    <!-- MENSAJES -->
+    <div
+        class="chat-messages"
+        id="chatMessages"
+    >
+
         <div class="message assistant">
             ¡Hola! Soy COIMTEC IA de TVEO Business.
 
             ¿En qué proyecto inmobiliario te gustaría que te ayude hoy?
         </div>
+
     </div>
 
+
+    <!-- ENTRADA -->
     <div class="chat-input-area">
+
         <input
             id="userInput"
             type="text"
@@ -277,45 +294,109 @@
             autocomplete="off"
         >
 
-        <button id="sendButton" type="button">
+        <button
+            id="sendButton"
+            type="button"
+        >
             Enviar
         </button>
+
     </div>
 
 </div>
 
-<script>
-const API_URL = "/api/chat";
-const WHATSAPP_URL = "https://wa.me/message/PJBMLOLZEDVPF1";
 
-const chatMessages = document.getElementById("chatMessages");
-const userInput = document.getElementById("userInput");
-const sendButton = document.getElementById("sendButton");
+<script>
+
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
+const API_URL = "/api/chat";
+
+const WHATSAPP_URL =
+    "https://wa.me/message/PJBMLOLZEDVPF1";
+
+
+/* =========================================================
+   ELEMENTOS
+========================================================= */
+
+const chatMessages =
+    document.getElementById("chatMessages");
+
+const userInput =
+    document.getElementById("userInput");
+
+const sendButton =
+    document.getElementById("sendButton");
+
+
+/* =========================================================
+   HISTORIAL
+========================================================= */
 
 let chatHistory = [];
 
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
 function scrollChat() {
+
     setTimeout(() => {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        chatMessages.scrollTop =
+            chatMessages.scrollHeight;
+
     }, 50);
+
 }
+
+
+/* =========================================================
+   MENSAJE DEL USUARIO
+========================================================= */
 
 function appendUserMessage(text) {
-    const div = document.createElement("div");
-    div.className = "message user";
-    div.textContent = text;
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "message user";
+
+    div.textContent =
+        text;
 
     chatMessages.appendChild(div);
+
     scrollChat();
+
 }
 
-function createWhatsAppButton() {
-    const button = document.createElement("a");
 
-    button.href = WHATSAPP_URL;
-    button.target = "_blank";
-    button.rel = "noopener noreferrer";
-    button.className = "whatsapp-button";
+/* =========================================================
+   CREAR BOTÓN WHATSAPP
+========================================================= */
+
+function createWhatsAppButton() {
+
+    const button =
+        document.createElement("a");
+
+    button.href =
+        WHATSAPP_URL;
+
+    button.target =
+        "_blank";
+
+    button.rel =
+        "noopener noreferrer";
+
+    button.className =
+        "whatsapp-button";
 
     button.innerHTML = `
         <span class="whatsapp-icon">💬</span>
@@ -323,51 +404,197 @@ function createWhatsAppButton() {
     `;
 
     return button;
+
 }
 
+
+/* =========================================================
+   LIMPIAR ENLACES DE WHATSAPP DEL TEXTO DE GEMINI
+========================================================= */
+
 function cleanWhatsAppLinks(text) {
-    if (!text) return "";
 
-    let limpio = text.replace(
-        /https?:\/\/(?:www\.)?wa\.me\/[^\s<>"')\]]+/gi,
-        ""
-    );
+    if (!text) {
+        return "";
+    }
 
-    limpio = limpio.replace(
-        /\[[^\]]*\]\(\s*https?:\/\/(?:www\.)?wa\.me\/[^)]+\)/gi,
-        ""
-    );
+    let limpio =
+        text.replace(
+            /https?:\/\/(?:www\.)?wa\.me\/message\/[^\s<>"')\]]+/gi,
+            ""
+        );
+
+    limpio =
+        limpio.replace(
+            /\[[^\]]*\]\(\s*https?:\/\/(?:www\.)?wa\.me\/[^)]+\)/gi,
+            ""
+        );
+
+    limpio =
+        limpio.replace(
+            /👉/g,
+            ""
+        );
 
     return limpio
         .replace(/\n\s*\n\s*\n/g, "\n\n")
         .trim();
+
 }
 
-function appendAssistantMessage(text, showWhatsApp) {
-    const div = document.createElement("div");
-    div.className = "message assistant";
 
-    const cleanText = cleanWhatsAppLinks(text);
+/* =========================================================
+   DETECTAR SOLICITUD DE ASESOR
+========================================================= */
+
+function necesitaAsesor(text) {
+
+    if (!text) {
+        return false;
+    }
+
+    const texto =
+        text
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+
+    const frases = [
+
+        "asesor",
+        "asesora",
+
+        "vendedor",
+        "vendedora",
+
+        "ventas",
+
+        "whatsapp",
+
+        "direccioname",
+
+        "derivame",
+
+        "contactar",
+
+        "comunicarme",
+
+        "hablar con alguien",
+
+        "hablar con ventas",
+
+        "hablar con un asesor",
+
+        "hablar con una asesora",
+
+        "quiero un asesor",
+
+        "quiero una asesora",
+
+        "quiero hablar con un asesor",
+
+        "quiero hablar con una asesora",
+
+        "necesito un asesor",
+
+        "necesito una asesora",
+
+        "pasame con un asesor",
+
+        "pasame con una asesora",
+
+        "contacto con un asesor",
+
+        "contacto con una asesora",
+
+        "numero del asesor",
+
+        "numero de la asesora",
+
+        "asesor por whatsapp",
+
+        "asesora por whatsapp"
+
+    ];
+
+    return frases.some(
+        frase =>
+            texto.includes(frase)
+    );
+
+}
+
+
+/* =========================================================
+   MENSAJE DEL ASISTENTE
+========================================================= */
+
+function appendAssistantMessage(
+    text,
+    showWhatsApp
+) {
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "message assistant";
+
+
+    const cleanText =
+        cleanWhatsAppLinks(text);
+
 
     if (cleanText) {
-        const textElement = document.createElement("div");
-        textElement.textContent = cleanText;
-        div.appendChild(textElement);
+
+        const textElement =
+            document.createElement("div");
+
+        textElement.textContent =
+            cleanText;
+
+        div.appendChild(
+            textElement
+        );
+
     }
+
+
+    /*
+     * SI EL CLIENTE SOLICITA ASESOR
+     * SE CREA EL BOTÓN
+     */
 
     if (showWhatsApp === true) {
-        div.appendChild(createWhatsAppButton());
+
+        div.appendChild(
+            createWhatsAppButton()
+        );
+
     }
 
+
     chatMessages.appendChild(div);
+
     scrollChat();
+
 }
 
-function showLoading() {
-    const div = document.createElement("div");
 
-    div.className = "message assistant";
-    div.id = "loadingMessage";
+/* =========================================================
+   CARGANDO
+========================================================= */
+
+function showLoading() {
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "message assistant";
+
+    div.id =
+        "loadingMessage";
 
     div.innerHTML = `
         <div class="loading">
@@ -378,24 +605,51 @@ function showLoading() {
     `;
 
     chatMessages.appendChild(div);
+
     scrollChat();
+
 }
 
+
+/* =========================================================
+   OCULTAR CARGANDO
+========================================================= */
+
 function hideLoading() {
-    const loading = document.getElementById("loadingMessage");
+
+    const loading =
+        document.getElementById(
+            "loadingMessage"
+        );
 
     if (loading) {
         loading.remove();
     }
+
 }
 
+
+/* =========================================================
+   ENVIAR MENSAJE
+========================================================= */
+
 async function sendMessage() {
-    const text = userInput.value.trim();
 
-    if (!text) return;
+    const text =
+        userInput.value.trim();
 
-    sendButton.disabled = true;
-    userInput.disabled = true;
+
+    if (!text) {
+        return;
+    }
+
+
+    sendButton.disabled =
+        true;
+
+    userInput.disabled =
+        true;
+
 
     appendUserMessage(text);
 
@@ -403,100 +657,197 @@ async function sendMessage() {
 
     showLoading();
 
+
     try {
-        /*
-         * El Worker espera:
-         * role
-         * content
-         */
+
+        /* ==============================================
+           GUARDAR MENSAJE DEL USUARIO
+        ============================================== */
+
         chatHistory.push({
+
             role: "user",
+
             content: text
+
         });
+
 
         if (chatHistory.length > 20) {
-            chatHistory = chatHistory.slice(-20);
+
+            chatHistory =
+                chatHistory.slice(-20);
+
         }
 
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                message: text,
-                history: chatHistory
-            })
-        });
+
+        /* ==============================================
+           ENVIAR AL WORKER
+        ============================================== */
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            message: text,
+
+                            history:
+                                chatHistory
+
+                        })
+                }
+            );
+
 
         if (!response.ok) {
-            throw new Error("HTTP " + response.status);
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
         }
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
 
         hideLoading();
+
+
+        /* ==============================================
+           RESPUESTA DE COIMTEC IA
+        ============================================== */
 
         const answer =
             data.answer ||
             "No pude obtener una respuesta.";
 
+
+        /* ==============================================
+           GUARDAR RESPUESTA DEL ASISTENTE
+        ============================================== */
+
         chatHistory.push({
+
             role: "assistant",
+
             content: answer
+
         });
 
+
         if (chatHistory.length > 20) {
-            chatHistory = chatHistory.slice(-20);
+
+            chatHistory =
+                chatHistory.slice(-20);
+
         }
 
-        /*
-         * AQUÍ ESTÁ EL BOTÓN
-         *
-         * Si Worker devuelve:
-         * whatsapp: true
-         *
-         * se crea el botón real.
-         */
-        const showWhatsApp = data.whatsapp === true;
+
+        /* ==============================================
+           DETECTAR ASESOR
+           
+           Funciona aunque Worker no mande
+           whatsapp:true.
+        ============================================== */
+
+        const showWhatsApp =
+            data.whatsapp === true ||
+            necesitaAsesor(text);
+
+
+        /* ==============================================
+           MOSTRAR RESPUESTA
+        ============================================== */
 
         appendAssistantMessage(
             answer,
             showWhatsApp
         );
 
+
     } catch (error) {
-        console.error("COIMTEC IA:", error);
+
+        console.error(
+            "COIMTEC IA:",
+            error
+        );
+
 
         hideLoading();
 
+
         appendAssistantMessage(
-            "Error de conexión con COIMTEC IA. Por favor, intenta nuevamente.",
+
+            "Error de conexión con COIMTEC IA. " +
+            "Por favor, intenta nuevamente.",
+
             false
+
         );
+
     }
 
-    sendButton.disabled = false;
-    userInput.disabled = false;
+
+    sendButton.disabled =
+        false;
+
+    userInput.disabled =
+        false;
+
     userInput.focus();
+
 }
+
+
+/* =========================================================
+   BOTÓN ENVIAR
+========================================================= */
 
 sendButton.addEventListener(
     "click",
     sendMessage
 );
 
+
+/* =========================================================
+   ENTER PARA ENVIAR
+========================================================= */
+
 userInput.addEventListener(
     "keydown",
     event => {
+
         if (event.key === "Enter") {
+
             event.preventDefault();
+
             sendMessage();
+
         }
+
     }
 );
 
+
+/* =========================================================
+   ENFOCAR CAMPO
+========================================================= */
+
 userInput.focus();
+
 </script>
 
 </body>
