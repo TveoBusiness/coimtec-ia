@@ -12,7 +12,7 @@ PROYECTOS INMOBILIARIOS DE TVEO BUSINESS:
 - **Características:** Urbanización abierta con características de urbanización cerrada (acceso controlado, portería de ingreso, cerramiento perimetral).
 - **Amenidades:** Laguna para pesca, cancha de fútbol 5, cancha de fútbol 7, vóley, fútbol playa, churrasqueras, áreas infantiles, Club House y piscina.
 - **Avance de obras:** Piscina al 70% de avance aprox.; fundaciones del Club House en ejecución.
-- **Precios referenciales:** 
+- **Precios referenciales:**
   - Precio regular: USD 14.100 por lote.
   - Promoción de contado: 2 lotes por USD 14.100 en total (USD 7.050 c/u).
   - Tipo de cambio: Bs 6,97 por USD.
@@ -38,7 +38,27 @@ PROYECTOS INMOBILIARIOS DE TVEO BUSINESS:
 ---
 
 CONTACTO COMERCIAL Y DERIVACIÓN:
-- Cuando el cliente muestre un interés firme, quiera agendar una visita o cotizar, debes derivarlo inmediatamente proporcionando este enlace exacto: https://wa.me/59177136686?text=Hola,%20me%20interesa%20obtener%20más%20información
+
+Cuando el cliente:
+- pida hablar con un asesor,
+- diga "direccioname con un asesor",
+- diga "quiero un asesor",
+- diga "quiero hablar con alguien",
+- solicite un vendedor,
+- quiera agendar una visita,
+- quiera cotizar,
+- quiera reservar,
+- o muestre interés firme en comprar,
+
+debes indicarle que puede continuar la atención por WhatsApp.
+
+IMPORTANTE:
+No inventes números de teléfono.
+El enlace oficial de contacto es:
+
+https://wa.me/message/PJBMLOLZEDVPF1
+
+Puedes mencionar el enlace de forma natural cuando corresponda.
 
 ---
 
@@ -48,10 +68,10 @@ REGLAS IMPORTANTES:
 - Nunca inventes promociones adicionales ni descuentos no autorizados.
 - Si una información específica no está indicada aquí, informa que debe ser confirmada con un asesor o el jefe de ventas.
 - No afirmes que una reserva fue realizada.
-- No prometas visitas o reuniones como si ya estuvieran agendadas (deriva al enlace de WhatsApp para concretarlo).
+- No prometas visitas o reuniones como si ya estuvieran agendadas.
 - No inventes información jurídica, financiera o contractual.
 - No brindes asesoramiento jurídico.
-- Si el cliente pregunta algo que no conoces, dilo claramente y deriva la atención a través del enlace de WhatsApp.
+- Si el cliente pregunta algo que no conoces, dilo claramente y deriva la atención a través de WhatsApp.
 
 OFICINA TVEO BUSINESS:
 Av. Virgen de Cotoca, 5to Anillo,
@@ -63,9 +83,13 @@ FORMA DE RESPONDER:
 - Responde siempre en español.
 - Sé cordial, profesional y natural.
 - Responde de forma clara y relativamente breve.
-- Evita repetir información innecesariamente y no uses respuestas excesivamente técnicas.
-- Cuando sea útil, termina facilitando el enlace de WhatsApp: https://wa.me/59177136686?text=Hola,%20me%20interesa%20obtener%20más%20información
+- Evita repetir información innecesariamente.
+- No uses respuestas excesivamente técnicas.
 `;
+
+const WHATSAPP_URL =
+  "https://wa.me/message/PJBMLOLZEDVPF1";
+
 
 function corsHeaders() {
   return {
@@ -74,6 +98,7 @@ function corsHeaders() {
     "Access-Control-Allow-Methods": "POST, OPTIONS"
   };
 }
+
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -86,7 +111,55 @@ function json(data, status = 200) {
   });
 }
 
+
+/*
+ * Detecta si el cliente está solicitando
+ * contacto con un asesor.
+ */
+function solicitaAsesor(texto) {
+
+  const textoNormalizado = texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  const frases = [
+    "quiero hablar con un asesor",
+    "quiero hablar con alguien",
+    "hablar con un asesor",
+    "hablar con alguien",
+    "direccioname con un asesor",
+    "direccioname a un asesor",
+    "derivame con un asesor",
+    "derivame a un asesor",
+    "contactar un asesor",
+    "contactar al asesor",
+    "contactar asesor",
+    "necesito un asesor",
+    "quiero un asesor",
+    "quiero vendedor",
+    "necesito un vendedor",
+    "quiero hablar con ventas",
+    "hablar con ventas",
+    "pasame con un asesor",
+    "pasame a un asesor",
+    "comunicarme con un asesor",
+    "comunicarme con ventas",
+    "contacto con un asesor",
+    "asesor por whatsapp",
+    "asesora por whatsapp",
+    "whatsapp de un asesor",
+    "numero del asesor"
+  ];
+
+  return frases.some(frase =>
+    textoNormalizado.includes(frase)
+  );
+}
+
+
 export default {
+
   async fetch(request, env) {
 
     const url = new URL(request.url);
@@ -99,10 +172,12 @@ export default {
       });
     }
 
+
     // Archivos normales de la aplicación
     if (url.pathname !== "/api/chat") {
       return env.ASSETS.fetch(request);
     }
+
 
     // Solo POST para el chat
     if (request.method !== "POST") {
@@ -114,11 +189,13 @@ export default {
       );
     }
 
+
     try {
 
-      // Obtener Gemini API Key desde Cloudflare Secrets Store
+      // Obtener Gemini API Key
       const GEMINI_API_KEY =
         await env.GEMINI_API_KEY.get();
+
 
       if (!GEMINI_API_KEY) {
         return json(
@@ -129,6 +206,7 @@ export default {
           500
         );
       }
+
 
       // Leer solicitud
       const body = await request.json();
@@ -143,6 +221,7 @@ export default {
           ? body.history
           : [];
 
+
       if (!message) {
         return json(
           {
@@ -151,6 +230,7 @@ export default {
           400
         );
       }
+
 
       // Construir historial para Gemini
       const contents = [];
@@ -178,6 +258,7 @@ export default {
         });
       }
 
+
       // Mensaje actual
       contents.push({
         role: "user",
@@ -188,6 +269,7 @@ export default {
           }
         ]
       });
+
 
       // Llamada a Gemini
       const response = await fetch(
@@ -211,11 +293,14 @@ export default {
             },
 
             contents: contents
+
           })
         }
       );
 
+
       const data = await response.json();
+
 
       // Error de Gemini
       if (!response.ok) {
@@ -235,12 +320,14 @@ export default {
         );
       }
 
+
       // Obtener respuesta
       const answer =
         data?.candidates?.[0]?.content?.parts
           ?.map(part => part.text || "")
           ?.join("\n")
           ?.trim();
+
 
       if (!answer) {
         return json(
@@ -252,10 +339,35 @@ export default {
         );
       }
 
-      // Respuesta correcta
+
+      /*
+       * Detectamos independientemente de Gemini
+       * si el cliente pidió un asesor.
+       */
+      const necesitaAsesor =
+        solicitaAsesor(message);
+
+
+      /*
+       * Respuesta al frontend.
+       *
+       * whatsapp = true
+       * significa que index.html debe mostrar
+       * el botón de WhatsApp.
+       */
       return json({
-        answer: answer
+
+        answer: answer,
+
+        whatsapp: necesitaAsesor,
+
+        whatsappUrl:
+          necesitaAsesor
+            ? WHATSAPP_URL
+            : null
+
       });
+
 
     } catch (error) {
 
