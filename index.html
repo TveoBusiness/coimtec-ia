@@ -1,14 +1,26 @@
 ```html
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b192c">
 
-<title>COIMTEC IA - Asistente Comercial</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="theme-color"
+    content="#0b192c"
+>
+
+<title>COIMTEC IA - TVEO Business</title>
+
 
 <style>
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -16,244 +28,394 @@
     font-family: Arial, sans-serif;
 }
 
+
 body {
+
     width: 100%;
     height: 100vh;
+
     background: #f4f7f6;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
+
 .chat-container {
+
     width: 100%;
     max-width: 480px;
     height: 90vh;
-    background: #fff;
+
+    background: white;
+
     border-radius: 14px;
-    box-shadow: 0 5px 25px rgba(0,0,0,.12);
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.12);
+
     overflow: hidden;
+
     display: flex;
     flex-direction: column;
+
 }
+
 
 /* HEADER */
 
 .chat-header {
+
     background: #0b192c;
+
     color: white;
+
     padding: 16px 20px;
+
     display: flex;
     align-items: center;
+
     gap: 14px;
+
 }
+
 
 .chat-header img {
+
     width: 46px;
     height: 46px;
+
     border-radius: 50%;
+
     object-fit: cover;
+
     background: white;
+
 }
+
 
 .chat-header h2 {
+
     font-size: 18px;
+
 }
+
 
 .chat-header span {
-    color: #25d366;
-    font-size: 13px;
-    margin-top: 4px;
+
     display: block;
+
+    margin-top: 4px;
+
+    color: #25d366;
+
+    font-size: 13px;
+
 }
 
-/* MENSAJES */
+
+/* CHAT */
 
 .chat-messages {
+
     flex: 1;
+
     overflow-y: auto;
+
     padding: 20px;
+
     background: #fafafa;
+
     display: flex;
     flex-direction: column;
+
     gap: 12px;
+
 }
+
 
 .message {
+
     max-width: 85%;
+
     padding: 13px 16px;
+
     border-radius: 12px;
+
     font-size: 15px;
+
     line-height: 1.5;
+
     white-space: pre-wrap;
+
     overflow-wrap: anywhere;
+
 }
+
 
 .message.user {
+
     align-self: flex-end;
+
     background: #0b192c;
+
     color: white;
+
     border-bottom-right-radius: 3px;
+
 }
 
+
 .message.assistant {
+
     align-self: flex-start;
+
     background: #e7e9ec;
+
     color: #222;
+
     border-bottom-left-radius: 3px;
+
 }
+
 
 /* WHATSAPP */
 
 .whatsapp-button {
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     gap: 9px;
 
     width: 100%;
+
     margin-top: 14px;
+
     padding: 14px;
 
     background: #25d366;
+
     color: white;
 
     text-decoration: none;
+
     border-radius: 9px;
 
     font-weight: bold;
+
     font-size: 14px;
 
     cursor: pointer;
 
-    transition: .2s;
 }
+
 
 .whatsapp-button:hover {
+
     background: #1ebe5d;
-    transform: translateY(-1px);
+
 }
 
+
 .whatsapp-icon {
+
     font-size: 20px;
+
 }
+
 
 /* INPUT */
 
 .chat-input-area {
+
     display: flex;
+
     gap: 10px;
+
     padding: 14px;
+
     background: white;
+
     border-top: 1px solid #ddd;
+
 }
 
+
 .chat-input-area input {
+
     flex: 1;
+
     min-width: 0;
 
     padding: 12px 14px;
 
     border: 1px solid #ddd;
+
     border-radius: 8px;
 
     outline: none;
+
     font-size: 15px;
+
 }
+
 
 .chat-input-area input:focus {
+
     border-color: #25d366;
+
 }
 
+
 .chat-input-area button {
+
     padding: 0 18px;
 
     border: none;
+
     border-radius: 8px;
 
     background: #25d366;
+
     color: white;
 
     font-weight: bold;
+
     cursor: pointer;
+
 }
+
 
 .chat-input-area button:disabled {
+
     opacity: .6;
+
     cursor: not-allowed;
+
 }
 
-/* CARGANDO */
+
+/* LOADING */
 
 .loading {
+
     display: flex;
+
     gap: 5px;
+
 }
+
 
 .loading span {
+
     width: 7px;
+
     height: 7px;
+
     background: #777;
+
     border-radius: 50%;
+
     animation: loading 1.2s infinite;
+
 }
+
 
 .loading span:nth-child(2) {
+
     animation-delay: .15s;
+
 }
 
+
 .loading span:nth-child(3) {
+
     animation-delay: .30s;
+
 }
+
 
 @keyframes loading {
 
-    0%, 60%, 100% {
+    0%,
+    60%,
+    100% {
+
         transform: translateY(0);
+
         opacity: .4;
+
     }
 
     30% {
+
         transform: translateY(-5px);
+
         opacity: 1;
+
     }
+
 }
 
-/* CELULAR */
+
+/* MOBILE */
 
 @media (max-width: 600px) {
 
     body {
+
         height: 100dvh;
+
         background: white;
+
     }
 
     .chat-container {
+
         width: 100%;
+
         height: 100dvh;
+
         max-width: none;
+
         border-radius: 0;
+
         box-shadow: none;
+
     }
 
     .chat-messages {
+
         padding: 15px;
+
     }
 
     .message {
+
         max-width: 90%;
+
     }
 
-    .chat-input-area {
-        padding: 10px;
-    }
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="chat-container">
+
+
+    <!-- HEADER -->
 
     <div class="chat-header">
 
@@ -263,24 +425,39 @@ body {
         >
 
         <div>
-            <h2>COIMTEC IA</h2>
-            <span>● En línea</span>
+
+            <h2>
+                COIMTEC IA
+            </h2>
+
+            <span>
+                ● En línea
+            </span>
+
         </div>
 
     </div>
 
+
+    <!-- MENSAJES -->
+
     <div
-        class="chat-messages"
         id="chatMessages"
+        class="chat-messages"
     >
 
         <div class="message assistant">
+
             ¡Hola! Soy COIMTEC IA de TVEO Business.
 
             ¿En qué proyecto inmobiliario te gustaría que te ayude hoy?
+
         </div>
 
     </div>
+
+
+    <!-- INPUT -->
 
     <div class="chat-input-area">
 
@@ -300,30 +477,53 @@ body {
 
     </div>
 
+
 </div>
+
 
 <script>
 
-const API_URL = "/api/chat";
 
-const WHATSAPP_URL =
+/* =====================================================
+   CONFIGURACIÓN
+===================================================== */
+
+const API_URL =
+    "/api/chat";
+
+
+const DEFAULT_WHATSAPP_URL =
     "https://wa.me/message/PJBMLOLZEDVPF1";
 
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
 const chatMessages =
-    document.getElementById("chatMessages");
+    document.getElementById(
+        "chatMessages"
+    );
+
 
 const userInput =
-    document.getElementById("userInput");
+    document.getElementById(
+        "userInput"
+    );
+
 
 const sendButton =
-    document.getElementById("sendButton");
+    document.getElementById(
+        "sendButton"
+    );
+
 
 let chatHistory = [];
 
 
-/* =========================
-   UTILIDADES
-========================= */
+/* =====================================================
+   SCROLL
+===================================================== */
 
 function scrollChat() {
 
@@ -337,39 +537,39 @@ function scrollChat() {
 }
 
 
-/* =========================
+/* =====================================================
    MENSAJE USUARIO
-========================= */
+===================================================== */
 
 function appendUserMessage(text) {
 
-    const message =
+    const div =
         document.createElement("div");
 
-    message.className =
+    div.className =
         "message user";
 
-    message.textContent =
+    div.textContent =
         text;
 
-    chatMessages.appendChild(message);
+    chatMessages.appendChild(div);
 
     scrollChat();
 
 }
 
 
-/* =========================
+/* =====================================================
    BOTÓN WHATSAPP
-========================= */
+===================================================== */
 
-function createWhatsAppButton() {
+function createWhatsAppButton(url) {
 
     const link =
         document.createElement("a");
 
     link.href =
-        WHATSAPP_URL;
+        url || DEFAULT_WHATSAPP_URL;
 
     link.target =
         "_blank";
@@ -381,8 +581,13 @@ function createWhatsAppButton() {
         "whatsapp-button";
 
     link.innerHTML = `
-        <span class="whatsapp-icon">💬</span>
-        <span>HABLAR CON UN ASESOR</span>
+        <span class="whatsapp-icon">
+            💬
+        </span>
+
+        <span>
+            HABLAR CON UN ASESOR
+        </span>
     `;
 
     return link;
@@ -390,87 +595,9 @@ function createWhatsAppButton() {
 }
 
 
-/* =========================
-   DETECTAR SOLICITUD DE ASESOR
-========================= */
-
-function necesitaAsesor(text) {
-
-    if (!text) {
-        return false;
-    }
-
-    const texto =
-        text
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-
-    const frases = [
-
-        "asesor",
-        "asesora",
-
-        "vendedor",
-        "vendedora",
-
-        "ventas",
-
-        "whatsapp",
-
-        "contactar",
-
-        "contactame",
-
-        "comunicarme",
-
-        "direccioname",
-
-        "derivame",
-
-        "pasame con",
-
-        "hablar con alguien",
-
-        "hablar con ventas",
-
-        "hablar con un asesor",
-
-        "hablar con una asesora",
-
-        "quiero un asesor",
-
-        "quiero una asesora",
-
-        "quiero hablar con un asesor",
-
-        "quiero hablar con una asesora",
-
-        "necesito un asesor",
-
-        "necesito una asesora",
-
-        "contacto con un asesor",
-
-        "contacto con una asesora",
-
-        "numero del asesor",
-
-        "numero de la asesora"
-
-    ];
-
-    return frases.some(
-        frase =>
-            texto.includes(frase)
-    );
-
-}
-
-
-/* =========================
-   LIMPIAR ENLACES WHATSAPP
-========================= */
+/* =====================================================
+   LIMPIAR RESPUESTA
+===================================================== */
 
 function limpiarRespuesta(text) {
 
@@ -479,38 +606,52 @@ function limpiarRespuesta(text) {
     }
 
     return text
+
         .replace(
             /https?:\/\/(?:www\.)?wa\.me\/[^\s<>"')\]]+/gi,
             ""
         )
+
         .replace(
             /\[[^\]]*\]\(\s*https?:\/\/(?:www\.)?wa\.me\/[^)]+\)/gi,
             ""
         )
-        .replace(/👉/g, "")
-        .replace(/\n\s*\n\s*\n/g, "\n\n")
+
+        .replace(
+            /👉/g,
+            ""
+        )
+
+        .replace(
+            /\n\s*\n\s*\n/g,
+            "\n\n"
+        )
+
         .trim();
 
 }
 
 
-/* =========================
+/* =====================================================
    MENSAJE IA
-========================= */
+===================================================== */
 
 function appendAssistantMessage(
     text,
-    showWhatsApp
+    showWhatsApp,
+    whatsappUrl
 ) {
 
-    const message =
+    const div =
         document.createElement("div");
 
-    message.className =
+    div.className =
         "message assistant";
+
 
     const cleanText =
         limpiarRespuesta(text);
+
 
     if (cleanText) {
 
@@ -520,43 +661,48 @@ function appendAssistantMessage(
         textElement.textContent =
             cleanText;
 
-        message.appendChild(
+        div.appendChild(
             textElement
         );
 
     }
 
-    if (showWhatsApp) {
 
-        message.appendChild(
-            createWhatsAppButton()
-        );
+    if (showWhatsApp === true) {
+
+        const button =
+            createWhatsAppButton(
+                whatsappUrl
+            );
+
+        div.appendChild(button);
 
     }
 
-    chatMessages.appendChild(message);
+
+    chatMessages.appendChild(div);
 
     scrollChat();
 
 }
 
 
-/* =========================
-   CARGANDO
-========================= */
+/* =====================================================
+   LOADING
+===================================================== */
 
 function showLoading() {
 
-    const loading =
+    const div =
         document.createElement("div");
 
-    loading.className =
+    div.className =
         "message assistant";
 
-    loading.id =
+    div.id =
         "loadingMessage";
 
-    loading.innerHTML = `
+    div.innerHTML = `
         <div class="loading">
             <span></span>
             <span></span>
@@ -564,7 +710,7 @@ function showLoading() {
         </div>
     `;
 
-    chatMessages.appendChild(loading);
+    chatMessages.appendChild(div);
 
     scrollChat();
 
@@ -579,27 +725,37 @@ function hideLoading() {
         );
 
     if (loading) {
+
         loading.remove();
+
     }
 
 }
 
 
-/* =========================
+/* =====================================================
    ENVIAR MENSAJE
-========================= */
+===================================================== */
 
 async function sendMessage() {
 
     const text =
         userInput.value.trim();
 
+
     if (!text) {
+
         return;
+
     }
 
-    sendButton.disabled = true;
-    userInput.disabled = true;
+
+    sendButton.disabled =
+        true;
+
+    userInput.disabled =
+        true;
+
 
     appendUserMessage(text);
 
@@ -607,12 +763,20 @@ async function sendMessage() {
 
     showLoading();
 
+
     try {
 
+
+        /* HISTORIAL */
+
         chatHistory.push({
+
             role: "user",
+
             content: text
+
         });
+
 
         if (chatHistory.length > 20) {
 
@@ -621,28 +785,40 @@ async function sendMessage() {
 
         }
 
+
+        /* PETICIÓN */
+
         const response =
             await fetch(
+
                 API_URL,
+
                 {
+
                     method: "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body:
                         JSON.stringify({
 
-                            message: text,
+                            message:
+                                text,
 
                             history:
                                 chatHistory
 
                         })
+
                 }
+
             );
+
 
         if (!response.ok) {
 
@@ -653,14 +829,22 @@ async function sendMessage() {
 
         }
 
+
         const data =
             await response.json();
 
+
         hideLoading();
+
+
+        /* RESPUESTA */
 
         const answer =
             data.answer ||
             "No pude generar una respuesta.";
+
+
+        /* HISTORIAL */
 
         chatHistory.push({
 
@@ -670,6 +854,7 @@ async function sendMessage() {
 
         });
 
+
         if (chatHistory.length > 20) {
 
             chatHistory =
@@ -677,18 +862,19 @@ async function sendMessage() {
 
         }
 
-        /*
-           EL BOTÓN APARECE CUANDO
-           EL CLIENTE SOLICITA ASESOR.
-        */
 
-        const showWhatsApp =
-            necesitaAsesor(text);
+        /* WHATSAPP */
 
         appendAssistantMessage(
+
             answer,
-            showWhatsApp
+
+            data.whatsapp === true,
+
+            data.whatsappUrl
+
         );
+
 
     }
 
@@ -699,38 +885,52 @@ async function sendMessage() {
             error
         );
 
+
         hideLoading();
+
 
         appendAssistantMessage(
 
-            "No pude conectarme con el servidor. " +
+            "No pude conectarme con COIMTEC IA. " +
             "Por favor, intenta nuevamente.",
 
-            false
+            false,
+
+            null
 
         );
 
     }
 
-    sendButton.disabled = false;
-    userInput.disabled = false;
+
+    sendButton.disabled =
+        false;
+
+    userInput.disabled =
+        false;
 
     userInput.focus();
 
 }
 
 
-/* =========================
+/* =====================================================
    EVENTOS
-========================= */
+===================================================== */
 
 sendButton.addEventListener(
+
     "click",
+
     sendMessage
+
 );
 
+
 userInput.addEventListener(
+
     "keydown",
+
     function(event) {
 
         if (event.key === "Enter") {
@@ -742,12 +942,16 @@ userInput.addEventListener(
         }
 
     }
+
 );
+
 
 userInput.focus();
 
 </script>
 
+
 </body>
+
 </html>
 ```
