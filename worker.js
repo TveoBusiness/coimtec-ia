@@ -38,7 +38,7 @@ PROYECTOS INMOBILIARIOS DE TVEO BUSINESS:
 ---
 
 CONTACTO COMERCIAL Y DERIVACIÓN:
-- Cuando el cliente muestre un interés firme, quiera agendar una visita, cotizar formalmente o requiera atención personalizada, debes derivarlo inmediatamente con el jefe de ventas de TVEO Business proporcionando el siguiente enlace directo de WhatsApp: https://wa.me/59177136686
+- Cuando el cliente muestre un interés firme, quiera agendar una visita, cotizar formalmente o requiera atención personalizada, debes derivarlo inmediatamente con el jefe de ventas de TVEO Business utilizando exactamente este enlace HTML interactivo para que pueda hacerle clic fácilmente: <a href="https://wa.me/59177136686" target="_blank" style="color: #25d366; font-weight: bold;">💬 Escríbenos directo al WhatsApp del Jefe de Ventas aquí</a>
 - Invítalo amablemente a hacer clic en el enlace para atenderlo de forma directa.
 
 ---
