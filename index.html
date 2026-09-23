@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b3d91">
-  <meta name="description" content="COIMTEC IA - Asistente virtual de TVEO Business">
+  <meta
+    name="description"
+    content="COIMTEC IA - Asistente virtual de TVEO Business"
+  >
 
   <title>COIMTEC IA | TVEO Business</title>
 
@@ -26,7 +29,10 @@
       flex-direction: column;
     }
 
-    /* HEADER */
+    /* =========================
+       HEADER
+    ========================= */
+
     .header {
       background: linear-gradient(135deg, #0b3d91, #1565c0);
       color: white;
@@ -81,6 +87,7 @@
     .header-whatsapp {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 7px;
       background: #25d366;
       color: white;
@@ -92,6 +99,7 @@
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
       transition: transform 0.2s, box-shadow 0.2s;
       white-space: nowrap;
+      cursor: pointer;
     }
 
     .header-whatsapp:hover {
@@ -99,7 +107,10 @@
       box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22);
     }
 
-    /* MAIN */
+    /* =========================
+       MAIN
+    ========================= */
+
     .main {
       width: 100%;
       max-width: 900px;
@@ -131,7 +142,10 @@
       font-size: 14px;
     }
 
-    /* CHAT */
+    /* =========================
+       CHAT
+    ========================= */
+
     .chat {
       background: white;
       border-radius: 18px;
@@ -188,7 +202,10 @@
       margin-bottom: 14px;
     }
 
-    /* WHATSAPP RESPONSE */
+    /* =========================
+       WHATSAPP
+    ========================= */
+
     .whatsapp-response {
       margin-top: 12px;
       margin-bottom: 18px;
@@ -202,14 +219,16 @@
       justify-content: center;
       gap: 8px;
       background: #25d366;
-      color: white !important;
-      text-decoration: none;
+      color: #ffffff !important;
+      text-decoration: none !important;
       padding: 13px 18px;
       border-radius: 30px;
       font-weight: 800;
       font-size: 13px;
       box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
       transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
     }
 
     .whatsapp-button:hover {
@@ -218,7 +237,14 @@
       box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
     }
 
-    /* INPUT */
+    .whatsapp-button:active {
+      transform: translateY(0);
+    }
+
+    /* =========================
+       INPUT
+    ========================= */
+
     .input-area {
       margin-top: 15px;
       background: white;
@@ -266,7 +292,10 @@
       transform: none;
     }
 
-    /* FOOTER */
+    /* =========================
+       FOOTER
+    ========================= */
+
     .footer {
       text-align: center;
       color: #7a8794;
@@ -274,8 +303,12 @@
       padding: 15px;
     }
 
-    /* MOBILE */
+    /* =========================
+       MOBILE
+    ========================= */
+
     @media (max-width: 600px) {
+
       .header {
         padding: 13px 14px;
       }
@@ -349,19 +382,37 @@
 
 <div class="app">
 
+  <!-- =========================
+       HEADER
+  ========================= -->
+
   <header class="header">
+
     <div class="header-content">
 
       <div class="brand">
-        <div class="logo">CI</div>
+
+        <div class="logo">
+          CI
+        </div>
 
         <div class="brand-text">
-          <h1>COIMTEC IA</h1>
-          <p>Asistente Virtual · TVEO Business</p>
+
+          <h1>
+            COIMTEC IA
+          </h1>
+
+          <p>
+            Asistente Virtual · TVEO Business
+          </p>
+
         </div>
+
       </div>
 
+      <!-- WHATSAPP PRINCIPAL -->
       <a
+        id="headerWhatsapp"
         class="header-whatsapp"
         href="https://wa.me/59177136686"
         target="_blank"
@@ -371,13 +422,21 @@
       </a>
 
     </div>
+
   </header>
 
+
+  <!-- =========================
+       CONTENIDO PRINCIPAL
+  ========================= -->
 
   <main class="main">
 
     <section class="welcome">
-      <h2>Hola, soy COIMTEC IA 👋</h2>
+
+      <h2>
+        Hola, soy COIMTEC IA 👋
+      </h2>
 
       <p>
         Estoy aquí para ayudarte con información sobre nuestros proyectos
@@ -385,26 +444,48 @@
         Puedes preguntarme por precios, superficies, ubicación,
         formas de pago y características de nuestros proyectos.
       </p>
+
     </section>
 
 
-    <section class="chat" id="chat">
+    <!-- =========================
+         CHAT
+    ========================= -->
+
+    <section
+      class="chat"
+      id="chat"
+    >
 
       <div class="message-row">
+
         <div class="message assistant">
-          ¡Hola! 👋 Soy <strong>COIMTEC IA</strong>, asistente virtual de
+
+          ¡Hola! 👋 Soy
+          <strong>COIMTEC IA</strong>,
+          asistente virtual de
           <strong>TVEO Business</strong>.
 
           ¿En qué proyecto estás interesado?
+
         </div>
+
       </div>
 
-      <div class="typing" id="typing">
+
+      <div
+        class="typing"
+        id="typing"
+      >
         COIMTEC IA está escribiendo...
       </div>
 
     </section>
 
+
+    <!-- =========================
+         INPUT
+    ========================= -->
 
     <div class="input-area">
 
@@ -426,6 +507,10 @@
     </div>
 
 
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
     <footer class="footer">
       TVEO Business Desarrolladora Inmobiliaria · COIMTEC IA
     </footer>
@@ -437,18 +522,45 @@
 
 <script>
 
+  /*
+   * ==============================
+   * CONFIGURACIÓN
+   * ==============================
+   */
+
   const API_URL = "/api/chat";
 
-  const WHATSAPP_URL = "https://wa.me/59177136686";
+  /*
+   * Número oficial utilizado por el botón superior.
+   */
+  const WHATSAPP_PHONE_URL =
+    "https://wa.me/59177136686";
 
-  const chat = document.getElementById("chat");
 
-  const messageInput = document.getElementById("messageInput");
+  const chat =
+    document.getElementById("chat");
 
-  const sendButton = document.getElementById("sendButton");
+  const messageInput =
+    document.getElementById("messageInput");
 
-  const typing = document.getElementById("typing");
+  const sendButton =
+    document.getElementById("sendButton");
 
+  const typing =
+    document.getElementById("typing");
+
+
+  /*
+   * ==============================
+   * LIMPIAR RESPUESTA DE GEMINI
+   * ==============================
+   *
+   * Gemini puede devolver un enlace
+   * de WhatsApp dentro del texto.
+   *
+   * Lo eliminamos para evitar que
+   * aparezca como texto o Markdown.
+   */
 
   function limpiarRespuesta(texto) {
 
@@ -458,181 +570,402 @@
 
     let respuesta = String(texto);
 
+
+    /*
+     * Elimina Markdown:
+     *
+     * [texto](https://wa.me/...)
+     */
+
     respuesta = respuesta.replace(
-      /https?:\/\/wa\.me\/[^\s)]+/gi,
+      /\[[^\]]*\]\(\s*https?:\/\/wa\.me\/[^)]+\)/gi,
       ""
     );
 
+
+    /*
+     * Elimina URLs directas:
+     *
+     * https://wa.me/...
+     */
+
     respuesta = respuesta.replace(
-      /\[([^\]]+)\]\((https?:\/\/wa\.me\/[^)]+)\)/gi,
+      /https?:\/\/wa\.me\/[^\s<>"')]+/gi,
       ""
     );
 
+
+    /*
+     * Elimina líneas que hayan quedado
+     * únicamente como enlace.
+     */
+
     respuesta = respuesta.replace(
-      /\s{2,}/g,
+      /^\s*https?:\/\/wa\.me\/.*$/gim,
+      ""
+    );
+
+
+    /*
+     * Limpia espacios excesivos.
+     */
+
+    respuesta = respuesta.replace(
+      /[ \t]{2,}/g,
       " "
     );
 
+
+    /*
+     * Limpia demasiados saltos de línea.
+     */
+
+    respuesta = respuesta.replace(
+      /\n{3,}/g,
+      "\n\n"
+    );
+
+
     return respuesta.trim();
+
   }
 
+
+  /*
+   * ==============================
+   * MENSAJE DEL USUARIO
+   * ==============================
+   */
 
   function agregarMensajeUsuario(texto) {
 
-    const row = document.createElement("div");
+    const row =
+      document.createElement("div");
 
-    row.className = "message-row user";
+    row.className =
+      "message-row user";
 
-    const message = document.createElement("div");
 
-    message.className = "message user";
+    const message =
+      document.createElement("div");
 
-    message.textContent = texto;
+    message.className =
+      "message user";
+
+
+    message.textContent =
+      texto;
+
 
     row.appendChild(message);
 
-    chat.insertBefore(row, typing);
 
-    chat.scrollTop = chat.scrollHeight;
+    chat.insertBefore(
+      row,
+      typing
+    );
+
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
   }
 
 
+  /*
+   * ==============================
+   * BOTÓN WHATSAPP
+   * ==============================
+   *
+   * Siempre creamos UN SOLO botón.
+   */
+
   function mostrarBotonWhatsApp() {
 
-    const existente = document.querySelector(
-      ".whatsapp-response"
-    );
+    const existente =
+      document.querySelector(
+        ".whatsapp-response"
+      );
+
 
     if (existente) {
       return;
     }
 
-    const contenedor = document.createElement("div");
 
-    contenedor.className = "whatsapp-response";
+    const contenedor =
+      document.createElement("div");
 
-    const boton = document.createElement("a");
+    contenedor.className =
+      "whatsapp-response";
 
-    boton.className = "whatsapp-button";
 
-    boton.href = WHATSAPP_URL;
+    const boton =
+      document.createElement("a");
 
-    boton.target = "_blank";
+    boton.className =
+      "whatsapp-button";
 
-    boton.rel = "noopener noreferrer";
 
-    boton.textContent =
+    /*
+     * IMPORTANTE:
+     *
+     * Este es un enlace real.
+     * No depende de Markdown.
+     */
+
+    boton.href =
+      WHATSAPP_PHONE_URL;
+
+
+    boton.target =
+      "_blank";
+
+
+    boton.rel =
+      "noopener noreferrer";
+
+
+    boton.innerHTML =
       "💬 HABLAR CON UN ASESOR POR WHATSAPP";
 
-    contenedor.appendChild(boton);
 
-    chat.insertBefore(contenedor, typing);
+    contenedor.appendChild(
+      boton
+    );
 
-    chat.scrollTop = chat.scrollHeight;
+
+    chat.insertBefore(
+      contenedor,
+      typing
+    );
+
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
   }
 
 
-  function agregarMensajeAsistente(texto, mostrarWhatsApp) {
+  /*
+   * ==============================
+   * MENSAJE DEL ASISTENTE
+   * ==============================
+   */
 
-    const row = document.createElement("div");
+  function agregarMensajeAsistente(
+    texto,
+    mostrarWhatsApp
+  ) {
 
-    row.className = "message-row";
+    const row =
+      document.createElement("div");
 
-    const message = document.createElement("div");
+    row.className =
+      "message-row";
 
-    message.className = "message assistant";
 
-    message.textContent = limpiarRespuesta(texto);
+    const message =
+      document.createElement("div");
+
+    message.className =
+      "message assistant";
+
+
+    message.textContent =
+      limpiarRespuesta(texto);
+
 
     row.appendChild(message);
 
-    chat.insertBefore(row, typing);
 
-    if (mostrarWhatsApp === true) {
+    chat.insertBefore(
+      row,
+      typing
+    );
+
+
+    if (
+      mostrarWhatsApp === true
+    ) {
+
       mostrarBotonWhatsApp();
+
     }
 
-    chat.scrollTop = chat.scrollHeight;
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
   }
 
+
+  /*
+   * ==============================
+   * ERROR
+   * ==============================
+   */
 
   function mostrarError(texto) {
 
-    const row = document.createElement("div");
+    const row =
+      document.createElement("div");
 
-    row.className = "message-row";
+    row.className =
+      "message-row";
 
-    const message = document.createElement("div");
 
-    message.className = "message assistant";
+    const message =
+      document.createElement("div");
 
-    message.textContent = texto;
+    message.className =
+      "message assistant";
+
+
+    message.textContent =
+      texto;
+
 
     row.appendChild(message);
 
-    chat.insertBefore(row, typing);
 
-    chat.scrollTop = chat.scrollHeight;
+    chat.insertBefore(
+      row,
+      typing
+    );
+
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
   }
 
 
+  /*
+   * ==============================
+   * ENVIAR MENSAJE
+   * ==============================
+   */
+
   async function enviarMensaje() {
 
-    const mensaje = messageInput.value.trim();
+    const mensaje =
+      messageInput.value.trim();
+
 
     if (!mensaje) {
       return;
     }
 
-    agregarMensajeUsuario(mensaje);
 
-    messageInput.value = "";
+    /*
+     * Mostrar mensaje del usuario.
+     */
 
-    sendButton.disabled = true;
+    agregarMensajeUsuario(
+      mensaje
+    );
 
-    messageInput.disabled = true;
 
-    typing.style.display = "block";
+    /*
+     * Limpiar input.
+     */
 
-    chat.scrollTop = chat.scrollHeight;
+    messageInput.value =
+      "";
+
+
+    /*
+     * Bloquear controles.
+     */
+
+    sendButton.disabled =
+      true;
+
+    messageInput.disabled =
+      true;
+
+
+    /*
+     * Mostrar indicador.
+     */
+
+    typing.style.display =
+      "block";
+
+
+    chat.scrollTop =
+      chat.scrollHeight;
 
 
     try {
 
-      const respuesta = await fetch(API_URL, {
+      /*
+       * Llamada al Worker.
+       */
 
-        method: "POST",
+      const respuesta =
+        await fetch(
+          API_URL,
+          {
+            method: "POST",
 
-        headers: {
-          "Content-Type": "application/json"
-        },
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
 
-        body: JSON.stringify({
-          message: mensaje
-        })
+            body:
+              JSON.stringify({
+                message:
+                  mensaje
+              })
+          }
+        );
 
-      });
 
+      /*
+       * Verificar HTTP.
+       */
 
       if (!respuesta.ok) {
 
         throw new Error(
-          "Error HTTP " + respuesta.status
+          "Error HTTP " +
+          respuesta.status
         );
 
       }
 
 
-      const data = await respuesta.json();
+      /*
+       * Leer JSON.
+       */
+
+      const data =
+        await respuesta.json();
 
 
-      typing.style.display = "none";
+      /*
+       * Ocultar typing.
+       */
 
+      typing.style.display =
+        "none";
+
+
+      /*
+       * Obtener respuesta.
+       */
 
       const answer =
         data.answer ||
         "No pude procesar tu consulta.";
 
+
+      /*
+       * Mostrar respuesta.
+       */
 
       agregarMensajeAsistente(
         answer,
@@ -647,17 +980,28 @@
         error
       );
 
-      typing.style.display = "none";
+
+      typing.style.display =
+        "none";
+
 
       mostrarError(
         "Lo siento, en este momento no pude conectarme con el asistente. Por favor, intenta nuevamente."
       );
 
+
     } finally {
 
-      sendButton.disabled = false;
+      /*
+       * Restaurar controles.
+       */
 
-      messageInput.disabled = false;
+      sendButton.disabled =
+        false;
+
+      messageInput.disabled =
+        false;
+
 
       messageInput.focus();
 
@@ -665,6 +1009,12 @@
 
   }
 
+
+  /*
+   * ==============================
+   * EVENTOS
+   * ==============================
+   */
 
   sendButton.addEventListener(
     "click",
@@ -690,6 +1040,12 @@
     }
   );
 
+
+  /*
+   * ==============================
+   * INICIO
+   * ==============================
+   */
 
   messageInput.focus();
 
