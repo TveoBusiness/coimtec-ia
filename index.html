@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b192c">
-
     <title>COIMTEC IA - Asistente Comercial</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -29,55 +27,34 @@
             align-items: center;
         }
 
-        /* =========================
-           CONTENEDOR
-        ========================== */
-
         .chat-container {
             width: 100%;
             max-width: 480px;
             height: 90vh;
-
-            background: #ffffff;
-
+            background: #fff;
             border-radius: 12px;
-
-            box-shadow:
-                0 4px 20px rgba(0, 0, 0, 0.10);
-
+            box-shadow: 0 4px 20px rgba(0,0,0,.10);
             display: flex;
             flex-direction: column;
-
             overflow: hidden;
         }
 
-        /* =========================
-           CABECERA
-        ========================== */
-
         .chat-header {
             background: #0b192c;
-            color: white;
-
+            color: #fff;
             padding: 15px 20px;
-
             display: flex;
             align-items: center;
-
             gap: 15px;
         }
 
         .chat-header img {
             width: 45px;
             height: 45px;
-
             border-radius: 50%;
-
             object-fit: cover;
-
             border: 2px solid #25d366;
-
-            background: white;
+            background: #fff;
         }
 
         .chat-header h2 {
@@ -87,163 +64,94 @@
 
         .chat-header span {
             display: block;
-
             margin-top: 3px;
-
-            font-size: 0.8rem;
-
+            font-size: .8rem;
             color: #25d366;
         }
 
-        /* =========================
-           CHAT
-        ========================== */
-
         .chat-messages {
             flex: 1;
-
             padding: 20px;
-
             overflow-y: auto;
-
             display: flex;
             flex-direction: column;
-
             gap: 12px;
-
             background: #fcfcfc;
         }
 
-        /* =========================
-           MENSAJES
-        ========================== */
-
         .message {
             max-width: 85%;
-
             padding: 12px 16px;
-
             border-radius: 12px;
-
-            font-size: 0.95rem;
-
+            font-size: .95rem;
             line-height: 1.5;
-
             word-wrap: break-word;
-
             overflow-wrap: anywhere;
-
             white-space: pre-wrap;
         }
 
         .message.user {
             background: #0b192c;
-
-            color: white;
-
+            color: #fff;
             align-self: flex-end;
-
             border-bottom-right-radius: 2px;
         }
 
         .message.assistant {
             background: #e4e6eb;
-
-            color: #333333;
-
+            color: #333;
             align-self: flex-start;
-
             border-bottom-left-radius: 2px;
         }
 
-        /* =========================
-           BOTÓN WHATSAPP
-        ========================== */
-
         .whatsapp-button {
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             gap: 10px;
-
             width: 100%;
-
             margin-top: 14px;
-
             padding: 14px 18px;
-
             background: #25d366;
-
-            color: #ffffff !important;
-
+            color: #fff !important;
             text-decoration: none !important;
-
             border-radius: 10px;
-
-            font-size: 0.92rem;
-
+            font-size: .92rem;
             font-weight: 700;
-
             cursor: pointer;
-
-            box-shadow:
-                0 4px 12px rgba(37, 211, 102, 0.28);
-
-            transition:
-                background 0.2s ease,
-                transform 0.15s ease,
-                box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(37,211,102,.28);
+            transition: .2s ease;
         }
 
         .whatsapp-button:hover {
             background: #1ebe5d;
-
             transform: translateY(-1px);
-
-            box-shadow:
-                0 6px 15px rgba(37, 211, 102, 0.35);
         }
 
         .whatsapp-button:active {
-            transform: scale(0.98);
+            transform: scale(.98);
         }
 
         .whatsapp-icon {
             font-size: 1.3rem;
         }
 
-        /* =========================
-           INPUT
-        ========================== */
-
         .chat-input-area {
             padding: 15px;
-
-            background: white;
-
+            background: #fff;
             border-top: 1px solid #eaeaea;
-
             display: flex;
-
             gap: 10px;
         }
 
         .chat-input-area input {
             flex: 1;
-
             min-width: 0;
-
             padding: 12px 15px;
-
-            border: 1px solid #dddddd;
-
+            border: 1px solid #ddd;
             border-radius: 8px;
-
             outline: none;
-
-            font-size: 0.95rem;
+            font-size: .95rem;
         }
 
         .chat-input-area input:focus {
@@ -252,76 +160,49 @@
 
         .chat-input-area button {
             background: #25d366;
-
-            color: white;
-
+            color: #fff;
             border: none;
-
             padding: 0 20px;
-
             border-radius: 8px;
-
             font-weight: bold;
-
             cursor: pointer;
-
-            transition:
-                background 0.2s ease,
-                transform 0.15s ease;
         }
 
         .chat-input-area button:hover {
             background: #1ebe5d;
         }
 
-        .chat-input-area button:active {
-            transform: scale(0.97);
-        }
-
         .chat-input-area button:disabled {
-            opacity: 0.6;
-
+            opacity: .6;
             cursor: not-allowed;
         }
 
-        /* =========================
-           LOADING
-        ========================== */
-
         .loading {
             display: flex;
-
             align-items: center;
-
             gap: 5px;
         }
 
         .loading span {
             width: 7px;
             height: 7px;
-
             background: #777;
-
             border-radius: 50%;
-
             animation: loading 1.2s infinite ease-in-out;
         }
 
         .loading span:nth-child(2) {
-            animation-delay: 0.15s;
+            animation-delay: .15s;
         }
 
         .loading span:nth-child(3) {
-            animation-delay: 0.30s;
+            animation-delay: .30s;
         }
 
         @keyframes loading {
-
-            0%,
-            60%,
-            100% {
+            0%, 60%, 100% {
                 transform: translateY(0);
-                opacity: 0.4;
+                opacity: .4;
             }
 
             30% {
@@ -330,28 +211,18 @@
             }
         }
 
-        /* =========================
-           CELULAR
-        ========================== */
-
         @media (max-width: 600px) {
-
             body {
                 height: 100dvh;
-
-                background: white;
-
+                background: #fff;
                 align-items: stretch;
             }
 
             .chat-container {
                 width: 100%;
                 max-width: 100%;
-
                 height: 100dvh;
-
                 border-radius: 0;
-
                 box-shadow: none;
             }
 
@@ -371,72 +242,34 @@
                 padding: 0 16px;
             }
         }
-
     </style>
 </head>
-
 
 <body>
 
 <div class="chat-container">
 
-
-    <!-- =========================
-         CABECERA
-    ========================== -->
-
     <div class="chat-header">
-
-        <!--
-        COLOCA AQUÍ EL BASE64 COMPLETO DE TU LOGO ACTUAL.
-        -->
-
         <img
             src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA="
             alt="CoimTec IA"
         >
 
         <div>
-
-            <h2>
-                COIMTEC IA
-            </h2>
-
-            <span>
-                ● En línea
-            </span>
-
+            <h2>COIMTEC IA</h2>
+            <span>● En línea</span>
         </div>
-
     </div>
 
-
-    <!-- =========================
-         MENSAJES
-    ========================== -->
-
-    <div
-        class="chat-messages"
-        id="chatMessages"
-    >
-
+    <div class="chat-messages" id="chatMessages">
         <div class="message assistant">
-
             ¡Hola! Soy COIMTEC IA de TVEO Business.
 
             ¿En qué proyecto inmobiliario te gustaría que te ayude hoy?
-
         </div>
-
     </div>
 
-
-    <!-- =========================
-         INPUT
-    ========================== -->
-
     <div class="chat-input-area">
-
         <input
             id="userInput"
             type="text"
@@ -444,582 +277,226 @@
             autocomplete="off"
         >
 
-        <button
-            id="sendButton"
-            type="button"
-        >
+        <button id="sendButton" type="button">
             Enviar
         </button>
-
     </div>
-
 
 </div>
 
-
 <script>
-
-/* =========================================================
-   CONFIGURACIÓN
-========================================================= */
-
 const API_URL = "/api/chat";
+const WHATSAPP_URL = "https://wa.me/message/PJBMLOLZEDVPF1";
 
-const WHATSAPP_URL =
-    "https://wa.me/message/PJBMLOLZEDVPF1";
-
-
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
-const chatMessages =
-    document.getElementById("chatMessages");
-
-const userInput =
-    document.getElementById("userInput");
-
-const sendButton =
-    document.getElementById("sendButton");
-
-
-/* =========================================================
-   HISTORIAL
-========================================================= */
+const chatMessages = document.getElementById("chatMessages");
+const userInput = document.getElementById("userInput");
+const sendButton = document.getElementById("sendButton");
 
 let chatHistory = [];
 
-
-/* =========================================================
-   SCROLL
-========================================================= */
-
 function scrollChat() {
-
-    setTimeout(function () {
-
-        chatMessages.scrollTop =
-            chatMessages.scrollHeight;
-
+    setTimeout(() => {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }, 50);
-
 }
-
-
-/* =========================================================
-   MOSTRAR MENSAJE DEL USUARIO
-========================================================= */
 
 function appendUserMessage(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.className =
-        "message user";
-
-    div.textContent =
-        text;
+    const div = document.createElement("div");
+    div.className = "message user";
+    div.textContent = text;
 
     chatMessages.appendChild(div);
-
     scrollChat();
-
 }
-
-
-/* =========================================================
-   CREAR BOTÓN WHATSAPP
-========================================================= */
 
 function createWhatsAppButton() {
+    const button = document.createElement("a");
 
-    const button =
-        document.createElement("a");
-
-
-    /*
-     * ESTO ES MUY IMPORTANTE.
-     *
-     * No mostramos la URL.
-     *
-     * Creamos directamente un
-     * elemento <a> real.
-     */
-
-    button.href =
-        WHATSAPP_URL;
-
-    button.target =
-        "_blank";
-
-    button.rel =
-        "noopener noreferrer";
-
-    button.className =
-        "whatsapp-button";
-
+    button.href = WHATSAPP_URL;
+    button.target = "_blank";
+    button.rel = "noopener noreferrer";
+    button.className = "whatsapp-button";
 
     button.innerHTML = `
-        <span class="whatsapp-icon">
-            💬
-        </span>
-
-        <span>
-            HABLAR CON UN ASESOR
-        </span>
+        <span class="whatsapp-icon">💬</span>
+        <span>HABLAR CON UN ASESOR</span>
     `;
 
-
     return button;
-
 }
 
-
-/* =========================================================
-   LIMPIAR URL DE WHATSAPP DE LA RESPUESTA
-========================================================= */
-
 function cleanWhatsAppLinks(text) {
+    if (!text) return "";
 
-    if (!text) {
+    let limpio = text.replace(
+        /https?:\/\/(?:www\.)?wa\.me\/[^\s<>"')\]]+/gi,
+        ""
+    );
 
-        return "";
-
-    }
-
-
-    /*
-     * Elimina:
-
-       https://wa.me/message/PJBMLOLZEDVPF1
-
-     * aunque tenga puntuación después.
-     */
-
-    let limpio =
-        text.replace(
-            /https?:\/\/(?:www\.)?wa\.me\/[^\s<>"')\]]+/gi,
-            ""
-        );
-
-
-    /*
-     * Elimina también Markdown:
-
-       [WhatsApp](https://wa.me/...)
-     */
-
-    limpio =
-        limpio.replace(
-            /\[[^\]]*\]\(\s*https?:\/\/(?:www\.)?wa\.me\/[^)]+\)/gi,
-            ""
-        );
-
+    limpio = limpio.replace(
+        /\[[^\]]*\]\(\s*https?:\/\/(?:www\.)?wa\.me\/[^)]+\)/gi,
+        ""
+    );
 
     return limpio
         .replace(/\n\s*\n\s*\n/g, "\n\n")
         .trim();
-
 }
 
+function appendAssistantMessage(text, showWhatsApp) {
+    const div = document.createElement("div");
+    div.className = "message assistant";
 
-/* =========================================================
-   MOSTRAR MENSAJE DEL ASISTENTE
-========================================================= */
-
-function appendAssistantMessage(
-    text,
-    showWhatsApp
-) {
-
-    const div =
-        document.createElement("div");
-
-
-    div.className =
-        "message assistant";
-
-
-    /*
-     * Limpiamos cualquier URL.
-     */
-
-    const cleanText =
-        cleanWhatsAppLinks(text);
-
-
-    /*
-     * Texto de la IA.
-     */
+    const cleanText = cleanWhatsAppLinks(text);
 
     if (cleanText) {
-
-        const textElement =
-            document.createElement("div");
-
-        textElement.textContent =
-            cleanText;
-
-        div.appendChild(
-            textElement
-        );
-
+        const textElement = document.createElement("div");
+        textElement.textContent = cleanText;
+        div.appendChild(textElement);
     }
-
-
-    /*
-     * =====================================================
-     * AQUÍ ESTÁ LA CLAVE
-     * =====================================================
-     *
-     * Si el Worker devuelve:
-     *
-     * whatsapp: true
-     *
-     * creamos el botón directamente.
-     */
 
     if (showWhatsApp === true) {
-
-        const button =
-            createWhatsAppButton();
-
-        div.appendChild(button);
-
+        div.appendChild(createWhatsAppButton());
     }
 
-
     chatMessages.appendChild(div);
-
     scrollChat();
-
 }
 
-
-/* =========================================================
-   LOADING
-========================================================= */
-
 function showLoading() {
+    const div = document.createElement("div");
 
-    const div =
-        document.createElement("div");
-
-    div.className =
-        "message assistant";
-
-    div.id =
-        "loadingMessage";
-
+    div.className = "message assistant";
+    div.id = "loadingMessage";
 
     div.innerHTML = `
         <div class="loading">
-
             <span></span>
             <span></span>
             <span></span>
-
         </div>
     `;
 
-
     chatMessages.appendChild(div);
-
     scrollChat();
-
 }
-
 
 function hideLoading() {
-
-    const loading =
-        document.getElementById(
-            "loadingMessage"
-        );
+    const loading = document.getElementById("loadingMessage");
 
     if (loading) {
-
         loading.remove();
-
     }
-
 }
 
-
-/* =========================================================
-   ENVIAR MENSAJE
-========================================================= */
-
 async function sendMessage() {
+    const text = userInput.value.trim();
 
-    const text =
-        userInput.value.trim();
+    if (!text) return;
 
-
-    if (!text) {
-
-        return;
-
-    }
-
-
-    /*
-     * Desactivar controles
-     */
-
-    sendButton.disabled =
-        true;
-
-    userInput.disabled =
-        true;
-
-
-    /*
-     * Mostrar mensaje usuario
-     */
+    sendButton.disabled = true;
+    userInput.disabled = true;
 
     appendUserMessage(text);
 
-
-    /*
-     * Limpiar input
-     */
-
-    userInput.value =
-        "";
-
-
-    /*
-     * Loading
-     */
+    userInput.value = "";
 
     showLoading();
 
-
     try {
-
         /*
-         * Historial
+         * El Worker espera:
+         * role
+         * content
          */
-
         chatHistory.push({
-
             role: "user",
-
-            parts: [
-                {
-                    text: text
-                }
-            ]
-
+            content: text
         });
 
-
-        /*
-         * Máximo 20 mensajes
-         */
-
-        if (
-            chatHistory.length > 20
-        ) {
-
-            chatHistory =
-                chatHistory.slice(-20);
-
+        if (chatHistory.length > 20) {
+            chatHistory = chatHistory.slice(-20);
         }
 
-
-        /*
-         * ==============================================
-         * LLAMADA AL CLOUDFLARE WORKER
-         * ==============================================
-         */
-
-        const response =
-            await fetch(
-                API_URL,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-
-                        message: text,
-
-                        history:
-                            chatHistory
-
-                    })
-
-                }
-            );
-
-
-        /*
-         * Error HTTP
-         */
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: text,
+                history: chatHistory
+            })
+        });
 
         if (!response.ok) {
-
-            throw new Error(
-                "HTTP " +
-                response.status
-            );
-
+            throw new Error("HTTP " + response.status);
         }
 
-
-        /*
-         * JSON
-         */
-
-        const data =
-            await response.json();
-
-
-        /*
-         * Quitar loading
-         */
+        const data = await response.json();
 
         hideLoading();
-
-
-        /*
-         * ==============================================
-         * RESPUESTA DE GEMINI
-         * ==============================================
-         */
 
         const answer =
             data.answer ||
             "No pude obtener una respuesta.";
 
-
-        /*
-         * ==============================================
-         * GUARDAR RESPUESTA
-         * ==============================================
-         */
-
         chatHistory.push({
-
-            role: "model",
-
-            parts: [
-                {
-                    text: answer
-                }
-            ]
-
+            role: "assistant",
+            content: answer
         });
 
+        if (chatHistory.length > 20) {
+            chatHistory = chatHistory.slice(-20);
+        }
 
         /*
-         * ==============================================
-         * WHATSAPP
-         * ==============================================
+         * AQUÍ ESTÁ EL BOTÓN
          *
-         * El Worker debe devolver:
-         *
+         * Si Worker devuelve:
          * whatsapp: true
          *
-         * cuando detecta que el cliente quiere
-         * hablar con un asesor.
+         * se crea el botón real.
          */
-
-        const showWhatsApp =
-            data.whatsapp === true;
-
-
-        /*
-         * ==============================================
-         * MOSTRAR RESPUESTA
-         * ==============================================
-         */
+        const showWhatsApp = data.whatsapp === true;
 
         appendAssistantMessage(
             answer,
             showWhatsApp
         );
 
-
     } catch (error) {
-
-        console.error(
-            "COIMTEC IA:",
-            error
-        );
-
+        console.error("COIMTEC IA:", error);
 
         hideLoading();
-
 
         appendAssistantMessage(
             "Error de conexión con COIMTEC IA. Por favor, intenta nuevamente.",
             false
         );
-
     }
 
-
-    /*
-     * Reactivar controles
-     */
-
-    sendButton.disabled =
-        false;
-
-    userInput.disabled =
-        false;
-
+    sendButton.disabled = false;
+    userInput.disabled = false;
     userInput.focus();
-
 }
-
-
-/* =========================================================
-   BOTÓN ENVIAR
-========================================================= */
 
 sendButton.addEventListener(
     "click",
     sendMessage
 );
 
-
-/* =========================================================
-   ENTER
-========================================================= */
-
 userInput.addEventListener(
     "keydown",
-    function(event) {
-
-        if (
-            event.key === "Enter"
-        ) {
-
+    event => {
+        if (event.key === "Enter") {
             event.preventDefault();
-
             sendMessage();
-
         }
-
     }
 );
 
-
-/* =========================================================
-   INICIO
-========================================================= */
-
 userInput.focus();
-
 </script>
 
 </body>
