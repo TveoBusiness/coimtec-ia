@@ -9,6 +9,10 @@
 
 <style>
 
+/* =========================
+   RESET
+========================= */
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -16,99 +20,149 @@
     font-family:Arial,Helvetica,sans-serif;
 }
 
+/* =========================
+   BODY
+========================= */
+
 body{
     width:100%;
     height:100vh;
     background:#f4f7f6;
+
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
+/* =========================
+   CONTENEDOR
+========================= */
+
 .chat-container{
     width:100%;
     max-width:480px;
     height:90vh;
-    background:#fff;
+
+    background:#ffffff;
+
     border-radius:16px;
-    box-shadow:0 8px 30px rgba(0,0,0,.15);
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.15);
+
     overflow:hidden;
+
     display:flex;
     flex-direction:column;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 .chat-header{
     background:#0b192c;
-    color:#fff;
+    color:#ffffff;
+
     padding:16px 20px;
+
     display:flex;
     align-items:center;
+
     gap:14px;
 }
 
 .chat-header img{
     width:52px;
     height:52px;
+
     border-radius:50%;
+
     object-fit:cover;
-    background:#fff;
+
+    background:#ffffff;
 }
 
 .chat-header h2{
     font-size:19px;
+    font-weight:bold;
 }
 
 .chat-header span{
     display:block;
+
     margin-top:5px;
+
     color:#25d366;
+
     font-size:13px;
 }
 
-/* CHAT */
+/* =========================
+   MENSAJES
+========================= */
 
 .chat-messages{
     flex:1;
+
     overflow-y:auto;
+
     padding:20px;
+
     background:#f8f9fa;
+
     display:flex;
     flex-direction:column;
+
     gap:12px;
 }
 
 .message{
     max-width:85%;
+
     padding:13px 16px;
+
     border-radius:13px;
+
     font-size:15px;
+
     line-height:1.5;
+
     white-space:pre-wrap;
+
     overflow-wrap:anywhere;
 }
 
 .message.user{
     align-self:flex-end;
+
     background:#0b192c;
-    color:#fff;
+
+    color:#ffffff;
+
     border-bottom-right-radius:3px;
 }
 
 .message.assistant{
     align-self:flex-start;
+
     background:#e8ebee;
-    color:#222;
+
+    color:#222222;
+
     border-bottom-left-radius:3px;
 }
 
-/* WHATSAPP */
+/* =========================
+   WHATSAPP
+========================= */
 
 .whatsapp-area{
     padding:10px 15px;
+
     background:#f8f9fa;
-    border-top:1px solid #eee;
+
+    border-top:1px solid #eeeeee;
 }
 
 .whatsapp-button{
@@ -116,52 +170,77 @@ body{
     height:55px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
+
     gap:10px;
 
     background:#25d366;
-    color:#fff;
+
+    color:#ffffff;
+
+    text-decoration:none;
 
     border:0;
+
     border-radius:11px;
 
     font-size:16px;
+
     font-weight:bold;
 
     cursor:pointer;
 
-    box-shadow:0 4px 10px rgba(37,211,102,.25);
+    box-shadow:
+        0 4px 10px rgba(37,211,102,.25);
 
-    position:relative;
-    z-index:99999;
+    transition:
+        transform .15s ease,
+        background .15s ease,
+        box-shadow .15s ease;
 }
 
 .whatsapp-button:hover{
     background:#1ebe5d;
+
+    box-shadow:
+        0 6px 14px rgba(37,211,102,.35);
 }
 
 .whatsapp-button:active{
     transform:scale(.98);
 }
 
-/* INPUT */
+/* =========================
+   INPUT
+========================= */
 
 .chat-input-area{
     display:flex;
+
     gap:10px;
+
     padding:14px;
-    background:#fff;
-    border-top:1px solid #ddd;
+
+    background:#ffffff;
+
+    border-top:1px solid #dddddd;
 }
 
 .chat-input-area input{
     flex:1;
+
     min-width:0;
+
     padding:13px 14px;
-    border:1px solid #ddd;
+
+    border:1px solid #dddddd;
+
     border-radius:9px;
+
     outline:none;
+
     font-size:15px;
 }
 
@@ -171,31 +250,48 @@ body{
 
 .chat-input-area button{
     padding:0 18px;
+
     border:0;
+
     border-radius:9px;
+
     background:#25d366;
-    color:#fff;
+
+    color:#ffffff;
+
     font-weight:bold;
+
     cursor:pointer;
+}
+
+.chat-input-area button:hover{
+    background:#1ebe5d;
 }
 
 .chat-input-area button:disabled{
     opacity:.6;
+
     cursor:not-allowed;
 }
 
-/* LOADING */
+/* =========================
+   LOADING
+========================= */
 
 .loading{
     display:flex;
+
     gap:5px;
 }
 
 .loading span{
     width:7px;
     height:7px;
-    background:#777;
+
+    background:#777777;
+
     border-radius:50%;
+
     animation:loading 1.2s infinite;
 }
 
@@ -221,20 +317,27 @@ body{
 
 }
 
-/* CELULAR */
+/* =========================
+   CELULAR
+========================= */
 
 @media(max-width:600px){
 
     body{
         height:100dvh;
-        background:#fff;
+
+        background:#ffffff;
     }
 
     .chat-container{
         width:100%;
+
         height:100dvh;
+
         max-width:none;
+
         border-radius:0;
+
         box-shadow:none;
     }
 
@@ -257,7 +360,9 @@ body{
 <div class="chat-container">
 
 
-    <!-- HEADER -->
+    <!-- =========================
+         HEADER
+    ========================== -->
 
     <div class="chat-header">
 
@@ -277,7 +382,9 @@ body{
     </div>
 
 
-    <!-- MENSAJES -->
+    <!-- =========================
+         CHAT
+    ========================== -->
 
     <div
         id="chatMessages"
@@ -295,24 +402,28 @@ body{
     </div>
 
 
-    <!-- WHATSAPP -->
+    <!-- =========================
+         WHATSAPP
+    ========================== -->
 
     <div class="whatsapp-area">
 
-        <button
+        <a
             id="whatsappButton"
-            type="button"
             class="whatsapp-button"
+            href="https://wa.me/59177136686"
+            target="_blank"
+            rel="noopener noreferrer"
         >
-
             💬 HABLAR CON UN ASESOR
-
-        </button>
+        </a>
 
     </div>
 
 
-    <!-- INPUT -->
+    <!-- =========================
+         INPUT
+    ========================== -->
 
     <div class="chat-input-area">
 
@@ -338,28 +449,18 @@ body{
 <script>
 
 /* =========================================
-   WHATSAPP
-========================================= */
-
-const whatsappButton =
-    document.getElementById("whatsappButton");
-
-whatsappButton.addEventListener(
-    "click",
-    function(){
-
-        window.location.href =
-            "https://wa.me/59177136686";
-
-    }
-);
-
-
-/* =========================================
-   CHAT
+   CONFIGURACIÓN
 ========================================= */
 
 const API_URL = "/api/chat";
+
+const WHATSAPP_URL =
+    "https://wa.me/59177136686";
+
+
+/* =========================================
+   ELEMENTOS
+========================================= */
 
 const chatMessages =
     document.getElementById("chatMessages");
@@ -370,10 +471,32 @@ const userInput =
 const sendButton =
     document.getElementById("sendButton");
 
+const whatsappButton =
+    document.getElementById("whatsappButton");
+
+
+/* =========================================
+   HISTORIAL
+========================================= */
+
 let chatHistory = [];
 
 
-/* SCROLL */
+/* =========================================
+   VERIFICAR WHATSAPP
+========================================= */
+
+if(whatsappButton){
+
+    whatsappButton.href =
+        WHATSAPP_URL;
+
+}
+
+
+/* =========================================
+   SCROLL
+========================================= */
 
 function scrollChat(){
 
@@ -387,7 +510,9 @@ function scrollChat(){
 }
 
 
-/* MENSAJE USUARIO */
+/* =========================================
+   MENSAJE USUARIO
+========================================= */
 
 function appendUserMessage(text){
 
@@ -407,7 +532,9 @@ function appendUserMessage(text){
 }
 
 
-/* LIMPIAR RESPUESTA */
+/* =========================================
+   LIMPIAR RESPUESTA
+========================================= */
 
 function limpiarRespuesta(text){
 
@@ -442,7 +569,9 @@ function limpiarRespuesta(text){
 }
 
 
-/* MENSAJE IA */
+/* =========================================
+   MENSAJE IA
+========================================= */
 
 function appendAssistantMessage(text){
 
@@ -474,7 +603,9 @@ function appendAssistantMessage(text){
 }
 
 
-/* LOADING */
+/* =========================================
+   LOADING
+========================================= */
 
 function showLoading(){
 
@@ -502,7 +633,9 @@ function showLoading(){
 }
 
 
-/* OCULTAR LOADING */
+/* =========================================
+   OCULTAR LOADING
+========================================= */
 
 function hideLoading(){
 
@@ -520,7 +653,9 @@ function hideLoading(){
 }
 
 
-/* ENVIAR MENSAJE */
+/* =========================================
+   ENVIAR MENSAJE
+========================================= */
 
 async function sendMessage(){
 
@@ -532,6 +667,7 @@ async function sendMessage(){
     }
 
     sendButton.disabled = true;
+
     userInput.disabled = true;
 
     appendUserMessage(text);
@@ -540,14 +676,17 @@ async function sendMessage(){
 
     showLoading();
 
+
     try{
 
         chatHistory.push({
 
             role:"user",
+
             content:text
 
         });
+
 
         if(chatHistory.length > 20){
 
@@ -556,9 +695,12 @@ async function sendMessage(){
 
         }
 
+
         const response =
             await fetch(
+
                 API_URL,
+
                 {
                     method:"POST",
 
@@ -570,11 +712,15 @@ async function sendMessage(){
                     body:JSON.stringify({
 
                         message:text,
+
                         history:chatHistory
 
                     })
+
                 }
+
             );
+
 
         if(!response.ok){
 
@@ -585,21 +731,27 @@ async function sendMessage(){
 
         }
 
+
         const data =
             await response.json();
 
+
         hideLoading();
+
 
         const answer =
             data.answer ||
             "No pude generar una respuesta.";
 
+
         chatHistory.push({
 
             role:"assistant",
+
             content:answer
 
         });
+
 
         if(chatHistory.length > 20){
 
@@ -608,9 +760,14 @@ async function sendMessage(){
 
         }
 
-        appendAssistantMessage(answer);
+
+        appendAssistantMessage(
+            answer
+        );
+
 
     }
+
     catch(error){
 
         console.error(
@@ -618,15 +775,21 @@ async function sendMessage(){
             error
         );
 
+
         hideLoading();
 
+
         appendAssistantMessage(
+
             "No pude conectarme con COIMTEC IA. Por favor, intenta nuevamente."
+
         );
 
     }
 
+
     sendButton.disabled = false;
+
     userInput.disabled = false;
 
     userInput.focus();
@@ -634,18 +797,27 @@ async function sendMessage(){
 }
 
 
-/* ENVIAR */
+/* =========================================
+   BOTÓN ENVIAR
+========================================= */
 
 sendButton.addEventListener(
+
     "click",
+
     sendMessage
+
 );
 
 
-/* ENTER */
+/* =========================================
+   ENTER
+========================================= */
 
 userInput.addEventListener(
+
     "keydown",
+
     function(event){
 
         if(event.key === "Enter"){
@@ -657,12 +829,34 @@ userInput.addEventListener(
         }
 
     }
+
 );
 
 
-/* INICIO */
+/* =========================================
+   INICIO
+========================================= */
 
 userInput.focus();
+
+
+/* =========================================
+   DIAGNÓSTICO
+========================================= */
+
+console.log(
+    "COIMTEC IA cargado correctamente."
+);
+
+console.log(
+    "Botón WhatsApp:",
+    whatsappButton
+);
+
+console.log(
+    "WhatsApp:",
+    WHATSAPP_URL
+);
 
 </script>
 
