@@ -368,10 +368,6 @@
         rgba(3,9,18,.72);
     }
 
-    /* =====================================================
-       CHAT HEADER
-       ===================================================== */
-
     .chat-header {
       min-height: 82px;
 
@@ -537,55 +533,78 @@
       flex: 1;
       min-height: 0;
 
-      overflow-y: auto;
+      overflow-y: scroll;
+      overflow-x: hidden;
 
       padding: 28px 30px 32px;
+
+      /*
+       * IMPORTANTE:
+       * Esta es la barra vertical real del chat.
+       */
 
       scrollbar-width: auto;
 
       scrollbar-color:
-        #334155
-        rgba(2,8,18,.35);
+        #2563eb
+        rgba(255,255,255,.07);
 
       scroll-behavior: smooth;
 
       overscroll-behavior: contain;
     }
 
-    /* Barra de desplazamiento para Chrome / Edge / Opera */
+    /* =====================================================
+       BARRA DERECHA - CHROME / EDGE / OPERA
+       ===================================================== */
 
     .chat-content::-webkit-scrollbar {
-      width: 11px;
+      width: 14px;
     }
 
     .chat-content::-webkit-scrollbar-track {
       background:
-        rgba(2,8,18,.38);
+        rgba(255,255,255,.055);
 
-      border-radius: 10px;
+      border-left:
+        1px solid rgba(148,163,184,.08);
+
+      border-radius: 12px;
     }
 
     .chat-content::-webkit-scrollbar-thumb {
+      min-height: 55px;
+
       background:
         linear-gradient(
           180deg,
-          #475569,
-          #26364c
+          #22d3ee,
+          #2563eb
         );
 
       border:
-        3px solid rgba(2,8,18,.38);
+        3px solid rgba(5,11,20,.88);
 
-      border-radius: 10px;
+      border-radius: 12px;
+
+      box-shadow:
+        0 0 12px rgba(37,99,235,.25);
     }
 
     .chat-content::-webkit-scrollbar-thumb:hover {
       background:
         linear-gradient(
           180deg,
-          #64748b,
-          #334155
+          #67e8f9,
+          #3b82f6
         );
+
+      box-shadow:
+        0 0 18px rgba(34,211,238,.4);
+    }
+
+    .chat-content::-webkit-scrollbar-button {
+      display: none;
     }
 
     /* =====================================================
@@ -701,7 +720,7 @@
     }
 
     /* =====================================================
-       CHAT MESSAGES
+       MENSAJES
        ===================================================== */
 
     .chat {
@@ -914,7 +933,7 @@
     }
 
     /* =====================================================
-       QUICK OPTIONS
+       OPCIONES
        ===================================================== */
 
     .quick-options {
@@ -1096,7 +1115,7 @@
     }
 
     /* =====================================================
-       VOICE
+       VOZ
        ===================================================== */
 
     .voice-control {
@@ -1147,7 +1166,7 @@
     }
 
     /* =====================================================
-       TABLET / LAPTOP
+       TABLET
        ===================================================== */
 
     @media (max-width: 1200px) {
@@ -1268,13 +1287,13 @@
 
       .chat-content {
         padding:
-          15px 12px 24px;
+          15px 10px 24px;
 
         scrollbar-width: auto;
       }
 
       .chat-content::-webkit-scrollbar {
-        width: 8px;
+        width: 10px;
       }
 
       .chat-content::-webkit-scrollbar-thumb {
@@ -1304,6 +1323,7 @@
       .quick-options {
         grid-template-columns:
           1fr;
+
         gap: 8px;
       }
 
@@ -1579,7 +1599,10 @@
       </header>
 
 
-      <div class="chat-content" id="chatContent">
+      <div
+        class="chat-content"
+        id="chatContent"
+      >
 
         <section class="welcome">
 
@@ -1600,7 +1623,10 @@
         </section>
 
 
-        <div class="chat" id="chat">
+        <div
+          class="chat"
+          id="chat"
+        >
 
           <div class="message-row">
 
@@ -1636,9 +1662,7 @@
         </div>
 
 
-        <!-- =============================================
-             OPCIONES RÁPIDAS
-             ============================================= -->
+        <!-- OPCIONES -->
 
         <div
           class="quick-options"
@@ -1705,9 +1729,8 @@
 
         </div>
 
-        <!-- =============================================
-             BOTÓN IR AL ÚLTIMO MENSAJE
-             ============================================= -->
+
+        <!-- BOTÓN PARA VOLVER AL FINAL -->
 
         <button
           class="go-bottom"
@@ -1721,9 +1744,9 @@
       </div>
 
 
-      <!-- ===============================================
+      <!-- =================================================
            PARTE INFERIOR
-           =============================================== -->
+           ================================================= -->
 
       <div class="bottom-area">
 
@@ -1763,9 +1786,7 @@
 
 
         <footer class="footer">
-
           TVEO Business · COIMTEC IA
-
         </footer>
 
       </div>
@@ -1776,10 +1797,6 @@
 
 </div>
 
-
-<!-- =====================================================
-     JAVASCRIPT
-     ===================================================== -->
 
 <script>
 
@@ -1792,9 +1809,7 @@ const WHATSAPP_URL =
 
 
 const chatContent =
-  document.getElementById(
-    "chatContent"
-  );
+  document.getElementById("chatContent");
 
 
 const chat =
@@ -1814,27 +1829,19 @@ const typing =
 
 
 const goBottom =
-  document.getElementById(
-    "goBottom"
-  );
+  document.getElementById("goBottom");
 
 
 const quickButtons =
-  document.querySelectorAll(
-    ".quick-button"
-  );
+  document.querySelectorAll(".quick-button");
 
 
 const sidebarButtons =
-  document.querySelectorAll(
-    ".quick-sidebar button"
-  );
+  document.querySelectorAll(".quick-sidebar button");
 
 
 const voiceButton =
-  document.getElementById(
-    "voiceButton"
-  );
+  document.getElementById("voiceButton");
 
 
 let vozActiva =
@@ -1852,7 +1859,7 @@ function estaCercaDelFinal() {
     chatContent.scrollTop -
     chatContent.clientHeight;
 
-  return distancia < 120;
+  return distancia <= 120;
 
 }
 
@@ -1862,8 +1869,13 @@ function irAlFinal(
 ) {
 
   chatContent.scrollTo({
-    top: chatContent.scrollHeight,
-    behavior: comportamiento
+
+    top:
+      chatContent.scrollHeight,
+
+    behavior:
+      comportamiento
+
   });
 
 }
@@ -1871,7 +1883,9 @@ function irAlFinal(
 
 function actualizarBotonFinal() {
 
-  if (estaCercaDelFinal()) {
+  if (
+    estaCercaDelFinal()
+  ) {
 
     goBottom.classList.remove(
       "visible"
@@ -1891,7 +1905,9 @@ function actualizarBotonFinal() {
 chatContent.addEventListener(
   "scroll",
   actualizarBotonFinal,
-  { passive: true }
+  {
+    passive: true
+  }
 );
 
 
@@ -1899,7 +1915,9 @@ goBottom.addEventListener(
   "click",
   function() {
 
-    irAlFinal("smooth");
+    irAlFinal(
+      "smooth"
+    );
 
   }
 );
@@ -1955,22 +1973,28 @@ function hablarRespuesta(texto) {
 
 
   const vozEspanol =
-    voces.find(function(voz) {
+    voces.find(
+      function(voz) {
 
-      return /^es(-|_)/i
-        .test(voz.lang);
+        return /^es(-|_)/i
+          .test(voz.lang);
 
-    });
+      }
+    );
 
 
   if (vozEspanol) {
+
     utterance.voice =
       vozEspanol;
+
   }
 
 
   window.speechSynthesis
-    .speak(utterance);
+    .speak(
+      utterance
+    );
 
 }
 
@@ -2024,7 +2048,7 @@ function limpiarRespuesta(texto) {
 
 
 /* =====================================================
-   DETECTAR WHATSAPP / ASESOR
+   WHATSAPP / ASESOR
    ===================================================== */
 
 function contieneWhatsApp(texto) {
@@ -2112,11 +2136,13 @@ function agregarMensajeUsuario(
 
 
   /*
-    Solo bajamos automáticamente si
-    el usuario ya estaba cerca del final.
-  */
+   * Cuando el usuario acaba de enviar
+   * un mensaje, sí debemos llevarlo al final.
+   */
 
-  irAlFinal("smooth");
+  irAlFinal(
+    "smooth"
+  );
 
 }
 
@@ -2184,9 +2210,6 @@ function mostrarBotonWhatsApp() {
     typing
   );
 
-
-  irAlFinal("smooth");
-
 }
 
 
@@ -2198,6 +2221,15 @@ function agregarMensajeAsistente(
   texto,
   mostrarWhatsApp
 ) {
+
+  /*
+   * Guardamos la posición del usuario
+   * ANTES de insertar la respuesta.
+   */
+
+  const estabaAbajo =
+    estaCercaDelFinal();
+
 
   const row =
     document.createElement(
@@ -2244,13 +2276,24 @@ function agregarMensajeAsistente(
 
 
   /*
-    La respuesta nueva siempre se muestra
-    si el usuario está cerca del final.
-  */
+   * Si estaba abajo, seguimos mostrando
+   * la respuesta nueva.
+   *
+   * Si había subido manualmente,
+   * NO lo movemos.
+   */
 
-  if (estaCercaDelFinal()) {
+  if (estabaAbajo) {
 
-    irAlFinal("smooth");
+    requestAnimationFrame(
+      function() {
+
+        irAlFinal(
+          "smooth"
+        );
+
+      }
+    );
 
   } else {
 
@@ -2268,6 +2311,10 @@ function agregarMensajeAsistente(
 function mostrarError(
   texto
 ) {
+
+  const estabaAbajo =
+    estaCercaDelFinal();
+
 
   const row =
     document.createElement(
@@ -2304,7 +2351,17 @@ function mostrarError(
   );
 
 
-  irAlFinal("smooth");
+  if (estabaAbajo) {
+
+    irAlFinal(
+      "smooth"
+    );
+
+  } else {
+
+    actualizarBotonFinal();
+
+  }
 
 }
 
@@ -2365,7 +2422,9 @@ async function enviarMensaje() {
     "block";
 
 
-  irAlFinal("smooth");
+  irAlFinal(
+    "smooth"
+  );
 
 
   try {
@@ -2422,7 +2481,9 @@ async function enviarMensaje() {
 
     const necesitaWhatsApp =
       data.whatsapp === true ||
-      contieneWhatsApp(answer);
+      contieneWhatsApp(
+        answer
+      );
 
 
     agregarMensajeAsistente(
@@ -2500,6 +2561,7 @@ function usarConsulta(
 
   messageInput.value =
     consulta;
+
 
   enviarMensaje();
 
