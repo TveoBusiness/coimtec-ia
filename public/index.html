@@ -61,6 +61,7 @@
       justify-content: center;
       font-weight: 900;
       font-size: 20px;
+      box-shadow: 0 3px 8px rgba(0,0,0,.15);
     }
 
     .brand-text h1 {
@@ -174,6 +175,60 @@
       margin-bottom: 14px;
     }
 
+    .quick-options {
+      background: white;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 15px;
+      box-shadow: 0 3px 14px rgba(0,0,0,.08);
+    }
+
+    .quick-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0b3d91;
+      margin-bottom: 12px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .quick-button {
+      border: 1px solid #d9e3ef;
+      background: white;
+      color: #0b3d91;
+      border-radius: 14px;
+      padding: 14px 13px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        background .15s ease;
+    }
+
+    .quick-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(11,61,145,.14);
+      background: #f7faff;
+    }
+
+    .quick-button:active {
+      transform: translateY(0);
+    }
+
+    .quick-button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .whatsapp-response {
       margin-top: 12px;
       margin-bottom: 18px;
@@ -198,54 +253,6 @@
       border: none;
     }
 
-
-    .quick-options {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .quick-title {
-      grid-column: 1 / -1;
-      font-size: 14px;
-      font-weight: 800;
-      color: #0b3d91;
-      margin-bottom: 2px;
-    }
-
-    .quick-button {
-      border: 1px solid #d9e3ef;
-      background: white;
-      color: #0b3d91;
-      border-radius: 14px;
-      padding: 13px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      text-align: left;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,.05);
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-    }
-
-    .quick-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 14px rgba(11,61,145,.12);
-      background: #f7faff;
-    }
-
-    .quick-button:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    @media (max-width: 600px) {
-      .quick-options {
-        grid-template-columns: 1fr;
-      }
-    }
-
     .input-area {
       margin-top: 15px;
       background: white;
@@ -264,6 +271,11 @@
       outline: none;
       font-size: 14px;
       min-width: 0;
+    }
+
+    .input-area input:focus {
+      border-color: #1565c0;
+      box-shadow: 0 0 0 3px rgba(21,101,192,.08);
     }
 
     .send-button {
@@ -289,6 +301,7 @@
     }
 
     @media (max-width: 600px) {
+
       .header {
         padding: 13px 14px;
       }
@@ -321,9 +334,17 @@
         font-size: 13px;
       }
 
+      .quick-grid {
+        grid-template-columns: 1fr;
+      }
+
       .whatsapp-button {
         width: 100%;
         font-size: 12px;
+      }
+
+      .send-button {
+        padding: 0 16px;
       }
     }
   </style>
@@ -369,10 +390,9 @@
       <h2>Hola, soy COIMTEC IA 👋</h2>
 
       <p>
-        Estoy aquí para ayudarte con información sobre nuestros proyectos
-        inmobiliarios de TVEO Business.
-        Puedes preguntarme por precios, superficies, ubicación,
-        formas de pago y características de nuestros proyectos.
+        Estoy aquí para ayudarte con información sobre los proyectos
+        inmobiliarios de TVEO Business. Selecciona un proyecto o
+        escribe directamente tu consulta.
       </p>
 
     </section>
@@ -385,7 +405,7 @@
         <div class="message assistant">
           ¡Hola! 👋 Soy <strong>COIMTEC IA</strong>,
           asistente virtual de <strong>TVEO Business</strong>.
-          ¿En qué proyecto estás interesado?
+          ¿Qué proyecto te interesa conocer?
         </div>
 
       </div>
@@ -397,40 +417,71 @@
     </section>
 
 
-
     <div class="quick-options" id="quickOptions">
-      <div class="quick-title">¿Qué información estás buscando?</div>
 
-      <button class="quick-button" type="button"
-        data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business.">
-        🏠 Casas a Crédito Directo
-      </button>
+      <div class="quick-title">
+        ¿Qué proyecto te interesa?
+      </div>
 
-      <button class="quick-button" type="button"
-        data-message="Quiero información sobre construcción de viviendas personalizadas de TVEO Business.">
-        🏡 Construcción de Viviendas
-      </button>
+      <div class="quick-grid">
 
-      <button class="quick-button" type="button"
-        data-message="Quiero información sobre los proyectos inmobiliarios de TVEO Business.">
-        🏢 Proyectos Inmobiliarios
-      </button>
+        <button
+          class="quick-button"
+          type="button"
+          data-message="Quiero información completa sobre Berchatti Residence. Indícame ubicación, superficies, precios, formas de pago, características y disponibilidad."
+        >
+          🏡 Berchatti Residence
+        </button>
 
-      <button class="quick-button" type="button"
-        data-message="Quiero saber cómo puedo desarrollar o aumentar el valor de mi terreno con TVEO Business.">
-        🌱 Desarrollo de mi Terreno
-      </button>
 
-      <button class="quick-button" type="button"
-        data-message="Quiero información sobre las opciones de financiamiento de TVEO Business.">
-        💰 Opciones de Financiamiento
-      </button>
+        <button
+          class="quick-button"
+          type="button"
+          data-message="Quiero información completa sobre Casas a Crédito Directo de TVEO Business. Explícame cómo funciona, requisitos, precios, cuotas, modalidades y opciones disponibles."
+        >
+          🏠 Casas a Crédito Directo
+        </button>
 
-      <button class="quick-button" type="button"
-        data-message="Quiero hablar con un asesor comercial de TVEO Business.">
-        👨‍💼 Hablar con un Asesor
-      </button>
+
+        <button
+          class="quick-button"
+          type="button"
+          data-message="Quiero información completa sobre Laguna Norte II. Indícame ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
+        >
+          🌿 Laguna Norte II
+        </button>
+
+
+        <button
+          class="quick-button"
+          type="button"
+          data-message="Quiero información completa sobre Sinai Eco-Residence. Indícame ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
+        >
+          🌱 Sinai Eco-Residence
+        </button>
+
+
+        <button
+          class="quick-button"
+          type="button"
+          data-message="Quiero conocer todos los proyectos inmobiliarios que actualmente ofrece TVEO Business. Muéstrame las opciones disponibles y explícame brevemente cada una."
+        >
+          📋 Ver todos los proyectos
+        </button>
+
+
+        <button
+          class="quick-button"
+          type="button"
+          data-message="Quiero hablar con un asesor comercial de TVEO Business. Necesito atención personalizada."
+        >
+          👨‍💼 Hablar con un Asesor
+        </button>
+
+      </div>
+
     </div>
+
 
     <div class="input-area">
 
@@ -491,32 +542,27 @@ function limpiarRespuesta(texto) {
     return "";
   }
 
-  let respuesta =
-    String(texto);
+  let respuesta = String(texto);
 
-  respuesta =
-    respuesta.replace(
-      /\[[^\]]*\]\(\s*https?:\/\/wa\.me\/[^)]+\)/gi,
-      ""
-    );
+  respuesta = respuesta.replace(
+    /\[[^\]]*\]\(\s*https?:\/\/wa\.me\/[^)]+\)/gi,
+    ""
+  );
 
-  respuesta =
-    respuesta.replace(
-      /https?:\/\/wa\.me\/[^\s<>"')]+/gi,
-      ""
-    );
+  respuesta = respuesta.replace(
+    /https?:\/\/wa\.me\/[^\s<>"')]+/gi,
+    ""
+  );
 
-  respuesta =
-    respuesta.replace(
-      /[ \t]{2,}/g,
-      " "
-    );
+  respuesta = respuesta.replace(
+    /[ \t]{2,}/g,
+    " "
+  );
 
-  respuesta =
-    respuesta.replace(
-      /\n{3,}/g,
-      "\n\n"
-    );
+  respuesta = respuesta.replace(
+    /\n{3,}/g,
+    "\n\n"
+  );
 
   return respuesta.trim();
 }
@@ -528,8 +574,7 @@ function contieneWhatsApp(texto) {
     return false;
   }
 
-  const respuesta =
-    String(texto);
+  const respuesta = String(texto);
 
   return (
     /https?:\/\/wa\.me\//i.test(respuesta) ||
@@ -706,9 +751,11 @@ async function enviarMensaje() {
   messageInput.disabled =
     true;
 
-  quickButtons.forEach(function(button) {
-    button.disabled = true;
-  });
+  quickButtons.forEach(
+    function(button) {
+      button.disabled = true;
+    }
+  );
 
   typing.style.display =
     "block";
@@ -787,9 +834,11 @@ async function enviarMensaje() {
     messageInput.disabled =
       false;
 
-    quickButtons.forEach(function(button) {
-      button.disabled = false;
-    });
+    quickButtons.forEach(
+      function(button) {
+        button.disabled = false;
+      }
+    );
 
     messageInput.focus();
 
@@ -823,14 +872,29 @@ messageInput.addEventListener(
 );
 
 
+quickButtons.forEach(
+  function(button) {
 
-quickButtons.forEach(function(button) {
-  button.addEventListener("click", function() {
-    const consulta = button.getAttribute("data-message") || "";
-    messageInput.value = consulta;
-    enviarMensaje();
-  });
-});
+    button.addEventListener(
+      "click",
+      function() {
+
+        const consulta =
+          button.getAttribute(
+            "data-message"
+          ) || "";
+
+        messageInput.value =
+          consulta;
+
+        enviarMensaje();
+
+      }
+    );
+
+  }
+);
+
 
 messageInput.focus();
 
