@@ -3,28 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <meta name="theme-color" content="#07111f">
-  <meta name="description" content="COIMTEC IA - Asistente inmobiliario inteligente de TVEO Business">
 
-  <title>COIMTEC IA | Asistente Inmobiliario Inteligente</title>
+  <title>COIMTEC IA | Inteligencia Comercial Inmobiliaria</title>
 
   <style>
     :root {
       --bg: #050b14;
-      --bg2: #081321;
-      --panel: rgba(11, 24, 40, 0.82);
-      --panel-light: rgba(255,255,255,0.055);
-      --border: rgba(255,255,255,0.09);
+      --panel: rgba(10, 20, 35, .82);
+      --panel-2: rgba(15, 28, 48, .72);
+      --line: rgba(148, 163, 184, .16);
       --text: #f8fafc;
       --muted: #94a3b8;
-      --blue: #3b82f6;
       --cyan: #22d3ee;
-      --green: #34d399;
-      --gold: #f5c96a;
-      --user: #2563eb;
-      --assistant: rgba(255,255,255,0.055);
-      --shadow: 0 30px 90px rgba(0,0,0,.45);
+      --blue: #3b82f6;
+      --gold: #f5c451;
+      --success: #34d399;
     }
 
     * {
@@ -49,13 +43,14 @@
         "Segoe UI",
         sans-serif;
 
-      color: var(--text);
       background:
-        radial-gradient(circle at 15% 10%, rgba(37,99,235,.22), transparent 28%),
-        radial-gradient(circle at 85% 15%, rgba(34,211,238,.12), transparent 25%),
-        radial-gradient(circle at 50% 100%, rgba(37,99,235,.12), transparent 35%),
-        linear-gradient(135deg, #030711 0%, #07111f 50%, #040914 100%);
+        radial-gradient(circle at 15% 10%, rgba(34,211,238,.13), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(59,130,246,.16), transparent 32%),
+        radial-gradient(circle at 50% 100%, rgba(245,196,81,.06), transparent 30%),
+        var(--bg);
 
+      color: var(--text);
+      min-height: 100vh;
       overflow: hidden;
     }
 
@@ -64,395 +59,400 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
+      opacity: .18;
 
       background-image:
         linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
 
-      background-size: 45px 45px;
-
-      mask-image: linear-gradient(
-        to bottom,
-        rgba(0,0,0,.8),
-        transparent
-      );
+      background-size: 40px 40px;
     }
 
     .app {
-      min-height: 100vh;
       width: 100%;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      position: relative;
+      padding: 20px;
     }
 
-    /* ================================
-       LUCES DECORATIVAS
-    ================================= */
+    .shell {
+      width: min(1100px, 100%);
+      height: min(850px, 94vh);
 
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(70px);
-      pointer-events: none;
-      opacity: .35;
-      animation: floatOrb 9s ease-in-out infinite;
-    }
+      display: grid;
+      grid-template-columns: 340px 1fr;
 
-    .orb.one {
-      width: 260px;
-      height: 260px;
-      background: #2563eb;
-      top: -100px;
-      left: -80px;
-    }
-
-    .orb.two {
-      width: 220px;
-      height: 220px;
-      background: #0891b2;
-      right: -80px;
-      top: 25%;
-      animation-delay: -3s;
-    }
-
-    .orb.three {
-      width: 240px;
-      height: 240px;
-      background: #1d4ed8;
-      bottom: -130px;
-      left: 35%;
-      animation-delay: -6s;
-    }
-
-    @keyframes floatOrb {
-      0%,100% {
-        transform: translate(0,0);
-      }
-
-      50% {
-        transform: translate(20px,-25px);
-      }
-    }
-
-    /* ================================
-       CONTENEDOR PRINCIPAL
-    ================================= */
-
-    .chat-shell {
-      position: relative;
-      width: min(1080px, 100%);
-      height: min(850px, calc(100vh - 48px));
-
-      display: flex;
-      flex-direction: column;
-
-      background: rgba(5, 13, 25, .78);
-
-      border: 1px solid rgba(255,255,255,.10);
-
-      border-radius: 30px;
-
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-
-      box-shadow:
-        0 40px 120px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,255,255,.06);
+      background: rgba(5, 12, 24, .78);
+      border: 1px solid rgba(148,163,184,.16);
+      border-radius: 28px;
 
       overflow: hidden;
+
+      box-shadow:
+        0 40px 100px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.04);
+
+      backdrop-filter: blur(24px);
     }
 
-    .chat-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
+    /* =====================================================
+       PANEL IZQUIERDO
+       ===================================================== */
+
+    .sidebar {
+      position: relative;
+      padding: 28px;
 
       background:
         linear-gradient(
-          120deg,
-          rgba(255,255,255,.06),
-          transparent 30%,
-          transparent 70%,
-          rgba(34,211,238,.025)
+          180deg,
+          rgba(15,31,52,.94),
+          rgba(5,15,28,.94)
         );
-    }
 
-    /* ================================
-       HEADER
-    ================================= */
-
-    .header {
-      position: relative;
-      z-index: 2;
-
-      min-height: 88px;
-      padding: 18px 24px;
+      border-right: 1px solid var(--line);
 
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      border-bottom: 1px solid var(--border);
-
-      background: rgba(3,10,20,.55);
+      flex-direction: column;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 13px;
+      margin-bottom: 42px;
     }
 
-    .brand-logo {
+    .brand-icon {
       width: 50px;
       height: 50px;
+      border-radius: 17px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      border-radius: 16px;
-
       background:
-        linear-gradient(145deg, #2563eb, #0ea5e9);
+        linear-gradient(135deg, #22d3ee, #2563eb);
 
       box-shadow:
-        0 0 30px rgba(37,99,235,.35),
-        inset 0 1px 0 rgba(255,255,255,.25);
+        0 0 30px rgba(34,211,238,.24);
 
+      font-size: 22px;
       font-weight: 900;
-      font-size: 19px;
-      letter-spacing: -1px;
     }
 
-    .brand-info h1 {
-      font-size: 19px;
-      font-weight: 800;
-      letter-spacing: -.5px;
+    .brand strong {
+      display: block;
+      font-size: 17px;
+      letter-spacing: .5px;
     }
 
-    .brand-info p {
-      margin-top: 3px;
+    .brand span {
+      display: block;
       color: var(--muted);
-      font-size: 12px;
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      padding: 8px 12px;
-
-      border-radius: 999px;
-
-      background: rgba(52,211,153,.07);
-      border: 1px solid rgba(52,211,153,.15);
-
-      color: #86efac;
       font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .4px;
+      margin-top: 3px;
     }
 
-    .status-dot {
+    .hero {
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+
+      margin-bottom: 13px;
+    }
+
+    .eyebrow::before {
+      content: "";
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--green);
-
-      box-shadow:
-        0 0 12px rgba(52,211,153,.8);
-
-      animation: pulse 2s infinite;
+      background: var(--success);
+      box-shadow: 0 0 12px var(--success);
     }
 
-    @keyframes pulse {
-      0%,100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: .55;
-        transform: scale(.75);
-      }
+    .hero h1 {
+      font-size: 30px;
+      line-height: 1.08;
+      letter-spacing: -.8px;
+      margin-bottom: 13px;
     }
 
-    /* ================================
-       CHAT
-    ================================= */
-
-    #chatMessages {
-      position: relative;
-      z-index: 1;
-
-      flex: 1;
-
-      overflow-y: auto;
-
-      padding: 30px;
-
-      scroll-behavior: smooth;
+    .hero p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
     }
 
-    #chatMessages::-webkit-scrollbar {
-      width: 5px;
-    }
+    .project-card {
+      padding: 17px;
 
-    #chatMessages::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,.12);
-      border-radius: 10px;
-    }
-
-    /* ================================
-       WELCOME
-    ================================= */
-
-    .welcome {
-      max-width: 760px;
-      margin: 20px auto 30px;
-      text-align: center;
-    }
-
-    .welcome-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-
-      padding: 8px 13px;
-
-      border-radius: 999px;
-
-      background: rgba(59,130,246,.08);
-      border: 1px solid rgba(59,130,246,.16);
-
-      color: #93c5fd;
-
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .6px;
-      text-transform: uppercase;
-    }
-
-    .welcome h2 {
-      margin-top: 20px;
-
-      font-size: clamp(32px, 5vw, 54px);
-
-      line-height: 1.03;
-
-      letter-spacing: -2.5px;
-
+      border: 1px solid rgba(34,211,238,.16);
       background:
         linear-gradient(
-          100deg,
-          #ffffff,
-          #bfdbfe 45%,
-          #67e8f9
+          135deg,
+          rgba(34,211,238,.08),
+          rgba(59,130,246,.06)
         );
 
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      border-radius: 18px;
+
+      margin-bottom: 16px;
     }
 
-    .welcome p {
-      max-width: 620px;
-
-      margin: 18px auto 0;
-
-      color: #94a3b8;
-
-      font-size: 15px;
-
-      line-height: 1.7;
+    .project-label {
+      color: var(--cyan);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
     }
 
-    /* ================================
-       QUICK OPTIONS
-    ================================= */
-
-    .quick-options {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, minmax(0,1fr));
-
-      gap: 12px;
-
-      max-width: 780px;
-
-      margin: 25px auto 10px;
-    }
-
-    .quick-btn {
-      cursor: pointer;
-
-      text-align: left;
-
-      padding: 15px;
-
-      color: white;
-
-      background: rgba(255,255,255,.035);
-
-      border:
-        1px solid rgba(255,255,255,.08);
-
-      border-radius: 16px;
-
-      transition:
-        transform .2s ease,
-        background .2s ease,
-        border-color .2s ease;
-    }
-
-    .quick-btn:hover {
-      transform: translateY(-3px);
-
-      background: rgba(59,130,246,.08);
-
-      border-color: rgba(59,130,246,.3);
-    }
-
-    .quick-btn strong {
-      display: block;
-
-      font-size: 13px;
+    .project-title {
+      font-size: 16px;
+      font-weight: 800;
       margin-bottom: 5px;
     }
 
-    .quick-btn span {
-      color: #64748b;
-
-      font-size: 11px;
-
-      line-height: 1.4;
+    .project-info {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
     }
 
-    /* ================================
-       MENSAJES
-    ================================= */
+    .quick-actions {
+      display: grid;
+      gap: 9px;
+    }
 
-    .message-row {
-      display: flex;
-
+    .quick-btn {
       width: 100%;
+      padding: 12px 13px;
 
-      margin: 16px 0;
+      text-align: left;
 
-      animation: messageIn .35s ease;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 13px;
+
+      color: #e2e8f0;
+      cursor: pointer;
+
+      font-size: 12px;
+      font-weight: 600;
+
+      transition: .2s ease;
+    }
+
+    .quick-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(34,211,238,.35);
+      background: rgba(34,211,238,.07);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      color: #64748b;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    /* =====================================================
+       CHAT
+       ===================================================== */
+
+    .chat {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background: rgba(3,9,18,.72);
+    }
+
+    .chat-header {
+      min-height: 78px;
+      padding: 17px 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom: 1px solid var(--line);
+
+      background: rgba(7,17,31,.74);
+      backdrop-filter: blur(18px);
+    }
+
+    .ai-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ai-avatar {
+      position: relative;
+
+      width: 43px;
+      height: 43px;
+      border-radius: 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(135deg, #0ea5e9, #2563eb);
+
+      font-weight: 900;
+
+      box-shadow:
+        0 0 25px rgba(14,165,233,.22);
+    }
+
+    .ai-avatar::after {
+      content: "";
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+
+      width: 11px;
+      height: 11px;
+
+      border-radius: 50%;
+      background: var(--success);
+
+      border: 2px solid #07111f;
+      box-shadow: 0 0 10px var(--success);
+    }
+
+    .ai-name {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .ai-status {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .online {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 7px 10px;
+
+      border-radius: 999px;
+      border: 1px solid rgba(52,211,153,.18);
+
+      color: #86efac;
+      background: rgba(52,211,153,.06);
+
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .8px;
+    }
+
+    .online-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 9px var(--success);
+    }
+
+    #chatMessages {
+      flex: 1;
+      min-height: 0;
+
+      overflow-y: auto;
+
+      padding: 25px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+
+      scrollbar-width: thin;
+      scrollbar-color: #26364c transparent;
+    }
+
+    .welcome {
+      padding: 20px;
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(34,211,238,.075),
+          rgba(59,130,246,.055)
+        );
+
+      border: 1px solid rgba(34,211,238,.12);
+
+      margin-bottom: 3px;
+    }
+
+    .welcome-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+
+      margin-bottom: 9px;
+    }
+
+    .welcome h2 {
+      font-size: 19px;
+      line-height: 1.25;
+      margin-bottom: 7px;
+    }
+
+    .welcome p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .message {
+      max-width: min(78%, 620px);
+
+      padding: 13px 16px;
+
+      border-radius: 18px;
+
+      font-size: 13px;
+      line-height: 1.6;
+
+      word-break: break-word;
+
+      animation: messageIn .25s ease;
     }
 
     @keyframes messageIn {
       from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(5px);
       }
 
       to {
@@ -461,215 +461,123 @@
       }
     }
 
-    .message-row.user {
-      justify-content: flex-end;
-    }
-
-    .message-row.assistant {
-      justify-content: flex-start;
-    }
-
-    .message {
-      max-width: min(760px, 82%);
-
-      padding: 15px 17px;
-
-      border-radius: 20px;
-
-      font-size: 14px;
-
-      line-height: 1.65;
-
-      word-wrap: break-word;
-    }
-
     .message.assistant {
-      background: var(--assistant);
+      align-self: flex-start;
 
-      border:
-        1px solid rgba(255,255,255,.07);
+      color: #dbeafe;
 
-      border-top-left-radius: 6px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(18,35,58,.92),
+          rgba(12,27,47,.88)
+        );
 
-      color: #e2e8f0;
+      border: 1px solid rgba(148,163,184,.13);
 
-      box-shadow:
-        0 10px 30px rgba(0,0,0,.12);
+      border-bottom-left-radius: 6px;
     }
 
     .message.user {
+      align-self: flex-end;
+
+      color: white;
+
       background:
         linear-gradient(
           135deg,
           #2563eb,
-          #1d4ed8
+          #0ea5e9
         );
 
-      border:
-        1px solid rgba(147,197,253,.18);
-
-      border-top-right-radius: 6px;
-
-      color: white;
+      border-bottom-right-radius: 6px;
 
       box-shadow:
-        0 12px 30px rgba(37,99,235,.18);
+        0 8px 25px rgba(37,99,235,.18);
     }
 
-    .message strong {
-      color: white;
+    .message.loading {
+      color: #93c5fd;
     }
 
-    /* ================================
-       ASSISTANT AVATAR
-    ================================= */
-
-    .assistant-wrap {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-
-      width: 100%;
-    }
-
-    .assistant-avatar {
-      flex: 0 0 auto;
-
-      width: 34px;
-      height: 34px;
-
-      display: flex;
+    .typing {
+      display: inline-flex;
+      gap: 4px;
       align-items: center;
-      justify-content: center;
-
-      border-radius: 11px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #2563eb,
-          #06b6d4
-        );
-
-      font-size: 13px;
-      font-weight: 900;
-
-      box-shadow:
-        0 0 20px rgba(37,99,235,.25);
     }
 
-    /* ================================
-       LOADING
-    ================================= */
-
-    .thinking {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .thinking span {
-      width: 6px;
-      height: 6px;
-
+    .typing span {
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
-
-      background: #60a5fa;
-
-      animation: thinking 1.2s infinite;
+      background: var(--cyan);
+      animation: typing 1.2s infinite ease-in-out;
     }
 
-    .thinking span:nth-child(2) {
+    .typing span:nth-child(2) {
       animation-delay: .15s;
     }
 
-    .thinking span:nth-child(3) {
+    .typing span:nth-child(3) {
       animation-delay: .3s;
     }
 
-    @keyframes thinking {
-      0%,60%,100% {
-        opacity: .3;
+    @keyframes typing {
+      0%, 60%, 100% {
         transform: translateY(0);
+        opacity: .45;
       }
 
       30% {
-        opacity: 1;
         transform: translateY(-4px);
+        opacity: 1;
       }
     }
 
-    /* ================================
+    /* =====================================================
        INPUT
-    ================================= */
+       ===================================================== */
 
-    .input-area {
-      position: relative;
-      z-index: 5;
+    .input-wrap {
+      padding: 15px 18px 18px;
 
-      padding: 18px 22px 22px;
+      border-top: 1px solid var(--line);
 
-      background:
-        linear-gradient(
-          to top,
-          rgba(3,9,18,.98),
-          rgba(3,9,18,.75)
-        );
-
-      border-top:
-        1px solid rgba(255,255,255,.07);
+      background: rgba(5,13,25,.86);
     }
 
     .input-box {
-      width: min(900px,100%);
-
-      margin: auto;
-
       display: flex;
       align-items: center;
       gap: 10px;
 
-      padding: 8px;
+      padding: 6px 7px 6px 15px;
 
-      background:
-        rgba(255,255,255,.045);
+      border-radius: 16px;
 
-      border:
-        1px solid rgba(255,255,255,.10);
+      border: 1px solid rgba(148,163,184,.17);
 
-      border-radius: 18px;
+      background: rgba(15,28,48,.76);
 
-      box-shadow:
-        0 20px 50px rgba(0,0,0,.2);
-
-      transition: border-color .2s ease;
+      transition: .2s ease;
     }
 
     .input-box:focus-within {
-      border-color:
-        rgba(59,130,246,.45);
-
-      box-shadow:
-        0 0 0 4px rgba(59,130,246,.06);
+      border-color: rgba(34,211,238,.38);
+      box-shadow: 0 0 25px rgba(34,211,238,.06);
     }
 
     #userInput {
       flex: 1;
-
       min-width: 0;
 
-      height: 48px;
-
-      padding: 0 13px;
-
-      border: none;
-      outline: none;
-
-      color: white;
+      border: 0;
+      outline: 0;
 
       background: transparent;
+      color: white;
 
-      font-size: 14px;
+      font-size: 13px;
     }
 
     #userInput::placeholder {
@@ -677,197 +585,93 @@
     }
 
     #sendButton {
-      width: 48px;
-      height: 48px;
+      width: 42px;
+      height: 42px;
 
-      flex: 0 0 auto;
+      border: 0;
+      border-radius: 13px;
 
-      border: none;
-
-      border-radius: 14px;
-
-      cursor: pointer;
-
-      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       background:
         linear-gradient(
           135deg,
-          #2563eb,
-          #0891b2
+          #0ea5e9,
+          #2563eb
         );
 
-      font-size: 18px;
+      color: white;
 
-      box-shadow:
-        0 8px 24px rgba(37,99,235,.25);
+      cursor: pointer;
 
-      transition:
-        transform .2s ease,
-        filter .2s ease;
+      font-size: 17px;
+      font-weight: 900;
+
+      transition: .2s ease;
     }
 
     #sendButton:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.12);
+      transform: translateY(-1px);
+      box-shadow: 0 7px 22px rgba(37,99,235,.28);
     }
 
     #sendButton:disabled {
-      opacity: .45;
+      opacity: .5;
       cursor: not-allowed;
       transform: none;
     }
 
-    .footer-note {
-      text-align: center;
-
-      margin-top: 9px;
-
+    .input-note {
       color: #475569;
-
       font-size: 9px;
-
-      letter-spacing: .3px;
-    }
-
-    /* ================================
-       PROJECT CARD
-    ================================= */
-
-    .project-card {
-      margin-top: 14px;
-
-      padding: 17px;
-
-      border-radius: 18px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(37,99,235,.12),
-          rgba(8,145,178,.06)
-        );
-
-      border:
-        1px solid rgba(96,165,250,.16);
-    }
-
-    .project-card-title {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .project-card-title span {
-      font-size: 18px;
-    }
-
-    .project-card p {
+      text-align: center;
       margin-top: 8px;
-
-      color: #94a3b8;
-
-      font-size: 12px;
-
-      line-height: 1.5;
     }
 
-    .project-card a {
-      display: inline-block;
-
-      margin-top: 12px;
-
-      color: #93c5fd;
-
-      font-size: 12px;
-      font-weight: 700;
-
-      text-decoration: none;
-    }
-
-    /* ================================
+    /* =====================================================
        MOBILE
-    ================================= */
+       ===================================================== */
 
-    @media (max-width: 720px) {
+    @media (max-width: 820px) {
 
       body {
-        overflow: hidden;
+        overflow: auto;
       }
 
       .app {
+        height: auto;
+        min-height: 100vh;
         padding: 0;
       }
 
-      .chat-shell {
+      .shell {
         width: 100%;
         height: 100vh;
-
         min-height: 100vh;
 
+        display: block;
+
         border-radius: 0;
-
-        border: none;
+        border: 0;
       }
 
-      .header {
-        min-height: 74px;
-
-        padding: 12px 15px;
+      .sidebar {
+        display: none;
       }
 
-      .brand-logo {
-        width: 43px;
-        height: 43px;
-
-        border-radius: 13px;
-
-        font-size: 16px;
+      .chat {
+        height: 100vh;
       }
 
-      .brand-info h1 {
-        font-size: 16px;
-      }
-
-      .brand-info p {
-        font-size: 10px;
-      }
-
-      .status {
-        padding: 6px 8px;
-        font-size: 9px;
+      .chat-header {
+        min-height: 70px;
+        padding: 13px 16px;
       }
 
       #chatMessages {
-        padding: 18px 14px;
-      }
-
-      .welcome {
-        margin: 15px auto 25px;
-      }
-
-      .welcome h2 {
-        font-size: 34px;
-        letter-spacing: -1.7px;
-      }
-
-      .welcome p {
-        font-size: 13px;
-        padding: 0 10px;
-      }
-
-      .quick-options {
-        grid-template-columns: 1fr;
-
-        margin-left: 5px;
-        margin-right: 5px;
-      }
-
-      .quick-btn {
-        padding: 13px;
+        padding: 18px 15px;
       }
 
       .message {
@@ -875,45 +679,30 @@
         font-size: 13px;
       }
 
-      .input-area {
-        padding: 10px 10px 13px;
-      }
-
-      .input-box {
-        padding: 6px;
-        border-radius: 16px;
-      }
-
-      #userInput {
-        height: 46px;
-      }
-
-      #sendButton {
-        width: 46px;
-        height: 46px;
-      }
-
-      .footer-note {
-        font-size: 8px;
+      .input-wrap {
+        padding: 10px 10px 12px;
       }
     }
 
-    @media (max-height: 700px) {
+    @media (max-width: 420px) {
 
-      .welcome {
-        margin-top: 5px;
+      .ai-avatar {
+        width: 39px;
+        height: 39px;
+        border-radius: 13px;
+      }
+
+      .ai-name {
+        font-size: 13px;
+      }
+
+      .online {
+        padding: 6px 8px;
+        font-size: 8px;
       }
 
       .welcome h2 {
-        font-size: 30px;
-      }
-
-      .welcome p {
-        margin-top: 10px;
-      }
-
-      .quick-options {
-        margin-top: 15px;
+        font-size: 17px;
       }
     }
   </style>
@@ -921,117 +710,201 @@
 
 <body>
 
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
+<div class="app">
 
-  <main class="app">
+  <main class="shell">
 
-    <section class="chat-shell">
+    <!-- =================================================
+         SIDEBAR
+         ================================================= -->
 
-      <!-- HEADER -->
-      <header class="header">
+    <aside class="sidebar">
 
-        <div class="brand">
+      <div class="brand">
 
-          <div class="brand-logo">
-            AI
-          </div>
-
-          <div class="brand-info">
-            <h1>COIMTEC IA</h1>
-            <p>Inteligencia comercial inmobiliaria</p>
-          </div>
-
+        <div class="brand-icon">
+          ✦
         </div>
 
-        <div class="status">
-          <span class="status-dot"></span>
-          IA ONLINE
-        </div>
-
-      </header>
-
-
-      <!-- CHAT -->
-      <div id="chatMessages">
-
-        <div class="welcome">
-
-          <div class="welcome-badge">
-            ✦ Asistente inteligente
-          </div>
-
-          <h2>
-            Encuentra tu próxima
-            inversión inmobiliaria.
-          </h2>
-
-          <p>
-            Hola 👋 Soy <strong>COIMTEC IA</strong>.
-            Estoy aquí para entender lo que buscas,
-            orientarte y ayudarte a encontrar la opción
-            inmobiliaria adecuada para ti.
-          </p>
-
-          <div class="quick-options">
-
-            <button
-              class="quick-btn"
-              data-message="Quiero conocer los proyectos disponibles."
-            >
-              <strong>🏢 Ver proyectos</strong>
-              <span>Conoce nuestras opciones inmobiliarias.</span>
-            </button>
-
-            <button
-              class="quick-btn"
-              data-message="Estoy interesado en invertir en un terreno."
-            >
-              <strong>📈 Quiero invertir</strong>
-              <span>Cuéntame sobre oportunidades de inversión.</span>
-            </button>
-
-            <button
-              class="quick-btn"
-              data-message="Quiero conocer Laguna Norte II."
-            >
-              <strong>🏡 Laguna Norte II</strong>
-              <span>Quiero información sobre este proyecto.</span>
-            </button>
-
-          </div>
-
+        <div>
+          <strong>COIMTEC IA</strong>
+          <span>Inteligencia Comercial</span>
         </div>
 
       </div>
 
 
-      <!-- INPUT -->
-      <div class="input-area">
+      <section class="hero">
+
+        <div class="eyebrow">
+          IA inmobiliaria
+        </div>
+
+        <h1>
+          Tu próxima inversión comienza aquí.
+        </h1>
+
+        <p>
+          Una experiencia inteligente para conocer,
+          comparar y analizar oportunidades inmobiliarias
+          con TVEO Business.
+        </p>
+
+      </section>
+
+
+      <div class="project-card">
+
+        <div class="project-label">
+          Proyecto activo
+        </div>
+
+        <div class="project-title">
+          Laguna Norte II
+        </div>
+
+        <div class="project-info">
+          Categoría D · Lotes de 300 m²
+          <br>
+          Santa Cruz de la Sierra
+        </div>
+
+      </div>
+
+
+      <div class="quick-actions">
+
+        <button
+          class="quick-btn"
+          onclick="quickMessage('Quiero conocer Laguna Norte II')">
+          🏡 Conocer Laguna Norte II
+        </button>
+
+        <button
+          class="quick-btn"
+          onclick="quickMessage('Quiero invertir en un terreno')">
+          📈 Quiero invertir
+        </button>
+
+        <button
+          class="quick-btn"
+          onclick="quickMessage('Quiero conocer los lotes de 300 m²')">
+          📐 Ver opciones de 300 m²
+        </button>
+
+      </div>
+
+
+      <div class="sidebar-footer">
+        COIMTEC IA · TVEO Business
+        <br>
+        Asistente comercial inmobiliario.
+      </div>
+
+    </aside>
+
+
+    <!-- =================================================
+         CHAT
+         ================================================= -->
+
+    <section class="chat">
+
+      <header class="chat-header">
+
+        <div class="ai-profile">
+
+          <div class="ai-avatar">
+            AI
+          </div>
+
+          <div>
+
+            <div class="ai-name">
+              COIMTEC IA
+            </div>
+
+            <div class="ai-status">
+              Asistente Inmobiliario Inteligente
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="online">
+
+          <span class="online-dot"></span>
+
+          IA ONLINE
+
+        </div>
+
+      </header>
+
+
+      <div id="chatMessages">
+
+        <div class="welcome">
+
+          <div class="welcome-top">
+            ✦ Bienvenido
+          </div>
+
+          <h2>
+            Encuentra una oportunidad que tenga sentido para ti.
+          </h2>
+
+          <p>
+            Cuéntame qué estás buscando y te ayudaré a
+            entender tus opciones paso a paso.
+          </p>
+
+        </div>
+
+
+        <div class="message assistant">
+
+          ¡Hola! 👋 Soy <strong>COIMTEC IA</strong>,
+          el asistente inmobiliario de TVEO Business.
+
+          <br><br>
+
+          Antes de mostrarte una opción, quiero entender
+          qué estás buscando.
+
+          <br><br>
+
+          ¿Buscas un terreno para invertir, construir
+          o para vivir?
+          
+        </div>
+
+      </div>
+
+
+      <div class="input-wrap">
 
         <div class="input-box">
 
           <input
             id="userInput"
             type="text"
+            placeholder="Escribe tu mensaje..."
             autocomplete="off"
-            placeholder="Escribe lo que estás buscando..."
-            aria-label="Mensaje"
           >
 
           <button
             id="sendButton"
-            aria-label="Enviar mensaje"
-            title="Enviar"
-          >
+            aria-label="Enviar">
             ➤
           </button>
 
         </div>
 
-        <div class="footer-note">
-          COIMTEC IA · Asistente inmobiliario inteligente · TVEO Business
+        <div class="input-note">
+          COIMTEC IA analiza el contexto de esta conversación.
         </div>
 
       </div>
@@ -1040,121 +913,146 @@
 
   </main>
 
+</div>
 
-  <!-- GEMINI -->
-  <script type="importmap">
-  {
-    "imports": {
-      "@google/genai": "https://esm.run/@google/genai"
-    }
+
+<!-- =====================================================
+     GEMINI
+     ===================================================== -->
+
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.run/@google/genai"
   }
-  </script>
+}
+</script>
 
 
-  <script type="module">
+<script type="module">
 
-    import { GoogleGenAI } from "@google/genai";
-
-
-    /* ==================================================
-       CONFIGURACIÓN
-       ==================================================
-
-       IMPORTANTE:
-       NO publiques una API Key real dentro de GitHub.
-
-       Durante la prueba utiliza una clave nueva/restringida
-       solamente si entiendes el riesgo de exponerla.
-
-       La versión definitiva debe utilizar Firebase/backend.
-    ================================================== */
-
-    const API_KEY = "PEGA_AQUI_TU_NUEVA_API_KEY";
+import { GoogleGenAI } from "@google/genai";
 
 
-    /* ==================================================
-       ELEMENTOS
-    ================================================== */
+/* =====================================================
+   CONFIGURACIÓN
 
-    const chatMessages =
-      document.getElementById("chatMessages");
+   IMPORTANTE:
+   NO publiques una API Key real en GitHub.
 
-    const userInput =
-      document.getElementById("userInput");
+   Para esta versión dejamos el marcador.
+   La conexión definitiva debe pasar por Cloudflare
+   Worker / backend para mantener la clave protegida.
+   ===================================================== */
 
-    const sendButton =
-      document.getElementById("sendButton");
-
-
-    let ai = null;
-    let chatSession = null;
+const API_KEY = "PEGA_AQUI_TU_API_KEY";
 
 
-    /* ==================================================
-       CEREBRO COMERCIAL
-    ================================================== */
+/* =====================================================
+   CEREBRO COMERCIAL
+   ===================================================== */
 
-    const systemInstruction = `
+const systemInstruction = `
 
-Eres COIMTEC IA, asistente inmobiliario digital de TVEO Business.
+Eres COIMTEC IA, asistente inmobiliario digital
+de TVEO Business en Santa Cruz de la Sierra.
 
-Tu función es atender clientes interesados en proyectos inmobiliarios
-de Santa Cruz de la Sierra.
+Tu objetivo NO es simplemente responder preguntas.
 
-NO eres un simple chatbot de respuestas automáticas.
+Tu función es conversar, comprender y calificar
+comercialmente al prospecto de forma natural.
 
-Debes analizar el contexto completo de la conversación y adaptar tus
-respuestas según lo que el cliente vaya diciendo.
+Debes recordar durante la conversación lo que
+el cliente ya respondió.
 
-OBJETIVO:
+==================================================
+FLUJO COMERCIAL
+==================================================
 
-1. Recibir al cliente.
-2. Entender qué está buscando.
-3. Indagar de manera natural.
-4. Detectar su objetivo.
-5. Detectar presupuesto cuando corresponda.
-6. Saber si busca vivienda, inversión o terreno.
-7. Resolver dudas utilizando únicamente información disponible.
-8. Generar confianza.
-9. Cuando exista suficiente interés, invitar a una reunión presencial
-   en oficinas de TVEO Business.
-10. Después de la reunión puede coordinarse una visita al proyecto.
+ETAPA 1 — BIENVENIDA
 
-IMPORTANTE:
+Recibe al cliente de forma amable.
 
-NO debes enviar automáticamente al cliente con un asesor solamente
-porque haya preguntado por un proyecto.
+No empieces interrogándolo.
 
-Primero debes conversar e indagar.
+ETAPA 2 — IDENTIFICACIÓN
 
-Debes evitar saltarte las preguntas de calificación.
+Obtén naturalmente información como:
 
-La derivación comercial debe ocurrir solamente cuando el contexto
-de la conversación realmente lo justifique.
+- Nombre.
+- Ciudad.
+- Qué está buscando.
+- Si busca vivienda, terreno o inversión.
+- Si leyó la descripción del anuncio.
+- Presupuesto cuando sea pertinente.
+- Horizonte de compra cuando sea pertinente.
 
-No hagas un interrogatorio.
+No hagas todas las preguntas juntas.
 
-Haz una o dos preguntas relevantes según el contexto.
+Haz una o dos preguntas según el contexto.
 
---------------------------------------------------
-PROYECTO ACTIVO
---------------------------------------------------
+==================================================
+CLASIFICACIÓN INTERNA
+==================================================
+
+Clasifica mentalmente al prospecto como:
+
+🔥 Alta intención
+
+🟡 Interés potencial
+
+🔵 Por investigar
+
+Esta clasificación es INTERNA.
+
+No muestres necesariamente la clasificación
+al cliente salvo que el sistema lo requiera.
+
+==================================================
+REGLA FUNDAMENTAL
+==================================================
+
+NO envíes automáticamente al cliente con un asesor
+solamente porque pregunte por un proyecto.
+
+Primero comprende su necesidad.
+
+Primero conversa.
+
+Primero identifica su interés.
+
+Cuando exista suficiente interés comercial,
+puedes proponer una reunión presencial.
+
+Después puede coordinarse una visita al proyecto.
+
+==================================================
+LAGUNA NORTE II
+==================================================
+
+Proyecto:
 
 URBANIZACIÓN LAGUNA NORTE II
 
 Categoría D.
 
-SUPERFICIE:
+Superficie:
+
 300 m².
 
-UBICACIÓN:
+Ubicación:
+
 A pocos minutos del puente nuevo,
-diagonal a Colpacaranda y rodeada de proyectos ya habitables.
+diagonal a Colpacaranda y rodeada de
+proyectos ya habitables.
 
 Google Maps:
+
 https://maps.app.goo.gl/JWusCjnhGWR74WEu9?g_st=ac
 
-CONCEPTO URBANO:
+==================================================
+CARACTERÍSTICAS
+==================================================
 
 Urbanización abierta con características de cerrada.
 
@@ -1164,490 +1062,426 @@ Cuenta con:
 - Pórtico de ingreso.
 - Perímetro enmallado.
 
-AMENIDADES:
+==================================================
+AMENIDADES
+==================================================
 
 - Laguna de pesca.
 - Fútbol 5.
 - Fútbol 7.
 - Vóley.
-- Fútbol playa.
+- Fútbol Playa.
 - Churrasqueras.
 - Parques infantiles.
 - Club House.
 - Piscina.
 
-Estado de obras informado:
+Estado informado:
 
-- Piscina con aproximadamente 70% de avance.
-- Cimientos del Club House en ejecución.
+Piscina aproximadamente 70% de avance.
 
-SEGURIDAD JURÍDICA:
+Cimientos del Club House en ejecución.
 
-Papeles al día para transferencia inmediata al momento de la compra.
+==================================================
+PRECIO INFORMADO
+==================================================
 
---------------------------------------------------
-FORMA DE CONVERSACIÓN
---------------------------------------------------
+Categoría D:
 
-Habla en español.
+Precio regular informado:
 
-Sé humano, claro, amable y profesional.
+14.100 $us.
 
-No escribas respuestas excesivamente largas.
+Promoción al contado informada:
 
-No hagas todas las preguntas de una sola vez.
+2 lotes por un precio total de 7.050 $us.
 
-Adapta las preguntas a las respuestas del cliente.
+Tipo de cambio informado:
 
-Ejemplos:
+6.97.
 
-Si pregunta por precio:
+IMPORTANTE:
 
-"Claro. Para orientarte mejor, ¿estás buscando comprar para
-vivir o como inversión?"
+No inventes descuentos.
 
-Si dice que quiere invertir:
+No inventes cuotas.
 
-"Perfecto. ¿Tu idea sería mantener el terreno como inversión
-o construir posteriormente?"
+No inventes financiamiento.
 
-Si pregunta por metros:
+No inventes disponibilidad.
 
-"En Laguna Norte II, Categoría D, los lotes son de 300 m².
-¿Buscas aproximadamente ese tamaño?"
+No inventes nuevas promociones.
 
-Si demuestra interés fuerte:
+Si el cliente solicita una condición que no
+aparece aquí, indica que debe ser confirmada
+por TVEO Business.
 
-"Por lo que me comentas, vale la pena que revisemos las opciones
-disponibles directamente en oficina. Ahí podemos revisar el plano
-y la documentación y luego coordinar la visita."
+==================================================
+DOCUMENTACIÓN
+==================================================
 
---------------------------------------------------
-REGLA DE INFORMACIÓN
---------------------------------------------------
+Según la información proporcionada:
 
-NO inventes:
+Los papeles están al día.
 
-- precios
-- descuentos
-- disponibilidad
-- cuotas
-- fechas
-- promociones
-- características
-- documentos
-- ubicaciones
+Se indica disponibilidad para transferencia
+al momento de la compra.
 
-Si no tienes un dato, dilo claramente y ofrece ayudar a verificarlo.
+El proyecto cuenta con información de visado
+por el Viceministerio de Defensa de los Derechos
+del Usuario y del Consumidor.
 
---------------------------------------------------
-CLASIFICACIÓN INTERNA
---------------------------------------------------
+No agregues garantías legales que no hayan sido
+proporcionadas.
 
-Analiza internamente el nivel de interés del prospecto:
+==================================================
+PLANIMETRÍA
+==================================================
 
-🔥 Alta intención
-🟡 Interés potencial
-🔵 Por investigar
+https://gosen.sistemas-orange.com.bo/modulos/uv/?mapa=eW9zc2VsaW4&u=4#
 
-NO necesitas mostrar esta clasificación al cliente en cada mensaje.
+Información proporcionada:
 
-Utilízala para adaptar la conversación.
+🟢 Verde = disponible.
 
---------------------------------------------------
-DERIVACIÓN
---------------------------------------------------
+🔴 Rojo = vendido.
 
-No derives inmediatamente.
+🟠 Naranja = Categoría D.
 
-Primero comprende:
+NO afirmes que un lote específico está disponible
+si no tienes información actualizada.
 
-- qué busca
-- para qué lo quiere
-- ubicación de interés
-- tipo de propiedad
-- presupuesto cuando sea natural preguntarlo
-- nivel de interés
+==================================================
+OFICINAS
+==================================================
 
-Cuando corresponda, explica que puede continuar con un asesor comercial.
+TVEO Business
 
-La experiencia debe sentirse natural y no como un formulario.
+Av. Virgen de Cotoca,
+5to Anillo,
+Edificio Ciudad Comercio.
 
---------------------------------------------------
-TONO
---------------------------------------------------
+Cuando el cliente tenga suficiente interés,
+puedes invitarlo a oficina para:
 
-Profesional.
+- Revisar documentación.
+- Revisar planimetría.
+- Analizar lotes.
+- Resolver dudas.
+- Conocer condiciones comerciales.
 
-Cercano.
+Después de la reunión se puede coordinar
+la visita al terreno.
 
-Seguro.
+==================================================
+ESTILO
+==================================================
 
-Comercial sin ser agresivo.
+Habla siempre en español.
 
-Humano.
+Sé humano.
 
-Nunca presiones al cliente.
+Sé profesional.
+
+Sé claro.
+
+Sé comercial sin ser agresivo.
+
+No parezcas un robot.
+
+No hagas interrogatorios.
+
+No repitas información innecesariamente.
+
+No inventes información.
+
+No afirmes que una visita está agendada
+si no existe un sistema real de agenda.
+
+No digas que tienes conciencia real.
+
+Tu inteligencia consiste en analizar el contexto,
+recordar la conversación y adaptar tus respuestas.
 
 `;
 
 
-    /* ==================================================
-       INICIALIZAR GEMINI
-    ================================================== */
+/* =====================================================
+   ELEMENTOS
+   ===================================================== */
 
-    function initAI() {
+const chatMessages =
+  document.getElementById("chatMessages");
 
-      if (
-        !API_KEY ||
-        API_KEY === "PEGA_AQUI_TU_NUEVA_API_KEY"
-      ) {
+const userInput =
+  document.getElementById("userInput");
 
-        console.warn(
-          "COIMTEC IA: API Key no configurada."
+const sendButton =
+  document.getElementById("sendButton");
+
+
+let chatSession = null;
+
+
+/* =====================================================
+   CREAR SESIÓN
+   ===================================================== */
+
+function createChat() {
+
+  if (!API_KEY ||
+      API_KEY === "PEGA_AQUI_TU_API_KEY") {
+
+    return false;
+  }
+
+  const ai = new GoogleGenAI({
+    apiKey: API_KEY
+  });
+
+  chatSession = ai.chats.create({
+
+    model: "gemini-2.5-flash",
+
+    config: {
+      systemInstruction,
+      temperature: 0.7
+    }
+
+  });
+
+  return true;
+}
+
+
+/* =====================================================
+   ESCAPAR HTML
+   ===================================================== */
+
+function escapeHtml(text) {
+
+  return String(text)
+
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   MENSAJES
+   ===================================================== */
+
+function addMessage(text, type) {
+
+  const div = document.createElement("div");
+
+  div.className = `message ${type}`;
+
+  div.innerHTML =
+    escapeHtml(text)
+      .replace(/\n/g, "<br>");
+
+  chatMessages.appendChild(div);
+
+  chatMessages.scrollTop =
+    chatMessages.scrollHeight;
+
+  return div;
+}
+
+
+/* =====================================================
+   INDICADOR IA
+   ===================================================== */
+
+function addThinking() {
+
+  const div = document.createElement("div");
+
+  div.className = "message assistant loading";
+
+  div.innerHTML = `
+    <span class="typing">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <span style="margin-left:8px;">
+      COIMTEC IA está analizando...
+    </span>
+  `;
+
+  chatMessages.appendChild(div);
+
+  chatMessages.scrollTop =
+    chatMessages.scrollHeight;
+
+  return div;
+}
+
+
+/* =====================================================
+   ENVÍO
+   ===================================================== */
+
+async function sendMessage() {
+
+  const message =
+    userInput.value.trim();
+
+  if (!message) return;
+
+
+  /*
+    Mientras terminamos la conexión segura
+    con Cloudflare, mostramos el estado correcto.
+  */
+
+  if (!API_KEY ||
+      API_KEY === "PEGA_AQUI_TU_API_KEY") {
+
+    addMessage(
+      message,
+      "user"
+    );
+
+    userInput.value = "";
+
+    addMessage(
+      "La conexión con la IA todavía necesita configurarse. Estamos preparando COIMTEC IA.",
+      "assistant"
+    );
+
+    return;
+  }
+
+
+  addMessage(
+    message,
+    "user"
+  );
+
+  userInput.value = "";
+
+  sendButton.disabled = true;
+
+  const loading =
+    addThinking();
+
+
+  try {
+
+    if (!chatSession) {
+
+      const ready =
+        createChat();
+
+      if (!ready) {
+
+        throw new Error(
+          "Gemini no está configurado."
         );
 
-        return false;
       }
 
-      ai = new GoogleGenAI({
-        apiKey: API_KEY
+    }
+
+
+    const response =
+      await chatSession.sendMessage({
+        message
       });
 
-      chatSession = ai.chats.create({
-        model: "gemini-2.5-flash",
 
-        config: {
-          systemInstruction,
-          temperature: 0.7
-        }
-      });
+    loading.remove();
 
-      return true;
-    }
 
+    const answer =
+      response?.text ||
+      "No recibí una respuesta. Intenta nuevamente.";
 
-    /* ==================================================
-       SEGURIDAD HTML
-    ================================================== */
 
-    function escapeHtml(text) {
-
-      return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-
-    /* ==================================================
-       AGREGAR MENSAJE
-    ================================================== */
-
-    function addMessage(text, type) {
-
-      const row =
-        document.createElement("div");
-
-      row.className =
-        `message-row ${type}`;
-
-
-      if (type === "assistant") {
-
-        const wrap =
-          document.createElement("div");
-
-        wrap.className =
-          "assistant-wrap";
-
-
-        const avatar =
-          document.createElement("div");
-
-        avatar.className =
-          "assistant-avatar";
-
-        avatar.textContent =
-          "AI";
-
-
-        const bubble =
-          document.createElement("div");
-
-        bubble.className =
-          "message assistant";
-
-        bubble.innerHTML =
-          escapeHtml(text)
-            .replace(/\n/g, "<br>");
-
-
-        wrap.appendChild(avatar);
-        wrap.appendChild(bubble);
-
-        row.appendChild(wrap);
-
-      } else {
-
-        const bubble =
-          document.createElement("div");
-
-        bubble.className =
-          "message user";
-
-        bubble.innerHTML =
-          escapeHtml(text)
-            .replace(/\n/g, "<br>");
-
-
-        row.appendChild(bubble);
-      }
-
-
-      chatMessages.appendChild(row);
-
-      chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-
-      return row;
-    }
-
-
-    /* ==================================================
-       INDICADOR DE PENSAMIENTO
-    ================================================== */
-
-    function addThinking() {
-
-      const row =
-        document.createElement("div");
-
-      row.className =
-        "message-row assistant";
-
-      row.id =
-        "thinking-message";
-
-
-      const wrap =
-        document.createElement("div");
-
-      wrap.className =
-        "assistant-wrap";
-
-
-      const avatar =
-        document.createElement("div");
-
-      avatar.className =
-        "assistant-avatar";
-
-      avatar.textContent =
-        "AI";
-
-
-      const bubble =
-        document.createElement("div");
-
-      bubble.className =
-        "message assistant";
-
-
-      bubble.innerHTML = `
-        <div class="thinking">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      `;
-
-
-      wrap.appendChild(avatar);
-      wrap.appendChild(bubble);
-
-      row.appendChild(wrap);
-
-      chatMessages.appendChild(row);
-
-      chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-
-      return row;
-    }
-
-
-    /* ==================================================
-       ENVIAR
-    ================================================== */
-
-    async function sendMessage(customMessage = null) {
-
-      const message =
-        customMessage ||
-        userInput.value.trim();
-
-
-      if (!message) {
-        return;
-      }
-
-
-      if (
-        !API_KEY ||
-        API_KEY === "PEGA_AQUI_TU_NUEVA_API_KEY"
-      ) {
-
-        addMessage(
-          "La conexión con la IA todavía necesita configurarse. Estamos preparando COIMTEC IA.",
-          "assistant"
-        );
-
-        return;
-      }
-
-
-      if (!chatSession) {
-
-        const initialized =
-          initAI();
-
-        if (!initialized) {
-          return;
-        }
-      }
-
-
-      addMessage(
-        message,
-        "user"
-      );
-
-
-      userInput.value = "";
-
-      sendButton.disabled = true;
-
-
-      const thinking =
-        addThinking();
-
-
-      try {
-
-        const response =
-          await chatSession.sendMessage({
-            message
-          });
-
-
-        thinking.remove();
-
-
-        const answer =
-          response?.text ||
-          "No recibí una respuesta. Intenta nuevamente.";
-
-
-        addMessage(
-          answer,
-          "assistant"
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "COIMTEC IA / GEMINI:",
-          error
-        );
-
-
-        thinking.remove();
-
-
-        addMessage(
-          "Estoy teniendo una dificultad momentánea para conectarme. Por favor, intenta nuevamente en unos segundos.",
-          "assistant"
-        );
-
-      } finally {
-
-        sendButton.disabled = false;
-
-        userInput.focus();
-
-      }
-
-    }
-
-
-    /* ==================================================
-       BOTÓN ENVIAR
-    ================================================== */
-
-    sendButton.addEventListener(
-      "click",
-      () => sendMessage()
+    addMessage(
+      answer,
+      "assistant"
     );
 
 
-    /* ==================================================
-       ENTER
-    ================================================== */
+  } catch (error) {
 
-    userInput.addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key === "Enter" &&
-          !event.shiftKey
-        ) {
-
-          event.preventDefault();
-
-          sendMessage();
-        }
-
-      }
+    console.error(
+      "COIMTEC IA ERROR:",
+      error
     );
 
+    loading.remove();
 
-    /* ==================================================
-       BOTONES RÁPIDOS
-    ================================================== */
+    addMessage(
+      "No pude conectar con el servicio de IA en este momento. Intenta nuevamente.",
+      "assistant"
+    );
 
-    document
-      .querySelectorAll(".quick-btn")
-      .forEach(button => {
+  } finally {
 
-        button.addEventListener(
-          "click",
-          () => {
-
-            const message =
-              button.dataset.message;
-
-            sendMessage(message);
-
-          }
-        );
-
-      });
-
-
-    /* ==================================================
-       INICIO
-    ================================================== */
+    sendButton.disabled = false;
 
     userInput.focus();
 
-  </script>
+  }
+
+}
+
+
+/* =====================================================
+   ACCIONES RÁPIDAS
+   ===================================================== */
+
+window.quickMessage = function(message) {
+
+  userInput.value = message;
+
+  sendMessage();
+
+};
+
+
+/* =====================================================
+   EVENTOS
+   ===================================================== */
+
+sendButton.addEventListener(
+  "click",
+  sendMessage
+);
+
+
+userInput.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key === "Enter") {
+
+      event.preventDefault();
+
+      sendMessage();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   INICIO
+   ===================================================== */
+
+userInput.focus();
+
+</script>
 
 </body>
 </html>
