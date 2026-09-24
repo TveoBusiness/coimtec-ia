@@ -3,350 +3,917 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b3d91">
-  <meta name="description" content="COIMTEC IA - Asistente virtual de TVEO Business">
-  <title>COIMTEC IA | TVEO Business</title>
+
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="COIMTEC IA - Asistente inmobiliario inteligente de TVEO Business">
+
+  <title>COIMTEC IA | Asistente Inmobiliario Inteligente</title>
 
   <style>
+    :root {
+      --bg: #050b14;
+      --bg2: #081321;
+      --panel: rgba(11, 24, 40, 0.82);
+      --panel-light: rgba(255,255,255,0.055);
+      --border: rgba(255,255,255,0.09);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --blue: #3b82f6;
+      --cyan: #22d3ee;
+      --green: #34d399;
+      --gold: #f5c96a;
+      --user: #2563eb;
+      --assistant: rgba(255,255,255,0.055);
+      --shadow: 0 30px 90px rgba(0,0,0,.45);
+    }
+
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f3f6fa;
-      color: #1d2733;
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(37,99,235,.22), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(34,211,238,.12), transparent 25%),
+        radial-gradient(circle at 50% 100%, rgba(37,99,235,.12), transparent 35%),
+        linear-gradient(135deg, #030711 0%, #07111f 50%, #040914 100%);
+
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+
+      background-size: 45px 45px;
+
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0,0,0,.8),
+        transparent
+      );
     }
 
     .app {
       min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+
+    /* ================================
+       LUCES DECORATIVAS
+    ================================= */
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+      opacity: .35;
+      animation: floatOrb 9s ease-in-out infinite;
+    }
+
+    .orb.one {
+      width: 260px;
+      height: 260px;
+      background: #2563eb;
+      top: -100px;
+      left: -80px;
+    }
+
+    .orb.two {
+      width: 220px;
+      height: 220px;
+      background: #0891b2;
+      right: -80px;
+      top: 25%;
+      animation-delay: -3s;
+    }
+
+    .orb.three {
+      width: 240px;
+      height: 240px;
+      background: #1d4ed8;
+      bottom: -130px;
+      left: 35%;
+      animation-delay: -6s;
+    }
+
+    @keyframes floatOrb {
+      0%,100% {
+        transform: translate(0,0);
+      }
+
+      50% {
+        transform: translate(20px,-25px);
+      }
+    }
+
+    /* ================================
+       CONTENEDOR PRINCIPAL
+    ================================= */
+
+    .chat-shell {
+      position: relative;
+      width: min(1080px, 100%);
+      height: min(850px, calc(100vh - 48px));
+
       display: flex;
       flex-direction: column;
+
+      background: rgba(5, 13, 25, .78);
+
+      border: 1px solid rgba(255,255,255,.10);
+
+      border-radius: 30px;
+
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+
+      box-shadow:
+        0 40px 120px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.06);
+
+      overflow: hidden;
     }
+
+    .chat-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          120deg,
+          rgba(255,255,255,.06),
+          transparent 30%,
+          transparent 70%,
+          rgba(34,211,238,.025)
+        );
+    }
+
+    /* ================================
+       HEADER
+    ================================= */
 
     .header {
-      background: linear-gradient(135deg, #0b3d91, #1565c0);
-      color: white;
-      padding: 18px 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.15);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+      position: relative;
+      z-index: 2;
 
-    .header-content {
-      max-width: 900px;
-      margin: auto;
+      min-height: 88px;
+      padding: 18px 24px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
+
+      border-bottom: 1px solid var(--border);
+
+      background: rgba(3,10,20,.55);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: white;
-      color: #0b3d91;
+    .brand-logo {
+      width: 50px;
+      height: 50px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
+      border-radius: 16px;
+
+      background:
+        linear-gradient(145deg, #2563eb, #0ea5e9);
+
+      box-shadow:
+        0 0 30px rgba(37,99,235,.35),
+        inset 0 1px 0 rgba(255,255,255,.25);
+
       font-weight: 900;
-      font-size: 20px;
+      font-size: 19px;
+      letter-spacing: -1px;
     }
 
-    .brand-text h1 {
-      margin: 0;
-      font-size: 20px;
+    .brand-info h1 {
+      font-size: 19px;
       font-weight: 800;
+      letter-spacing: -.5px;
     }
 
-    .brand-text p {
-      margin: 3px 0 0;
+    .brand-info p {
+      margin-top: 3px;
+      color: var(--muted);
       font-size: 12px;
-      opacity: .9;
     }
 
-    .header-whatsapp {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      background: #25d366;
-      color: white;
-      text-decoration: none;
-      padding: 10px 14px;
-      border-radius: 25px;
-      font-size: 13px;
-      font-weight: 700;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    .main {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      flex: 1;
+    .status {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 12px;
+
+      border-radius: 999px;
+
+      background: rgba(52,211,153,.07);
+      border: 1px solid rgba(52,211,153,.15);
+
+      color: #86efac;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .4px;
     }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+
+      box-shadow:
+        0 0 12px rgba(52,211,153,.8);
+
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .55;
+        transform: scale(.75);
+      }
+    }
+
+    /* ================================
+       CHAT
+    ================================= */
+
+    #chatMessages {
+      position: relative;
+      z-index: 1;
+
+      flex: 1;
+
+      overflow-y: auto;
+
+      padding: 30px;
+
+      scroll-behavior: smooth;
+    }
+
+    #chatMessages::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    #chatMessages::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,.12);
+      border-radius: 10px;
+    }
+
+    /* ================================
+       WELCOME
+    ================================= */
 
     .welcome {
-      background: white;
-      border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
+      max-width: 760px;
+      margin: 20px auto 30px;
+      text-align: center;
+    }
+
+    .welcome-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 13px;
+
+      border-radius: 999px;
+
+      background: rgba(59,130,246,.08);
+      border: 1px solid rgba(59,130,246,.16);
+
+      color: #93c5fd;
+
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
     }
 
     .welcome h2 {
-      margin: 0 0 8px;
-      color: #0b3d91;
-      font-size: 22px;
+      margin-top: 20px;
+
+      font-size: clamp(32px, 5vw, 54px);
+
+      line-height: 1.03;
+
+      letter-spacing: -2.5px;
+
+      background:
+        linear-gradient(
+          100deg,
+          #ffffff,
+          #bfdbfe 45%,
+          #67e8f9
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .welcome p {
-      margin: 0;
-      color: #596574;
-      line-height: 1.5;
-      font-size: 14px;
+      max-width: 620px;
+
+      margin: 18px auto 0;
+
+      color: #94a3b8;
+
+      font-size: 15px;
+
+      line-height: 1.7;
     }
 
-    .chat {
-      background: white;
-      border-radius: 18px;
-      padding: 18px;
-      min-height: 400px;
-      flex: 1;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
-      overflow-y: auto;
+    /* ================================
+       QUICK OPTIONS
+    ================================= */
+
+    .quick-options {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0,1fr));
+
+      gap: 12px;
+
+      max-width: 780px;
+
+      margin: 25px auto 10px;
     }
+
+    .quick-btn {
+      cursor: pointer;
+
+      text-align: left;
+
+      padding: 15px;
+
+      color: white;
+
+      background: rgba(255,255,255,.035);
+
+      border:
+        1px solid rgba(255,255,255,.08);
+
+      border-radius: 16px;
+
+      transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+    }
+
+    .quick-btn:hover {
+      transform: translateY(-3px);
+
+      background: rgba(59,130,246,.08);
+
+      border-color: rgba(59,130,246,.3);
+    }
+
+    .quick-btn strong {
+      display: block;
+
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .quick-btn span {
+      color: #64748b;
+
+      font-size: 11px;
+
+      line-height: 1.4;
+    }
+
+    /* ================================
+       MENSAJES
+    ================================= */
 
     .message-row {
       display: flex;
-      margin-bottom: 14px;
+
+      width: 100%;
+
+      margin: 16px 0;
+
+      animation: messageIn .35s ease;
+    }
+
+    @keyframes messageIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .message-row.user {
       justify-content: flex-end;
     }
 
-    .message {
-      max-width: 82%;
-      padding: 12px 15px;
-      border-radius: 16px;
-      line-height: 1.5;
-      font-size: 14px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .message.assistant {
-      background: #eef4fb;
-      color: #1f2933;
-      border-bottom-left-radius: 5px;
-    }
-
-    .message.user {
-      background: #0b3d91;
-      color: white;
-      border-bottom-right-radius: 5px;
-    }
-
-    .typing {
-      display: none;
-      padding: 10px 14px;
-      background: #eef4fb;
-      border-radius: 15px;
-      width: fit-content;
-      color: #607080;
-      font-size: 13px;
-      margin-bottom: 14px;
-    }
-
-    .whatsapp-response {
-      margin-top: 12px;
-      margin-bottom: 18px;
-      display: flex;
+    .message-row.assistant {
       justify-content: flex-start;
     }
 
-    .whatsapp-button {
-      display: inline-flex;
+    .message {
+      max-width: min(760px, 82%);
+
+      padding: 15px 17px;
+
+      border-radius: 20px;
+
+      font-size: 14px;
+
+      line-height: 1.65;
+
+      word-wrap: break-word;
+    }
+
+    .message.assistant {
+      background: var(--assistant);
+
+      border:
+        1px solid rgba(255,255,255,.07);
+
+      border-top-left-radius: 6px;
+
+      color: #e2e8f0;
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.12);
+    }
+
+    .message.user {
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #1d4ed8
+        );
+
+      border:
+        1px solid rgba(147,197,253,.18);
+
+      border-top-right-radius: 6px;
+
+      color: white;
+
+      box-shadow:
+        0 12px 30px rgba(37,99,235,.18);
+    }
+
+    .message strong {
+      color: white;
+    }
+
+    /* ================================
+       ASSISTANT AVATAR
+    ================================= */
+
+    .assistant-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+
+      width: 100%;
+    }
+
+    .assistant-avatar {
+      flex: 0 0 auto;
+
+      width: 34px;
+      height: 34px;
+
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      background: #25d366;
-      color: #fff !important;
-      text-decoration: none !important;
-      padding: 13px 18px;
-      border-radius: 30px;
-      font-weight: 800;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #2563eb,
+          #06b6d4
+        );
+
       font-size: 13px;
-      box-shadow: 0 4px 12px rgba(37,211,102,.35);
-      cursor: pointer;
-      border: none;
+      font-weight: 900;
+
+      box-shadow:
+        0 0 20px rgba(37,99,235,.25);
     }
 
+    /* ================================
+       LOADING
+    ================================= */
 
-    .quick-options {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .thinking {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .thinking span {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: #60a5fa;
+
+      animation: thinking 1.2s infinite;
+    }
+
+    .thinking span:nth-child(2) {
+      animation-delay: .15s;
+    }
+
+    .thinking span:nth-child(3) {
+      animation-delay: .3s;
+    }
+
+    @keyframes thinking {
+      0%,60%,100% {
+        opacity: .3;
+        transform: translateY(0);
+      }
+
+      30% {
+        opacity: 1;
+        transform: translateY(-4px);
+      }
+    }
+
+    /* ================================
+       INPUT
+    ================================= */
+
+    .input-area {
+      position: relative;
+      z-index: 5;
+
+      padding: 18px 22px 22px;
+
+      background:
+        linear-gradient(
+          to top,
+          rgba(3,9,18,.98),
+          rgba(3,9,18,.75)
+        );
+
+      border-top:
+        1px solid rgba(255,255,255,.07);
+    }
+
+    .input-box {
+      width: min(900px,100%);
+
+      margin: auto;
+
+      display: flex;
+      align-items: center;
       gap: 10px;
-      margin-top: 15px;
+
+      padding: 8px;
+
+      background:
+        rgba(255,255,255,.045);
+
+      border:
+        1px solid rgba(255,255,255,.10);
+
+      border-radius: 18px;
+
+      box-shadow:
+        0 20px 50px rgba(0,0,0,.2);
+
+      transition: border-color .2s ease;
     }
 
-    .quick-title {
-      grid-column: 1 / -1;
+    .input-box:focus-within {
+      border-color:
+        rgba(59,130,246,.45);
+
+      box-shadow:
+        0 0 0 4px rgba(59,130,246,.06);
+    }
+
+    #userInput {
+      flex: 1;
+
+      min-width: 0;
+
+      height: 48px;
+
+      padding: 0 13px;
+
+      border: none;
+      outline: none;
+
+      color: white;
+
+      background: transparent;
+
       font-size: 14px;
-      font-weight: 800;
-      color: #0b3d91;
-      margin-bottom: 2px;
     }
 
-    .quick-button {
-      border: 1px solid #d9e3ef;
-      background: white;
-      color: #0b3d91;
+    #userInput::placeholder {
+      color: #64748b;
+    }
+
+    #sendButton {
+      width: 48px;
+      height: 48px;
+
+      flex: 0 0 auto;
+
+      border: none;
+
       border-radius: 14px;
-      padding: 13px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      text-align: left;
+
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,.05);
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #0891b2
+        );
+
+      font-size: 18px;
+
+      box-shadow:
+        0 8px 24px rgba(37,99,235,.25);
+
+      transition:
+        transform .2s ease,
+        filter .2s ease;
     }
 
-    .quick-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 14px rgba(11,61,145,.12);
-      background: #f7faff;
+    #sendButton:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
     }
 
-    .quick-button:disabled {
-      opacity: .55;
+    #sendButton:disabled {
+      opacity: .45;
       cursor: not-allowed;
       transform: none;
     }
 
-    @media (max-width: 600px) {
-      .quick-options {
-        grid-template-columns: 1fr;
-      }
+    .footer-note {
+      text-align: center;
+
+      margin-top: 9px;
+
+      color: #475569;
+
+      font-size: 9px;
+
+      letter-spacing: .3px;
     }
 
-    .input-area {
-      margin-top: 15px;
-      background: white;
+    /* ================================
+       PROJECT CARD
+    ================================= */
+
+    .project-card {
+      margin-top: 14px;
+
+      padding: 17px;
+
       border-radius: 18px;
-      padding: 12px;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
-      display: flex;
-      gap: 10px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(37,99,235,.12),
+          rgba(8,145,178,.06)
+        );
+
+      border:
+        1px solid rgba(96,165,250,.16);
     }
 
-    .input-area input {
-      flex: 1;
-      border: 1px solid #d5dce5;
-      border-radius: 25px;
-      padding: 13px 16px;
-      outline: none;
+    .project-card-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
       font-size: 14px;
-      min-width: 0;
+      font-weight: 800;
     }
 
-    .send-button {
-      border: none;
-      background: #0b3d91;
-      color: white;
-      border-radius: 25px;
-      padding: 0 20px;
-      font-weight: 700;
-      cursor: pointer;
+    .project-card-title span {
+      font-size: 18px;
     }
 
-    .send-button:disabled {
-      opacity: .6;
-      cursor: not-allowed;
+    .project-card p {
+      margin-top: 8px;
+
+      color: #94a3b8;
+
+      font-size: 12px;
+
+      line-height: 1.5;
     }
 
+    .project-card a {
+      display: inline-block;
 
-    .voice-control {
-      margin-top: 10px;
-      display: flex;
-      justify-content: flex-end;
-    }
+      margin-top: 12px;
 
-    .voice-button {
-      border: 1px solid #d9e3ef;
-      background: white;
-      color: #0b3d91;
-      border-radius: 22px;
-      padding: 9px 13px;
+      color: #93c5fd;
+
       font-size: 12px;
       font-weight: 700;
-      cursor: pointer;
+
+      text-decoration: none;
     }
 
-    .voice-button.active {
-      background: #0b3d91;
-      color: white;
-    }
+    /* ================================
+       MOBILE
+    ================================= */
 
-    .footer {
-      text-align: center;
-      color: #7a8794;
-      font-size: 11px;
-      padding: 15px;
-    }
+    @media (max-width: 720px) {
 
-    @media (max-width: 600px) {
+      body {
+        overflow: hidden;
+      }
+
+      .app {
+        padding: 0;
+      }
+
+      .chat-shell {
+        width: 100%;
+        height: 100vh;
+
+        min-height: 100vh;
+
+        border-radius: 0;
+
+        border: none;
+      }
+
       .header {
-        padding: 13px 14px;
+        min-height: 74px;
+
+        padding: 12px 15px;
       }
 
-      .logo {
-        width: 42px;
-        height: 42px;
-        font-size: 17px;
+      .brand-logo {
+        width: 43px;
+        height: 43px;
+
+        border-radius: 13px;
+
+        font-size: 16px;
       }
 
-      .brand-text h1 {
-        font-size: 17px;
+      .brand-info h1 {
+        font-size: 16px;
       }
 
-      .brand-text p {
+      .brand-info p {
         font-size: 10px;
       }
 
-      .header-whatsapp {
-        padding: 9px 11px;
-        font-size: 11px;
+      .status {
+        padding: 6px 8px;
+        font-size: 9px;
       }
 
-      .main {
-        padding: 12px;
+      #chatMessages {
+        padding: 18px 14px;
+      }
+
+      .welcome {
+        margin: 15px auto 25px;
+      }
+
+      .welcome h2 {
+        font-size: 34px;
+        letter-spacing: -1.7px;
+      }
+
+      .welcome p {
+        font-size: 13px;
+        padding: 0 10px;
+      }
+
+      .quick-options {
+        grid-template-columns: 1fr;
+
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      .quick-btn {
+        padding: 13px;
       }
 
       .message {
-        max-width: 90%;
+        max-width: 88%;
         font-size: 13px;
       }
 
-      .whatsapp-button {
-        width: 100%;
-        font-size: 12px;
+      .input-area {
+        padding: 10px 10px 13px;
+      }
+
+      .input-box {
+        padding: 6px;
+        border-radius: 16px;
+      }
+
+      #userInput {
+        height: 46px;
+      }
+
+      #sendButton {
+        width: 46px;
+        height: 46px;
+      }
+
+      .footer-note {
+        font-size: 8px;
+      }
+    }
+
+    @media (max-height: 700px) {
+
+      .welcome {
+        margin-top: 5px;
+      }
+
+      .welcome h2 {
+        font-size: 30px;
+      }
+
+      .welcome p {
+        margin-top: 10px;
+      }
+
+      .quick-options {
+        margin-top: 15px;
       }
     }
   </style>
@@ -354,584 +921,733 @@
 
 <body>
 
-<div class="app">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
 
-  <header class="header">
-    <div class="header-content">
+  <main class="app">
 
-      <div class="brand">
+    <section class="chat-shell">
 
-        <div class="logo">
-          CI
+      <!-- HEADER -->
+      <header class="header">
+
+        <div class="brand">
+
+          <div class="brand-logo">
+            AI
+          </div>
+
+          <div class="brand-info">
+            <h1>COIMTEC IA</h1>
+            <p>Inteligencia comercial inmobiliaria</p>
+          </div>
+
         </div>
 
-        <div class="brand-text">
-          <h1>COIMTEC IA</h1>
-          <p>Asistente Virtual · TVEO Business</p>
+        <div class="status">
+          <span class="status-dot"></span>
+          IA ONLINE
+        </div>
+
+      </header>
+
+
+      <!-- CHAT -->
+      <div id="chatMessages">
+
+        <div class="welcome">
+
+          <div class="welcome-badge">
+            ✦ Asistente inteligente
+          </div>
+
+          <h2>
+            Encuentra tu próxima
+            inversión inmobiliaria.
+          </h2>
+
+          <p>
+            Hola 👋 Soy <strong>COIMTEC IA</strong>.
+            Estoy aquí para entender lo que buscas,
+            orientarte y ayudarte a encontrar la opción
+            inmobiliaria adecuada para ti.
+          </p>
+
+          <div class="quick-options">
+
+            <button
+              class="quick-btn"
+              data-message="Quiero conocer los proyectos disponibles."
+            >
+              <strong>🏢 Ver proyectos</strong>
+              <span>Conoce nuestras opciones inmobiliarias.</span>
+            </button>
+
+            <button
+              class="quick-btn"
+              data-message="Estoy interesado en invertir en un terreno."
+            >
+              <strong>📈 Quiero invertir</strong>
+              <span>Cuéntame sobre oportunidades de inversión.</span>
+            </button>
+
+            <button
+              class="quick-btn"
+              data-message="Quiero conocer Laguna Norte II."
+            >
+              <strong>🏡 Laguna Norte II</strong>
+              <span>Quiero información sobre este proyecto.</span>
+            </button>
+
+          </div>
+
         </div>
 
       </div>
 
-      <a
-        class="header-whatsapp"
-        href="https://wa.me/message/PJBMLOLZEDVPF1"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        💬 WhatsApp
-      </a>
 
-    </div>
-  </header>
+      <!-- INPUT -->
+      <div class="input-area">
 
+        <div class="input-box">
 
-  <main class="main">
+          <input
+            id="userInput"
+            type="text"
+            autocomplete="off"
+            placeholder="Escribe lo que estás buscando..."
+            aria-label="Mensaje"
+          >
 
-    <section class="welcome">
+          <button
+            id="sendButton"
+            aria-label="Enviar mensaje"
+            title="Enviar"
+          >
+            ➤
+          </button>
 
-      <h2>Hola, soy COIMTEC IA 👋</h2>
+        </div>
 
-      <p>
-        Estoy aquí para ayudarte con información sobre nuestros proyectos
-        inmobiliarios de TVEO Business.
-        Puedes preguntarme por precios, superficies, ubicación,
-        formas de pago y características de nuestros proyectos.
-      </p>
+        <div class="footer-note">
+          COIMTEC IA · Asistente inmobiliario inteligente · TVEO Business
+        </div>
+
+      </div>
 
     </section>
-
-
-    <section class="chat" id="chat">
-
-      <div class="message-row">
-
-        <div class="message assistant">
-          ¡Hola! 👋 Soy <strong>COIMTEC IA</strong>,
-          asistente virtual de <strong>TVEO Business</strong>.
-          ¿En qué proyecto estás interesado?
-        </div>
-
-      </div>
-
-      <div class="typing" id="typing">
-        COIMTEC IA está escribiendo...
-      </div>
-
-    </section>
-
-
-
-    <div class="quick-options" id="quickOptions">
-      <div class="quick-title">¿Qué información estás buscando?</div>
-
-      <button class="quick-button" type="button"
-        data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business. Dame información concreta sobre modelos, precios, cuotas, requisitos, condiciones y disponibilidad.">
-        🏠 Casas a Crédito Directo
-      </button>
-
-      <button class="quick-button" type="button"
-        data-message="Quiero información sobre Sinai Eco-Residence. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales.">
-        🌿 Sinai Eco-Residence
-      </button>
-
-      <button class="quick-button" type="button"
-        data-message="Quiero información sobre Berchatti Residence. Dame información concreta sobre ubicación, características, superficies, precios, formas de pago y disponibilidad.">
-        🏡 Berchatti Residence
-      </button>
-
-      <button class="quick-button" type="button"
-        data-message="Quiero información sobre Laguna Norte II. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales.">
-        🌱 Laguna Norte II
-      </button>
-
-      <button class="quick-button" type="button"
-        data-message="Quiero conocer todos los proyectos que actualmente ofrece TVEO Business. Muéstrame los proyectos disponibles y dame una breve explicación de cada uno.">
-        📋 Ver todos los proyectos
-      </button>
-
-      <button class="quick-button" type="button"
-        data-message="Quiero hablar con un asesor comercial de TVEO Business. Necesito atención personalizada.">
-        👨‍💼 Hablar con un Asesor
-      </button>
-    </div>
-
-    <div class="voice-control">
-      <button class="voice-button" id="voiceButton" type="button">
-        🔊 Activar voz
-      </button>
-    </div>
-
-    <div class="input-area">
-
-      <input
-        type="text"
-        id="messageInput"
-        placeholder="Escribe tu consulta..."
-        autocomplete="off"
-      >
-
-      <button
-        class="send-button"
-        id="sendButton"
-        type="button"
-      >
-        Enviar
-      </button>
-
-    </div>
-
-
-    <footer class="footer">
-      TVEO Business Desarrolladora Inmobiliaria · COIMTEC IA
-    </footer>
 
   </main>
 
-</div>
 
-
-<script>
-
-const API_URL = "/api/chat";
-
-const WHATSAPP_URL =
-  "https://wa.me/message/PJBMLOLZEDVPF1";
-
-
-const chat =
-  document.getElementById("chat");
-
-const messageInput =
-  document.getElementById("messageInput");
-
-const sendButton =
-  document.getElementById("sendButton");
-
-const typing =
-  document.getElementById("typing");
-
-const quickButtons =
-  document.querySelectorAll(".quick-button");
-
-const voiceButton =
-  document.getElementById("voiceButton");
-
-let vozActiva = false;
-
-
-function hablarRespuesta(texto) {
-
-  if (!vozActiva || !("speechSynthesis" in window)) {
-    return;
+  <!-- GEMINI -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@google/genai": "https://esm.run/@google/genai"
+    }
   }
+  </script>
 
-  const limpia = limpiarRespuesta(texto);
 
-  if (!limpia) {
-    return;
-  }
+  <script type="module">
 
-  window.speechSynthesis.cancel();
+    import { GoogleGenAI } from "@google/genai";
 
-  const utterance =
-    new SpeechSynthesisUtterance(limpia);
 
-  utterance.lang = "es-ES";
-  utterance.rate = 0.95;
-  utterance.pitch = 1;
+    /* ==================================================
+       CONFIGURACIÓN
+       ==================================================
 
-  const voces =
-    window.speechSynthesis.getVoices();
+       IMPORTANTE:
+       NO publiques una API Key real dentro de GitHub.
 
-  const vozEspanol =
-    voces.find(function(voz) {
-      return /^es(-|_)/i.test(voz.lang);
-    });
+       Durante la prueba utiliza una clave nueva/restringida
+       solamente si entiendes el riesgo de exponerla.
 
-  if (vozEspanol) {
-    utterance.voice = vozEspanol;
-  }
+       La versión definitiva debe utilizar Firebase/backend.
+    ================================================== */
 
-  window.speechSynthesis.speak(utterance);
-}
+    const API_KEY = "PEGA_AQUI_TU_NUEVA_API_KEY";
 
 
-function limpiarRespuesta(texto) {
+    /* ==================================================
+       ELEMENTOS
+    ================================================== */
 
-  if (!texto) {
-    return "";
-  }
+    const chatMessages =
+      document.getElementById("chatMessages");
 
-  let respuesta =
-    String(texto);
+    const userInput =
+      document.getElementById("userInput");
 
-  respuesta =
-    respuesta.replace(
-      /\[[^\]]*\]\(\s*https?:\/\/wa\.me\/[^)]+\)/gi,
-      ""
-    );
+    const sendButton =
+      document.getElementById("sendButton");
 
-  respuesta =
-    respuesta.replace(
-      /https?:\/\/wa\.me\/[^\s<>"')]+/gi,
-      ""
-    );
 
-  respuesta =
-    respuesta.replace(
-      /[ \t]{2,}/g,
-      " "
-    );
+    let ai = null;
+    let chatSession = null;
 
-  respuesta =
-    respuesta.replace(
-      /\n{3,}/g,
-      "\n\n"
-    );
 
-  return respuesta.trim();
-}
+    /* ==================================================
+       CEREBRO COMERCIAL
+    ================================================== */
 
+    const systemInstruction = `
 
-function contieneWhatsApp(texto) {
+Eres COIMTEC IA, asistente inmobiliario digital de TVEO Business.
 
-  if (!texto) {
-    return false;
-  }
+Tu función es atender clientes interesados en proyectos inmobiliarios
+de Santa Cruz de la Sierra.
 
-  const respuesta =
-    String(texto);
+NO eres un simple chatbot de respuestas automáticas.
 
-  return (
-    /https?:\/\/wa\.me\//i.test(respuesta) ||
-    /wa\.me\//i.test(respuesta) ||
-    /hablar con un asesor/i.test(respuesta) ||
-    /asesor comercial/i.test(respuesta) ||
-    /whatsapp/i.test(respuesta)
-  );
-}
+Debes analizar el contexto completo de la conversación y adaptar tus
+respuestas según lo que el cliente vaya diciendo.
 
+OBJETIVO:
 
-function agregarMensajeUsuario(texto) {
+1. Recibir al cliente.
+2. Entender qué está buscando.
+3. Indagar de manera natural.
+4. Detectar su objetivo.
+5. Detectar presupuesto cuando corresponda.
+6. Saber si busca vivienda, inversión o terreno.
+7. Resolver dudas utilizando únicamente información disponible.
+8. Generar confianza.
+9. Cuando exista suficiente interés, invitar a una reunión presencial
+   en oficinas de TVEO Business.
+10. Después de la reunión puede coordinarse una visita al proyecto.
 
-  const row =
-    document.createElement("div");
+IMPORTANTE:
 
-  row.className =
-    "message-row user";
+NO debes enviar automáticamente al cliente con un asesor solamente
+porque haya preguntado por un proyecto.
 
-  const message =
-    document.createElement("div");
+Primero debes conversar e indagar.
 
-  message.className =
-    "message user";
+Debes evitar saltarte las preguntas de calificación.
 
-  message.textContent =
-    texto;
+La derivación comercial debe ocurrir solamente cuando el contexto
+de la conversación realmente lo justifique.
 
-  row.appendChild(message);
+No hagas un interrogatorio.
 
-  chat.insertBefore(
-    row,
-    typing
-  );
+Haz una o dos preguntas relevantes según el contexto.
 
-  chat.scrollTop =
-    chat.scrollHeight;
-}
+--------------------------------------------------
+PROYECTO ACTIVO
+--------------------------------------------------
 
+URBANIZACIÓN LAGUNA NORTE II
 
-function mostrarBotonWhatsApp() {
+Categoría D.
 
-  const existente =
-    document.querySelector(
-      ".whatsapp-response"
-    );
+SUPERFICIE:
+300 m².
 
-  if (existente) {
-    return;
-  }
+UBICACIÓN:
+A pocos minutos del puente nuevo,
+diagonal a Colpacaranda y rodeada de proyectos ya habitables.
 
-  const contenedor =
-    document.createElement("div");
+Google Maps:
+https://maps.app.goo.gl/JWusCjnhGWR74WEu9?g_st=ac
 
-  contenedor.className =
-    "whatsapp-response";
+CONCEPTO URBANO:
 
-  const boton =
-    document.createElement("a");
+Urbanización abierta con características de cerrada.
 
-  boton.className =
-    "whatsapp-button";
+Cuenta con:
 
-  boton.href =
-    WHATSAPP_URL;
+- Único acceso.
+- Pórtico de ingreso.
+- Perímetro enmallado.
 
-  boton.target =
-    "_blank";
+AMENIDADES:
 
-  boton.rel =
-    "noopener noreferrer";
+- Laguna de pesca.
+- Fútbol 5.
+- Fútbol 7.
+- Vóley.
+- Fútbol playa.
+- Churrasqueras.
+- Parques infantiles.
+- Club House.
+- Piscina.
 
-  boton.textContent =
-    "💬 HABLAR CON UN ASESOR POR WHATSAPP";
+Estado de obras informado:
 
-  contenedor.appendChild(
-    boton
-  );
+- Piscina con aproximadamente 70% de avance.
+- Cimientos del Club House en ejecución.
 
-  chat.insertBefore(
-    contenedor,
-    typing
-  );
+SEGURIDAD JURÍDICA:
 
-  chat.scrollTop =
-    chat.scrollHeight;
-}
+Papeles al día para transferencia inmediata al momento de la compra.
 
+--------------------------------------------------
+FORMA DE CONVERSACIÓN
+--------------------------------------------------
 
-function agregarMensajeAsistente(
-  texto,
-  mostrarWhatsApp
-) {
+Habla en español.
 
-  const row =
-    document.createElement("div");
+Sé humano, claro, amable y profesional.
 
-  row.className =
-    "message-row";
+No escribas respuestas excesivamente largas.
 
-  const message =
-    document.createElement("div");
+No hagas todas las preguntas de una sola vez.
 
-  message.className =
-    "message assistant";
+Adapta las preguntas a las respuestas del cliente.
 
-  message.textContent =
-    limpiarRespuesta(texto);
+Ejemplos:
 
-  row.appendChild(message);
+Si pregunta por precio:
 
-  chat.insertBefore(
-    row,
-    typing
-  );
+"Claro. Para orientarte mejor, ¿estás buscando comprar para
+vivir o como inversión?"
 
-  if (mostrarWhatsApp) {
-    mostrarBotonWhatsApp();
-  }
+Si dice que quiere invertir:
 
-  chat.scrollTop =
-    chat.scrollHeight;
-}
+"Perfecto. ¿Tu idea sería mantener el terreno como inversión
+o construir posteriormente?"
 
+Si pregunta por metros:
 
-function mostrarError(texto) {
+"En Laguna Norte II, Categoría D, los lotes son de 300 m².
+¿Buscas aproximadamente ese tamaño?"
 
-  const row =
-    document.createElement("div");
+Si demuestra interés fuerte:
 
-  row.className =
-    "message-row";
+"Por lo que me comentas, vale la pena que revisemos las opciones
+disponibles directamente en oficina. Ahí podemos revisar el plano
+y la documentación y luego coordinar la visita."
 
-  const message =
-    document.createElement("div");
+--------------------------------------------------
+REGLA DE INFORMACIÓN
+--------------------------------------------------
 
-  message.className =
-    "message assistant";
+NO inventes:
 
-  message.textContent =
-    texto;
+- precios
+- descuentos
+- disponibilidad
+- cuotas
+- fechas
+- promociones
+- características
+- documentos
+- ubicaciones
 
-  row.appendChild(message);
+Si no tienes un dato, dilo claramente y ofrece ayudar a verificarlo.
 
-  chat.insertBefore(
-    row,
-    typing
-  );
+--------------------------------------------------
+CLASIFICACIÓN INTERNA
+--------------------------------------------------
 
-  chat.scrollTop =
-    chat.scrollHeight;
-}
+Analiza internamente el nivel de interés del prospecto:
 
+🔥 Alta intención
+🟡 Interés potencial
+🔵 Por investigar
 
-async function enviarMensaje() {
+NO necesitas mostrar esta clasificación al cliente en cada mensaje.
 
-  const mensaje =
-    messageInput.value.trim();
+Utilízala para adaptar la conversación.
 
-  if (!mensaje) {
-    return;
-  }
+--------------------------------------------------
+DERIVACIÓN
+--------------------------------------------------
 
-  agregarMensajeUsuario(
-    mensaje
-  );
+No derives inmediatamente.
 
-  messageInput.value =
-    "";
+Primero comprende:
 
-  sendButton.disabled =
-    true;
+- qué busca
+- para qué lo quiere
+- ubicación de interés
+- tipo de propiedad
+- presupuesto cuando sea natural preguntarlo
+- nivel de interés
 
-  messageInput.disabled =
-    true;
+Cuando corresponda, explica que puede continuar con un asesor comercial.
 
-  quickButtons.forEach(function(button) {
-    button.disabled = true;
-  });
+La experiencia debe sentirse natural y no como un formulario.
 
-  typing.style.display =
-    "block";
+--------------------------------------------------
+TONO
+--------------------------------------------------
 
-  chat.scrollTop =
-    chat.scrollHeight;
+Profesional.
 
-  try {
+Cercano.
 
-    const respuesta =
-      await fetch(
-        API_URL,
-        {
-          method: "POST",
+Seguro.
 
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
+Comercial sin ser agresivo.
 
-          body:
-            JSON.stringify({
-              message:
-                mensaje
-            })
+Humano.
+
+Nunca presiones al cliente.
+
+`;
+
+
+    /* ==================================================
+       INICIALIZAR GEMINI
+    ================================================== */
+
+    function initAI() {
+
+      if (
+        !API_KEY ||
+        API_KEY === "PEGA_AQUI_TU_NUEVA_API_KEY"
+      ) {
+
+        console.warn(
+          "COIMTEC IA: API Key no configurada."
+        );
+
+        return false;
+      }
+
+      ai = new GoogleGenAI({
+        apiKey: API_KEY
+      });
+
+      chatSession = ai.chats.create({
+        model: "gemini-2.5-flash",
+
+        config: {
+          systemInstruction,
+          temperature: 0.7
         }
+      });
+
+      return true;
+    }
+
+
+    /* ==================================================
+       SEGURIDAD HTML
+    ================================================== */
+
+    function escapeHtml(text) {
+
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    /* ==================================================
+       AGREGAR MENSAJE
+    ================================================== */
+
+    function addMessage(text, type) {
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        `message-row ${type}`;
+
+
+      if (type === "assistant") {
+
+        const wrap =
+          document.createElement("div");
+
+        wrap.className =
+          "assistant-wrap";
+
+
+        const avatar =
+          document.createElement("div");
+
+        avatar.className =
+          "assistant-avatar";
+
+        avatar.textContent =
+          "AI";
+
+
+        const bubble =
+          document.createElement("div");
+
+        bubble.className =
+          "message assistant";
+
+        bubble.innerHTML =
+          escapeHtml(text)
+            .replace(/\n/g, "<br>");
+
+
+        wrap.appendChild(avatar);
+        wrap.appendChild(bubble);
+
+        row.appendChild(wrap);
+
+      } else {
+
+        const bubble =
+          document.createElement("div");
+
+        bubble.className =
+          "message user";
+
+        bubble.innerHTML =
+          escapeHtml(text)
+            .replace(/\n/g, "<br>");
+
+
+        row.appendChild(bubble);
+      }
+
+
+      chatMessages.appendChild(row);
+
+      chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
+
+      return row;
+    }
+
+
+    /* ==================================================
+       INDICADOR DE PENSAMIENTO
+    ================================================== */
+
+    function addThinking() {
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "message-row assistant";
+
+      row.id =
+        "thinking-message";
+
+
+      const wrap =
+        document.createElement("div");
+
+      wrap.className =
+        "assistant-wrap";
+
+
+      const avatar =
+        document.createElement("div");
+
+      avatar.className =
+        "assistant-avatar";
+
+      avatar.textContent =
+        "AI";
+
+
+      const bubble =
+        document.createElement("div");
+
+      bubble.className =
+        "message assistant";
+
+
+      bubble.innerHTML = `
+        <div class="thinking">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      `;
+
+
+      wrap.appendChild(avatar);
+      wrap.appendChild(bubble);
+
+      row.appendChild(wrap);
+
+      chatMessages.appendChild(row);
+
+      chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
+
+      return row;
+    }
+
+
+    /* ==================================================
+       ENVIAR
+    ================================================== */
+
+    async function sendMessage(customMessage = null) {
+
+      const message =
+        customMessage ||
+        userInput.value.trim();
+
+
+      if (!message) {
+        return;
+      }
+
+
+      if (
+        !API_KEY ||
+        API_KEY === "PEGA_AQUI_TU_NUEVA_API_KEY"
+      ) {
+
+        addMessage(
+          "La conexión con la IA todavía necesita configurarse. Estamos preparando COIMTEC IA.",
+          "assistant"
+        );
+
+        return;
+      }
+
+
+      if (!chatSession) {
+
+        const initialized =
+          initAI();
+
+        if (!initialized) {
+          return;
+        }
+      }
+
+
+      addMessage(
+        message,
+        "user"
       );
 
-    if (!respuesta.ok) {
 
-      throw new Error(
-        "Error HTTP " +
-        respuesta.status
-      );
+      userInput.value = "";
+
+      sendButton.disabled = true;
+
+
+      const thinking =
+        addThinking();
+
+
+      try {
+
+        const response =
+          await chatSession.sendMessage({
+            message
+          });
+
+
+        thinking.remove();
+
+
+        const answer =
+          response?.text ||
+          "No recibí una respuesta. Intenta nuevamente.";
+
+
+        addMessage(
+          answer,
+          "assistant"
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "COIMTEC IA / GEMINI:",
+          error
+        );
+
+
+        thinking.remove();
+
+
+        addMessage(
+          "Estoy teniendo una dificultad momentánea para conectarme. Por favor, intenta nuevamente en unos segundos.",
+          "assistant"
+        );
+
+      } finally {
+
+        sendButton.disabled = false;
+
+        userInput.focus();
+
+      }
 
     }
 
-    const data =
-      await respuesta.json();
 
-    typing.style.display =
-      "none";
+    /* ==================================================
+       BOTÓN ENVIAR
+    ================================================== */
 
-    const answer =
-      data.answer ||
-      "No pude procesar tu consulta.";
-
-    const necesitaWhatsApp =
-      data.whatsapp === true ||
-      contieneWhatsApp(answer);
-
-    agregarMensajeAsistente(
-      answer,
-      necesitaWhatsApp
+    sendButton.addEventListener(
+      "click",
+      () => sendMessage()
     );
 
-    hablarRespuesta(answer);
 
-  } catch (error) {
+    /* ==================================================
+       ENTER
+    ================================================== */
 
-    console.error(
-      "Error COIMTEC IA:",
-      error
+    userInput.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter" &&
+          !event.shiftKey
+        ) {
+
+          event.preventDefault();
+
+          sendMessage();
+        }
+
+      }
     );
 
-    typing.style.display =
-      "none";
 
-    mostrarError(
-      "Lo siento, en este momento no pude conectarme con el asistente. Por favor, intenta nuevamente."
-    );
+    /* ==================================================
+       BOTONES RÁPIDOS
+    ================================================== */
 
-  } finally {
+    document
+      .querySelectorAll(".quick-btn")
+      .forEach(button => {
 
-    sendButton.disabled =
-      false;
+        button.addEventListener(
+          "click",
+          () => {
 
-    messageInput.disabled =
-      false;
+            const message =
+              button.dataset.message;
 
-    quickButtons.forEach(function(button) {
-      button.disabled = false;
-    });
+            sendMessage(message);
 
-    messageInput.focus();
+          }
+        );
 
-  }
-
-}
+      });
 
 
-sendButton.addEventListener(
-  "click",
-  enviarMensaje
-);
+    /* ==================================================
+       INICIO
+    ================================================== */
 
+    userInput.focus();
 
-messageInput.addEventListener(
-  "keydown",
-  function(event) {
-
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey
-    ) {
-
-      event.preventDefault();
-
-      enviarMensaje();
-
-    }
-
-  }
-);
-
-
-
-quickButtons.forEach(function(button) {
-  button.addEventListener("click", function() {
-    const consulta = button.getAttribute("data-message") || "";
-    messageInput.value = consulta;
-    enviarMensaje();
-  });
-});
-
-messageInput.focus();
-
-voiceButton.addEventListener("click", function() {
-
-  if (!("speechSynthesis" in window)) {
-    alert("Tu navegador no permite respuestas por voz.");
-    return;
-  }
-
-  vozActiva = !vozActiva;
-
-  voiceButton.classList.toggle(
-    "active",
-    vozActiva
-  );
-
-  voiceButton.textContent =
-    vozActiva
-      ? "🔊 Voz activada"
-      : "🔇 Activar voz";
-
-  if (!vozActiva) {
-    window.speechSynthesis.cancel();
-  }
-});
-
-</script>
+  </script>
 
 </body>
 </html>
