@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b3d91">
-  <meta name="description" content="COIMTEC IA - Asistente virtual de TVEO Business">
-  <title>COIMTEC IA | TVEO Business</title>
+
+  <title>COIMTEC IA - TVEO Business</title>
 
   <style>
     * {
@@ -16,1010 +14,439 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: #f3f6fa;
-      color: #1d2733;
+      background: #f4f7fb;
+      color: #1b1b1b;
     }
 
-    .app {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .header {
-      background: linear-gradient(135deg, #0b3d91, #1565c0);
+    header {
+      background: linear-gradient(135deg, #062b68, #0b4fa3);
       color: white;
-      padding: 18px 20px;
+      padding: 20px;
+      text-align: center;
       box-shadow: 0 4px 15px rgba(0,0,0,.15);
-      position: sticky;
-      top: 0;
-      z-index: 10;
     }
 
-    .header-content {
-      max-width: 900px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: white;
-      color: #0b3d91;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 20px;
-      box-shadow: 0 3px 8px rgba(0,0,0,.15);
-    }
-
-    .brand-text h1 {
+    header h1 {
       margin: 0;
-      font-size: 20px;
-      font-weight: 800;
+      font-size: 28px;
     }
 
-    .brand-text p {
-      margin: 3px 0 0;
-      font-size: 12px;
+    header p {
+      margin: 6px 0 0;
       opacity: .9;
     }
 
-    .header-whatsapp {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      background: #25d366;
-      color: white;
-      text-decoration: none;
-      padding: 10px 14px;
-      border-radius: 25px;
-      font-size: 13px;
-      font-weight: 700;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    .main {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+    .container {
+      max-width: 850px;
+      margin: 25px auto;
+      padding: 0 15px;
     }
 
     .welcome {
       background: white;
       border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+      margin-bottom: 20px;
     }
 
     .welcome h2 {
-      margin: 0 0 8px;
+      margin-top: 0;
       color: #0b3d91;
-      font-size: 22px;
     }
 
     .welcome p {
-      margin: 0;
-      color: #596574;
+      color: #555;
       line-height: 1.5;
-      font-size: 14px;
+    }
+
+    .projects-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px 0 12px;
+      color: #0b3d91;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .quick-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      background: white;
+      color: #0b3d91;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      transition: .2s;
+    }
+
+    .quick-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 18px rgba(0,0,0,.13);
+      background: #f0f5ff;
     }
 
     .chat {
+      margin-top: 25px;
       background: white;
       border-radius: 18px;
-      padding: 18px;
-      min-height: 400px;
-      flex: 1;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
+      padding: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    }
+
+    #messages {
+      min-height: 100px;
+      max-height: 450px;
       overflow-y: auto;
-    }
-
-    .message-row {
-      display: flex;
-      margin-bottom: 14px;
-    }
-
-    .message-row.user {
-      justify-content: flex-end;
+      padding: 5px;
     }
 
     .message {
-      max-width: 82%;
       padding: 12px 15px;
-      border-radius: 16px;
+      border-radius: 14px;
+      margin: 10px 0;
       line-height: 1.5;
-      font-size: 14px;
       white-space: pre-wrap;
-      word-break: break-word;
     }
 
-    .message.assistant {
-      background: #eef4fb;
-      color: #1f2933;
-      border-bottom-left-radius: 5px;
-    }
-
-    .message.user {
+    .user {
       background: #0b3d91;
       color: white;
-      border-bottom-right-radius: 5px;
+      margin-left: 15%;
     }
 
-    .typing {
-      display: none;
-      padding: 10px 14px;
-      background: #eef4fb;
-      border-radius: 15px;
-      width: fit-content;
-      color: #607080;
-      font-size: 13px;
-      margin-bottom: 14px;
+    .bot {
+      background: #eef3f9;
+      color: #222;
+      margin-right: 10%;
     }
-
-    /* =========================================
-       OPCIONES DE PROYECTOS
-       ========================================= */
-
-    .quick-options {
-      background: white;
-      border-radius: 18px;
-      padding: 16px;
-      margin-top: 15px;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
-    }
-
-    .quick-title {
-      font-size: 15px;
-      font-weight: 800;
-      color: #0b3d91;
-      margin-bottom: 12px;
-    }
-
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .quick-button {
-      border: 1px solid #d9e3ef;
-      background: white;
-      color: #0b3d91;
-      border-radius: 14px;
-      padding: 14px 13px;
-      font-size: 13px;
-      font-weight: 700;
-      text-align: left;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,.05);
-      transition:
-        transform .15s ease,
-        box-shadow .15s ease,
-        background .15s ease;
-    }
-
-    .quick-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(11,61,145,.14);
-      background: #f7faff;
-    }
-
-    .quick-button:active {
-      transform: translateY(0);
-    }
-
-    .quick-button:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* =========================================
-       WHATSAPP
-       ========================================= */
-
-    .whatsapp-response {
-      margin-top: 12px;
-      margin-bottom: 18px;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .whatsapp-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: #25d366;
-      color: #fff !important;
-      text-decoration: none !important;
-      padding: 13px 18px;
-      border-radius: 30px;
-      font-weight: 800;
-      font-size: 13px;
-      box-shadow: 0 4px 12px rgba(37,211,102,.35);
-      cursor: pointer;
-      border: none;
-    }
-
-    /* =========================================
-       INPUT
-       ========================================= */
 
     .input-area {
-      margin-top: 15px;
-      background: white;
-      border-radius: 18px;
-      padding: 12px;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
       display: flex;
       gap: 10px;
+      margin-top: 15px;
     }
 
-    .input-area input {
+    #input {
       flex: 1;
-      border: 1px solid #d5dce5;
-      border-radius: 25px;
-      padding: 13px 16px;
+      padding: 14px;
+      border: 1px solid #ccd5e0;
+      border-radius: 12px;
+      font-size: 15px;
       outline: none;
-      font-size: 14px;
-      min-width: 0;
     }
 
-    .input-area input:focus {
-      border-color: #1565c0;
-      box-shadow: 0 0 0 3px rgba(21,101,192,.08);
+    #input:focus {
+      border-color: #0b3d91;
     }
 
-    .send-button {
+    #send {
       border: none;
       background: #0b3d91;
       color: white;
-      border-radius: 25px;
-      padding: 0 20px;
-      font-weight: 700;
+      padding: 0 22px;
+      border-radius: 12px;
+      font-weight: bold;
       cursor: pointer;
     }
 
-    .send-button:disabled {
-      opacity: .6;
-      cursor: not-allowed;
+    #send:hover {
+      background: #082f70;
     }
 
-    .footer {
+    .whatsapp {
+      display: none;
+      margin-top: 15px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: #25d366;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .loading {
+      opacity: .65;
+      font-style: italic;
+    }
+
+    footer {
       text-align: center;
-      color: #7a8794;
-      font-size: 11px;
-      padding: 15px;
+      padding: 25px;
+      color: #777;
+      font-size: 13px;
     }
 
-    /* =========================================
-       RESPONSIVE
-       ========================================= */
-
-    @media (max-width: 600px) {
-
-      .header {
-        padding: 13px 14px;
-      }
-
-      .logo {
-        width: 42px;
-        height: 42px;
-        font-size: 17px;
-      }
-
-      .brand-text h1 {
-        font-size: 17px;
-      }
-
-      .brand-text p {
-        font-size: 10px;
-      }
-
-      .header-whatsapp {
-        padding: 9px 11px;
-        font-size: 11px;
-      }
-
-      .main {
-        padding: 12px;
-      }
-
-      .message {
-        max-width: 90%;
-        font-size: 13px;
-      }
-
-      .quick-grid {
+    @media (max-width: 650px) {
+      .buttons {
         grid-template-columns: 1fr;
       }
 
-      .whatsapp-button {
-        width: 100%;
-        font-size: 12px;
+      .input-area {
+        flex-direction: column;
       }
 
-      .send-button {
-        padding: 0 16px;
+      #send {
+        height: 48px;
+      }
+
+      .user,
+      .bot {
+        margin-left: 0;
+        margin-right: 0;
       }
     }
   </style>
-
 </head>
 
 <body>
 
-<div class="app">
+<header>
+  <h1>COIMTEC IA</h1>
+  <p>Asistente Virtual · TVEO Business</p>
+</header>
 
-  <!-- =========================================
-       ENCABEZADO
-       ========================================= -->
+<div class="container">
 
-  <header class="header">
+  <section class="welcome">
+    <h2>¡Hola! 👋</h2>
 
-```
-<div class="header-content">
+    <p>
+      Soy el asistente virtual de <strong>TVEO Business</strong>.
+      Selecciona el proyecto que te interesa o escribe directamente tu consulta.
+    </p>
+  </section>
 
-  <div class="brand">
-
-    <div class="logo">
-      CI
-    </div>
-
-    <div class="brand-text">
-      <h1>COIMTEC IA</h1>
-      <p>Asistente Virtual · TVEO Business</p>
-    </div>
-
-  </div>
-
-  <a
-    class="header-whatsapp"
-    href="https://wa.me/message/PJBMLOLZEDVPF1"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    💬 WhatsApp
-  </a>
-
-</div>
-```
-
-  </header>
-
-  <!-- =========================================
-       CONTENIDO PRINCIPAL
-       ========================================= -->
-
-  <main class="main">
-
-```
-<!-- PRESENTACIÓN -->
-
-<section class="welcome">
-
-  <h2>Hola, soy COIMTEC IA 👋</h2>
-
-  <p>
-    Estoy aquí para ayudarte con información sobre los proyectos
-    inmobiliarios de TVEO Business. Selecciona el proyecto que te
-    interesa o escribe directamente tu consulta.
-  </p>
-
-</section>
-
-
-<!-- =========================================
-     CHAT
-     ========================================= -->
-
-<section class="chat" id="chat">
-
-  <div class="message-row">
-
-    <div class="message assistant">
-      ¡Hola! 👋 Soy <strong>COIMTEC IA</strong>,
-      asistente virtual de <strong>TVEO Business</strong>.
-
-      ¿Qué proyecto te interesa conocer?
-    </div>
-
-  </div>
-
-  <div class="typing" id="typing">
-    COIMTEC IA está escribiendo...
-  </div>
-
-</section>
-
-
-<!-- =========================================
-     ÚNICAMENTE PROYECTOS REALES
-     ========================================= -->
-
-<div class="quick-options" id="quickOptions">
-
-  <div class="quick-title">
+  <div class="projects-title">
     ¿Qué proyecto te interesa?
   </div>
 
-  <div class="quick-grid">
+  <div class="buttons">
 
-    <!-- BERCHATTI -->
-
-    <button
-      class="quick-button"
-      type="button"
-      data-message="Quiero información sobre Berchatti Residence. Dame información concreta sobre ubicación, características, superficies, precios, formas de pago y disponibilidad."
-    >
+    <button class="quick-btn"
+      data-message="Quiero información sobre Berchatti Residence. Dame información concreta sobre ubicación, características, superficies, precios, formas de pago y disponibilidad.">
       🏡 Berchatti Residence
     </button>
 
-
-    <!-- CASAS A CRÉDITO DIRECTO -->
-
-    <button
-      class="quick-button"
-      type="button"
-      data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business. Explícame cómo funciona, qué opciones tienen, precios, cuotas, requisitos y condiciones."
-    >
+    <button class="quick-btn"
+      data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business. Explícame cómo funciona, qué opciones tienen, precios, cuotas, requisitos y condiciones.">
       🏠 Casas a Crédito Directo
     </button>
 
-
-    <!-- LAGUNA NORTE II -->
-
-    <button
-      class="quick-button"
-      type="button"
-      data-message="Quiero información sobre Laguna Norte II. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
-    >
+    <button class="quick-btn"
+      data-message="Quiero información sobre Laguna Norte II. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales.">
       🌿 Laguna Norte II
     </button>
 
-
-    <!-- SINAI ECO-RESIDENCE -->
-
-    <button
-      class="quick-button"
-      type="button"
-      data-message="Quiero información sobre Sinai Eco-Residence. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
-    >
+    <button class="quick-btn"
+      data-message="Quiero información sobre Sinai Eco-Residence. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales.">
       🌱 Sinai Eco-Residence
     </button>
 
-
-    <!-- TODOS LOS PROYECTOS -->
-
-    <button
-      class="quick-button"
-      type="button"
-      data-message="Quiero conocer todos los proyectos que actualmente ofrece TVEO Business. Muéstrame los proyectos disponibles y dame una breve explicación de cada uno."
-    >
+    <button class="quick-btn"
+      data-message="Quiero conocer todos los proyectos que actualmente ofrece TVEO Business. Muéstrame los proyectos disponibles y dame una breve explicación de cada uno.">
       📋 Ver todos los proyectos
     </button>
 
-
-    <!-- ASESOR -->
-
-    <button
-      class="quick-button"
-      type="button"
-      data-message="Quiero hablar con un asesor comercial de TVEO Business. Necesito atención personalizada."
-    >
+    <button class="quick-btn"
+      data-message="Quiero hablar con un asesor comercial de TVEO Business. Necesito atención personalizada.">
       👨‍💼 Hablar con un Asesor
     </button>
 
   </div>
 
+  <section class="chat">
+
+    <div id="messages">
+      <div class="message bot">
+        Puedes seleccionar una opción de arriba o escribir tu pregunta directamente.
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input
+        id="input"
+        type="text"
+        placeholder="Escribe tu consulta..."
+        autocomplete="off"
+      >
+
+      <button id="send">
+        Enviar
+      </button>
+    </div>
+
+    <button id="whatsapp" class="whatsapp">
+      📲 Hablar con un asesor por WhatsApp
+    </button>
+
+  </section>
+
 </div>
 
-
-<!-- =========================================
-     CAMPO DE CONSULTA
-     ========================================= -->
-
-<div class="input-area">
-
-  <input
-    type="text"
-    id="messageInput"
-    placeholder="Escribe tu consulta..."
-    autocomplete="off"
-  >
-
-  <button
-    class="send-button"
-    id="sendButton"
-    type="button"
-  >
-    Enviar
-  </button>
-
-</div>
-
-
-<!-- PIE -->
-
-<footer class="footer">
-  TVEO Business Desarrolladora Inmobiliaria · COIMTEC IA
+<footer>
+  TVEO Business Desarrolladora Inmobiliaria
 </footer>
-```
-
-  </main>
-
-</div>
 
 <script>
 
-const API_URL = "/api/chat";
+  const API_URL = "/api/chat";
 
-const WHATSAPP_URL =
-  "https://wa.me/message/PJBMLOLZEDVPF1";
+  const WHATSAPP_URL =
+    "https://wa.me/message/PJBMLOLZEDVPF1";
 
+  const input = document.getElementById("input");
+  const send = document.getElementById("send");
+  const messages = document.getElementById("messages");
+  const whatsapp = document.getElementById("whatsapp");
 
-const chat =
-  document.getElementById("chat");
+  function agregarMensaje(texto, tipo) {
 
-const messageInput =
-  document.getElementById("messageInput");
+    const div = document.createElement("div");
 
-const sendButton =
-  document.getElementById("sendButton");
+    div.className = "message " + tipo;
 
-const typing =
-  document.getElementById("typing");
+    div.textContent = texto;
 
-const quickButtons =
-  document.querySelectorAll(".quick-button");
+    messages.appendChild(div);
 
+    messages.scrollTop = messages.scrollHeight;
 
-/* =========================================
-   LIMPIAR RESPUESTA
-   ========================================= */
-
-function limpiarRespuesta(texto) {
-
-  if (!texto) {
-    return "";
+    return div;
   }
 
-  let respuesta = String(texto);
+  function limpiarWhatsApp(texto) {
 
-  respuesta = respuesta.replace(
-    /\[[^\]]*\]\(\s*https?:\/\/wa\.me\/[^)]+\)/gi,
-    ""
-  );
+    return texto
+      .replace(/https?:\/\/wa\.me\/[^\s)]+/gi, "")
+      .replace(/https?:\/\/api\.whatsapp\.com\/[^\s)]+/gi, "")
+      .trim();
 
-  respuesta = respuesta.replace(
-    /https?:\/\/wa\.me\/[^\s<>"')]+/gi,
-    ""
-  );
-
-  respuesta = respuesta.replace(
-    /[ \t]{2,}/g,
-    " "
-  );
-
-  respuesta = respuesta.replace(
-    /\n{3,}/g,
-    "\n\n"
-  );
-
-  return respuesta.trim();
-}
-
-
-/* =========================================
-   DETECTAR WHATSAPP
-   ========================================= */
-
-function contieneWhatsApp(texto) {
-
-  if (!texto) {
-    return false;
   }
 
-  const respuesta = String(texto);
+  async function enviarMensaje() {
 
-  return (
-    /https?:\/\/wa\.me\//i.test(respuesta) ||
-    /wa\.me\//i.test(respuesta) ||
-    /hablar con un asesor/i.test(respuesta) ||
-    /asesor comercial/i.test(respuesta) ||
-    /whatsapp/i.test(respuesta)
-  );
-}
+    const mensaje = input.value.trim();
 
+    if (!mensaje) return;
 
-/* =========================================
-   MENSAJE DEL USUARIO
-   ========================================= */
+    agregarMensaje(mensaje, "user");
 
-function agregarMensajeUsuario(texto) {
+    input.value = "";
 
-  const row =
-    document.createElement("div");
+    whatsapp.style.display = "none";
 
-  row.className =
-    "message-row user";
+    const cargando =
+      agregarMensaje("Estoy consultando la información...", "bot");
 
-  const message =
-    document.createElement("div");
+    cargando.classList.add("loading");
 
-  message.className =
-    "message user";
+    send.disabled = true;
 
-  message.textContent =
-    texto;
+    try {
 
-  row.appendChild(message);
+      const response = await fetch(API_URL, {
 
-  chat.insertBefore(
-    row,
-    typing
-  );
+        method: "POST",
 
-  chat.scrollTop =
-    chat.scrollHeight;
-}
+        headers: {
+          "Content-Type": "application/json"
+        },
 
+        body: JSON.stringify({
+          message: mensaje
+        })
 
-/* =========================================
-   BOTÓN WHATSAPP
-   ========================================= */
+      });
 
-function mostrarBotonWhatsApp() {
-
-  const existente =
-    document.querySelector(
-      ".whatsapp-response"
-    );
-
-  if (existente) {
-    return;
-  }
-
-  const contenedor =
-    document.createElement("div");
-
-  contenedor.className =
-    "whatsapp-response";
-
-  const boton =
-    document.createElement("a");
-
-  boton.className =
-    "whatsapp-button";
-
-  boton.href =
-    WHATSAPP_URL;
-
-  boton.target =
-    "_blank";
-
-  boton.rel =
-    "noopener noreferrer";
-
-  boton.textContent =
-    "💬 HABLAR CON UN ASESOR POR WHATSAPP";
-
-  contenedor.appendChild(
-    boton
-  );
-
-  chat.insertBefore(
-    contenedor,
-    typing
-  );
-
-  chat.scrollTop =
-    chat.scrollHeight;
-}
-
-
-/* =========================================
-   MENSAJE DEL ASISTENTE
-   ========================================= */
-
-function agregarMensajeAsistente(
-  texto,
-  mostrarWhatsApp
-) {
-
-  const row =
-    document.createElement("div");
-
-  row.className =
-    "message-row";
-
-  const message =
-    document.createElement("div");
-
-  message.className =
-    "message assistant";
-
-  message.textContent =
-    limpiarRespuesta(texto);
-
-  row.appendChild(message);
-
-  chat.insertBefore(
-    row,
-    typing
-  );
-
-  if (mostrarWhatsApp) {
-    mostrarBotonWhatsApp();
-  }
-
-  chat.scrollTop =
-    chat.scrollHeight;
-}
-
-
-/* =========================================
-   ERROR
-   ========================================= */
-
-function mostrarError(texto) {
-
-  const row =
-    document.createElement("div");
-
-  row.className =
-    "message-row";
-
-  const message =
-    document.createElement("div");
-
-  message.className =
-    "message assistant";
-
-  message.textContent =
-    texto;
-
-  row.appendChild(message);
-
-  chat.insertBefore(
-    row,
-    typing
-  );
-
-  chat.scrollTop =
-    chat.scrollHeight;
-}
-
-
-/* =========================================
-   ENVIAR MENSAJE
-   ========================================= */
-
-async function enviarMensaje() {
-
-  const mensaje =
-    messageInput.value.trim();
-
-  if (!mensaje) {
-    return;
-  }
-
-  agregarMensajeUsuario(
-    mensaje
-  );
-
-  messageInput.value =
-    "";
-
-  sendButton.disabled =
-    true;
-
-  messageInput.disabled =
-    true;
-
-  quickButtons.forEach(
-    function(button) {
-      button.disabled = true;
-    }
-  );
-
-  typing.style.display =
-    "block";
-
-  chat.scrollTop =
-    chat.scrollHeight;
-
-
-  try {
-
-    const respuesta =
-      await fetch(
-        API_URL,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-              message:
-                mensaje
-            })
-        }
-      );
-
-
-    if (!respuesta.ok) {
-
-      throw new Error(
-        "Error HTTP " +
-        respuesta.status
-      );
-
-    }
-
-
-    const data =
-      await respuesta.json();
-
-
-    typing.style.display =
-      "none";
-
-
-    const answer =
-      data.answer ||
-      "No pude procesar tu consulta.";
-
-
-    const necesitaWhatsApp =
-      data.whatsapp === true ||
-      contieneWhatsApp(answer);
-
-
-    agregarMensajeAsistente(
-      answer,
-      necesitaWhatsApp
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "Error COIMTEC IA:",
-      error
-    );
-
-
-    typing.style.display =
-      "none";
-
-
-    mostrarError(
-      "Lo siento, en este momento no pude conectarme con el asistente. Por favor, intenta nuevamente."
-    );
-
-
-  } finally {
-
-    sendButton.disabled =
-      false;
-
-    messageInput.disabled =
-      false;
-
-
-    quickButtons.forEach(
-      function(button) {
-        button.disabled = false;
+      if (!response.ok) {
+        throw new Error("Error HTTP " + response.status);
       }
-    );
 
+      const data = await response.json();
 
-    messageInput.focus();
+      cargando.remove();
+
+      let respuesta =
+        data.answer ||
+        data.response ||
+        data.message ||
+        "No pude obtener una respuesta en este momento.";
+
+      respuesta = limpiarWhatsApp(respuesta);
+
+      agregarMensaje(respuesta, "bot");
+
+      const necesitaAsesor =
+        data.whatsapp === true ||
+        /whatsapp|asesor|asesora|atención personalizada/i.test(respuesta);
+
+      if (necesitaAsesor) {
+        whatsapp.style.display = "block";
+      }
+
+    } catch (error) {
+
+      cargando.remove();
+
+      agregarMensaje(
+        "No pude conectarme con el asistente. Intenta nuevamente en unos segundos.",
+        "bot"
+      );
+
+      console.error(error);
+
+    } finally {
+
+      send.disabled = false;
+
+      input.focus();
+
+    }
 
   }
 
-}
+  send.addEventListener("click", enviarMensaje);
 
+  input.addEventListener("keydown", function(event) {
 
-/* =========================================
-   BOTÓN ENVIAR
-   ========================================= */
+    if (event.key === "Enter") {
+      enviarMensaje();
+    }
 
-sendButton.addEventListener(
-  "click",
-  enviarMensaje
-);
+  });
 
+  document.querySelectorAll(".quick-btn").forEach(function(button) {
 
-/* =========================================
-   ENTER PARA ENVIAR
-   ========================================= */
+    button.addEventListener("click", function() {
 
-messageInput.addEventListener(
-  "keydown",
-  function(event) {
-
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey
-    ) {
-
-      event.preventDefault();
+      input.value = button.dataset.message;
 
       enviarMensaje();
 
-    }
+    });
 
-  }
-);
+  });
 
+  whatsapp.addEventListener("click", function() {
 
-/* =========================================
-   BOTONES DE PROYECTOS
-   ========================================= */
-
-quickButtons.forEach(
-  function(button) {
-
-    button.addEventListener(
-      "click",
-      function() {
-
-        const consulta =
-          button.getAttribute(
-            "data-message"
-          ) || "";
-
-
-        if (!consulta) {
-          return;
-        }
-
-
-        messageInput.value =
-          consulta;
-
-
-        enviarMensaje();
-
-      }
+    window.open(
+      WHATSAPP_URL,
+      "_blank",
+      "noopener,noreferrer"
     );
 
-  }
-);
-
-
-/* =========================================
-   INICIO
-   ========================================= */
-
-messageInput.focus();
+  });
 
 </script>
 
