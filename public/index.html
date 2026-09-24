@@ -4,53 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#07111f">
-
-  <title>COIMTEC IA | Inteligencia Comercial Inmobiliaria</title>
+  <meta name="description" content="COIMTEC IA - Inteligencia Comercial Inmobiliaria de TVEO Business">
+  <title>COIMTEC IA | TVEO Business</title>
 
   <style>
     :root {
       --bg: #050b14;
-      --panel: rgba(10, 20, 35, .82);
-      --panel-2: rgba(15, 28, 48, .72);
+      --bg2: #081525;
+      --panel: rgba(10, 21, 38, .84);
+      --panel2: rgba(15, 31, 52, .78);
       --line: rgba(148, 163, 184, .16);
+
       --text: #f8fafc;
       --muted: #94a3b8;
+
       --cyan: #22d3ee;
-      --blue: #3b82f6;
+      --blue: #2563eb;
+      --blue2: #0ea5e9;
       --gold: #f5c451;
+
+      --green: #25d366;
       --success: #34d399;
     }
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     html,
     body {
       width: 100%;
-      min-height: 100%;
+      height: 100%;
+      margin: 0;
     }
 
     body {
       font-family:
         Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
+        Arial,
+        Helvetica,
         sans-serif;
 
       background:
-        radial-gradient(circle at 15% 10%, rgba(34,211,238,.13), transparent 30%),
-        radial-gradient(circle at 85% 15%, rgba(59,130,246,.16), transparent 32%),
-        radial-gradient(circle at 50% 100%, rgba(245,196,81,.06), transparent 30%),
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(34,211,238,.12),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 15%,
+          rgba(37,99,235,.18),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 50% 100%,
+          rgba(245,196,81,.06),
+          transparent 35%
+        ),
         var(--bg);
 
       color: var(--text);
-      min-height: 100vh;
       overflow: hidden;
     }
 
@@ -59,60 +72,80 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: .18;
+
+      opacity: .14;
 
       background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+        linear-gradient(
+          rgba(255,255,255,.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.025) 1px,
+          transparent 1px
+        );
 
       background-size: 40px 40px;
     }
 
+    /* =====================================================
+       APP
+       ===================================================== */
+
     .app {
       width: 100%;
       height: 100vh;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       padding: 20px;
     }
 
     .shell {
-      width: min(1100px, 100%);
-      height: min(850px, 94vh);
+      width: min(1180px, 100%);
+      height: min(880px, 94vh);
 
       display: grid;
       grid-template-columns: 340px 1fr;
 
-      background: rgba(5, 12, 24, .78);
-      border: 1px solid rgba(148,163,184,.16);
-      border-radius: 28px;
-
       overflow: hidden;
 
-      box-shadow:
-        0 40px 100px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,255,255,.04);
+      background:
+        rgba(4, 11, 21, .82);
 
-      backdrop-filter: blur(24px);
+      border:
+        1px solid rgba(148,163,184,.16);
+
+      border-radius: 28px;
+
+      box-shadow:
+        0 40px 110px rgba(0,0,0,.58),
+        inset 0 1px 0 rgba(255,255,255,.035);
+
+      backdrop-filter: blur(25px);
     }
 
     /* =====================================================
-       PANEL IZQUIERDO
+       SIDEBAR
        ===================================================== */
 
     .sidebar {
       position: relative;
+
       padding: 28px;
 
       background:
         linear-gradient(
           180deg,
-          rgba(15,31,52,.94),
-          rgba(5,15,28,.94)
+          rgba(15,31,52,.96),
+          rgba(5,14,27,.96)
         );
 
-      border-right: 1px solid var(--line);
+      border-right:
+        1px solid var(--line);
 
       display: flex;
       flex-direction: column;
@@ -122,12 +155,14 @@
       display: flex;
       align-items: center;
       gap: 13px;
-      margin-bottom: 42px;
+
+      margin-bottom: 40px;
     }
 
-    .brand-icon {
+    .logo {
       width: 50px;
       height: 50px;
+
       border-radius: 17px;
 
       display: flex;
@@ -135,30 +170,40 @@
       justify-content: center;
 
       background:
-        linear-gradient(135deg, #22d3ee, #2563eb);
+        linear-gradient(
+          135deg,
+          var(--cyan),
+          var(--blue)
+        );
+
+      color: white;
+
+      font-size: 17px;
+      font-weight: 900;
 
       box-shadow:
-        0 0 30px rgba(34,211,238,.24);
-
-      font-size: 22px;
-      font-weight: 900;
+        0 0 30px rgba(34,211,238,.22);
     }
 
-    .brand strong {
+    .brand-text strong {
       display: block;
+
       font-size: 17px;
       letter-spacing: .5px;
     }
 
-    .brand span {
+    .brand-text span {
       display: block;
-      color: var(--muted);
-      font-size: 11px;
+
       margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 10px;
     }
 
     .hero {
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .eyebrow {
@@ -166,108 +211,140 @@
       align-items: center;
       gap: 7px;
 
-      color: var(--cyan);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      margin-bottom: 12px;
 
-      margin-bottom: 13px;
+      color: var(--cyan);
+
+      font-size: 10px;
+      font-weight: 900;
+
+      letter-spacing: 1.5px;
+
+      text-transform: uppercase;
     }
 
     .eyebrow::before {
       content: "";
+
       width: 7px;
       height: 7px;
+
       border-radius: 50%;
+
       background: var(--success);
-      box-shadow: 0 0 12px var(--success);
+
+      box-shadow:
+        0 0 12px var(--success);
     }
 
     .hero h1 {
+      margin: 0 0 12px;
+
       font-size: 30px;
       line-height: 1.08;
+
       letter-spacing: -.8px;
-      margin-bottom: 13px;
     }
 
     .hero p {
+      margin: 0;
+
       color: var(--muted);
+
       font-size: 13px;
       line-height: 1.65;
     }
 
     .project-card {
+      margin-bottom: 17px;
       padding: 17px;
 
-      border: 1px solid rgba(34,211,238,.16);
+      border:
+        1px solid rgba(34,211,238,.15);
+
+      border-radius: 18px;
+
       background:
         linear-gradient(
           135deg,
           rgba(34,211,238,.08),
-          rgba(59,130,246,.06)
+          rgba(37,99,235,.06)
         );
-
-      border-radius: 18px;
-
-      margin-bottom: 16px;
     }
 
     .project-label {
+      margin-bottom: 6px;
+
       color: var(--cyan);
-      font-size: 10px;
-      font-weight: 800;
+
+      font-size: 9px;
+      font-weight: 900;
+
       letter-spacing: 1.2px;
+
       text-transform: uppercase;
-      margin-bottom: 7px;
     }
 
     .project-title {
+      margin-bottom: 5px;
+
       font-size: 16px;
       font-weight: 800;
-      margin-bottom: 5px;
     }
 
     .project-info {
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
+
+      font-size: 11px;
+      line-height: 1.55;
     }
 
-    .quick-actions {
+    .quick-sidebar {
       display: grid;
       gap: 9px;
     }
 
-    .quick-btn {
+    .quick-sidebar button {
       width: 100%;
+
       padding: 12px 13px;
 
       text-align: left;
 
-      background: rgba(255,255,255,.035);
-      border: 1px solid rgba(148,163,184,.12);
+      color: #e2e8f0;
+
+      background:
+        rgba(255,255,255,.035);
+
+      border:
+        1px solid rgba(148,163,184,.12);
+
       border-radius: 13px;
 
-      color: #e2e8f0;
       cursor: pointer;
 
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
 
       transition: .2s ease;
     }
 
-    .quick-btn:hover {
+    .quick-sidebar button:hover {
       transform: translateY(-1px);
-      border-color: rgba(34,211,238,.35);
-      background: rgba(34,211,238,.07);
+
+      border-color:
+        rgba(34,211,238,.35);
+
+      background:
+        rgba(34,211,238,.07);
     }
 
     .sidebar-footer {
       margin-top: auto;
+
       color: #64748b;
-      font-size: 10px;
+
+      font-size: 9px;
       line-height: 1.5;
     }
 
@@ -275,25 +352,33 @@
        CHAT
        ===================================================== */
 
-    .chat {
+    .chat-panel {
       min-width: 0;
+
       display: flex;
       flex-direction: column;
-      background: rgba(3,9,18,.72);
+
+      background:
+        rgba(3,9,18,.72);
     }
 
     .chat-header {
       min-height: 78px;
-      padding: 17px 22px;
+
+      padding: 15px 21px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      border-bottom: 1px solid var(--line);
+      border-bottom:
+        1px solid var(--line);
 
-      background: rgba(7,17,31,.74);
-      backdrop-filter: blur(18px);
+      background:
+        rgba(7,17,31,.78);
+
+      backdrop-filter:
+        blur(18px);
     }
 
     .ai-profile {
@@ -305,8 +390,9 @@
     .ai-avatar {
       position: relative;
 
-      width: 43px;
-      height: 43px;
+      width: 44px;
+      height: 44px;
+
       border-radius: 15px;
 
       display: flex;
@@ -314,17 +400,26 @@
       justify-content: center;
 
       background:
-        linear-gradient(135deg, #0ea5e9, #2563eb);
+        linear-gradient(
+          135deg,
+          var(--blue2),
+          var(--blue)
+        );
 
+      color: white;
+
+      font-size: 12px;
       font-weight: 900;
 
       box-shadow:
-        0 0 25px rgba(14,165,233,.22);
+        0 0 28px rgba(14,165,233,.22);
     }
 
     .ai-avatar::after {
       content: "";
+
       position: absolute;
+
       right: -2px;
       bottom: -2px;
 
@@ -332,21 +427,28 @@
       height: 11px;
 
       border-radius: 50%;
-      background: var(--success);
 
-      border: 2px solid #07111f;
-      box-shadow: 0 0 10px var(--success);
+      background:
+        var(--success);
+
+      border:
+        2px solid #07111f;
+
+      box-shadow:
+        0 0 10px var(--success);
     }
 
     .ai-name {
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .ai-status {
-      color: var(--muted);
-      font-size: 10px;
       margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 10px;
     }
 
     .online {
@@ -357,41 +459,56 @@
       padding: 7px 10px;
 
       border-radius: 999px;
-      border: 1px solid rgba(52,211,153,.18);
 
       color: #86efac;
-      background: rgba(52,211,153,.06);
 
-      font-size: 9px;
-      font-weight: 800;
+      background:
+        rgba(52,211,153,.06);
+
+      border:
+        1px solid rgba(52,211,153,.18);
+
+      font-size: 8px;
+      font-weight: 900;
+
       letter-spacing: .8px;
     }
 
     .online-dot {
       width: 6px;
       height: 6px;
+
       border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 9px var(--success);
+
+      background:
+        var(--success);
+
+      box-shadow:
+        0 0 9px var(--success);
     }
 
-    #chatMessages {
+    /* =====================================================
+       WELCOME
+       ===================================================== */
+
+    .chat-content {
       flex: 1;
       min-height: 0;
 
       overflow-y: auto;
 
-      padding: 25px;
-
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      padding: 22px;
 
       scrollbar-width: thin;
-      scrollbar-color: #26364c transparent;
+
+      scrollbar-color:
+        #26364c
+        transparent;
     }
 
     .welcome {
+      margin-bottom: 17px;
+
       padding: 20px;
 
       border-radius: 20px;
@@ -400,42 +517,62 @@
         linear-gradient(
           135deg,
           rgba(34,211,238,.075),
-          rgba(59,130,246,.055)
+          rgba(37,99,235,.055)
         );
 
-      border: 1px solid rgba(34,211,238,.12);
-
-      margin-bottom: 3px;
+      border:
+        1px solid rgba(34,211,238,.12);
     }
 
     .welcome-top {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 8px;
 
       color: var(--gold);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
 
-      margin-bottom: 9px;
+      font-size: 9px;
+      font-weight: 900;
+
+      letter-spacing: 1px;
+
+      text-transform: uppercase;
     }
 
     .welcome h2 {
+      margin: 0 0 7px;
+
       font-size: 19px;
       line-height: 1.25;
-      margin-bottom: 7px;
     }
 
     .welcome p {
+      margin: 0;
+
       color: var(--muted);
+
       font-size: 12px;
       line-height: 1.6;
     }
 
+    /* =====================================================
+       CHAT MESSAGES
+       ===================================================== */
+
+    .chat {
+      min-height: 300px;
+    }
+
+    .message-row {
+      display: flex;
+
+      margin-bottom: 13px;
+    }
+
+    .message-row.user {
+      justify-content: flex-end;
+    }
+
     .message {
-      max-width: min(78%, 620px);
+      max-width: min(80%, 650px);
 
       padding: 13px 16px;
 
@@ -444,130 +581,312 @@
       font-size: 13px;
       line-height: 1.6;
 
+      white-space: pre-wrap;
+
       word-break: break-word;
 
-      animation: messageIn .25s ease;
+      animation:
+        messageIn .22s ease;
     }
 
     @keyframes messageIn {
+
       from {
         opacity: 0;
-        transform: translateY(5px);
+        transform:
+          translateY(5px);
       }
 
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform:
+          translateY(0);
       }
+
     }
 
     .message.assistant {
-      align-self: flex-start;
-
       color: #dbeafe;
 
       background:
         linear-gradient(
           135deg,
-          rgba(18,35,58,.92),
-          rgba(12,27,47,.88)
+          rgba(18,35,58,.94),
+          rgba(12,27,47,.9)
         );
 
-      border: 1px solid rgba(148,163,184,.13);
+      border:
+        1px solid rgba(148,163,184,.13);
 
-      border-bottom-left-radius: 6px;
+      border-bottom-left-radius:
+        6px;
     }
 
     .message.user {
-      align-self: flex-end;
-
       color: white;
 
       background:
         linear-gradient(
           135deg,
-          #2563eb,
-          #0ea5e9
+          var(--blue),
+          var(--blue2)
         );
 
-      border-bottom-right-radius: 6px;
+      border-bottom-right-radius:
+        6px;
 
       box-shadow:
-        0 8px 25px rgba(37,99,235,.18);
+        0 8px 25px
+        rgba(37,99,235,.18);
     }
 
-    .message.loading {
-      color: #93c5fd;
-    }
+    /* =====================================================
+       TYPING
+       ===================================================== */
 
     .typing {
-      display: inline-flex;
-      gap: 4px;
-      align-items: center;
+      display: none;
+
+      width: fit-content;
+
+      margin-bottom: 14px;
+
+      padding: 11px 14px;
+
+      border-radius: 15px;
+
+      background:
+        rgba(18,35,58,.94);
+
+      border:
+        1px solid rgba(148,163,184,.12);
+
+      color: #93c5fd;
+
+      font-size: 11px;
     }
 
-    .typing span {
+    .typing-animation {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 4px;
+
+      margin-left: 7px;
+    }
+
+    .typing-animation span {
       width: 5px;
       height: 5px;
+
       border-radius: 50%;
-      background: var(--cyan);
-      animation: typing 1.2s infinite ease-in-out;
+
+      background:
+        var(--cyan);
+
+      animation:
+        typing 1.2s infinite
+        ease-in-out;
     }
 
-    .typing span:nth-child(2) {
-      animation-delay: .15s;
+    .typing-animation span:nth-child(2) {
+      animation-delay:
+        .15s;
     }
 
-    .typing span:nth-child(3) {
-      animation-delay: .3s;
+    .typing-animation span:nth-child(3) {
+      animation-delay:
+        .30s;
     }
 
     @keyframes typing {
+
       0%, 60%, 100% {
-        transform: translateY(0);
+        transform:
+          translateY(0);
         opacity: .45;
       }
 
       30% {
-        transform: translateY(-4px);
+        transform:
+          translateY(-4px);
         opacity: 1;
       }
+
+    }
+
+    /* =====================================================
+       WHATSAPP
+       ===================================================== */
+
+    .whatsapp-response {
+      margin-top: 8px;
+      margin-bottom: 18px;
+
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .whatsapp-button {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      background:
+        var(--green);
+
+      color: white !important;
+
+      text-decoration: none !important;
+
+      padding: 13px 18px;
+
+      border-radius: 30px;
+
+      font-weight: 900;
+      font-size: 12px;
+
+      box-shadow:
+        0 5px 18px
+        rgba(37,211,102,.25);
+
+      transition: .2s ease;
+    }
+
+    .whatsapp-button:hover {
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 8px 22px
+        rgba(37,211,102,.35);
+    }
+
+    /* =====================================================
+       QUICK OPTIONS
+       ===================================================== */
+
+    .quick-options {
+      margin-top: 15px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+      gap: 9px;
+    }
+
+    .quick-title {
+      grid-column:
+        1 / -1;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      letter-spacing: .5px;
+
+      margin-bottom: 1px;
+    }
+
+    .quick-button {
+      border:
+        1px solid rgba(148,163,184,.14);
+
+      background:
+        rgba(255,255,255,.035);
+
+      color: #dbeafe;
+
+      border-radius: 13px;
+
+      padding: 12px;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      text-align: left;
+
+      cursor: pointer;
+
+      transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        background .15s ease,
+        border-color .15s ease;
+    }
+
+    .quick-button:hover {
+      transform:
+        translateY(-1px);
+
+      border-color:
+        rgba(34,211,238,.3);
+
+      background:
+        rgba(34,211,238,.06);
+
+      box-shadow:
+        0 5px 16px
+        rgba(0,0,0,.15);
+    }
+
+    .quick-button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
     }
 
     /* =====================================================
        INPUT
        ===================================================== */
 
-    .input-wrap {
-      padding: 15px 18px 18px;
+    .bottom-area {
+      padding: 12px 18px 17px;
 
-      border-top: 1px solid var(--line);
+      border-top:
+        1px solid var(--line);
 
-      background: rgba(5,13,25,.86);
+      background:
+        rgba(5,13,25,.9);
     }
 
-    .input-box {
+    .input-area {
       display: flex;
-      align-items: center;
-      gap: 10px;
 
-      padding: 6px 7px 6px 15px;
+      align-items: center;
+
+      gap: 9px;
+
+      padding: 6px 7px 6px 14px;
 
       border-radius: 16px;
 
-      border: 1px solid rgba(148,163,184,.17);
+      background:
+        rgba(15,28,48,.8);
 
-      background: rgba(15,28,48,.76);
+      border:
+        1px solid rgba(148,163,184,.17);
 
       transition: .2s ease;
     }
 
-    .input-box:focus-within {
-      border-color: rgba(34,211,238,.38);
-      box-shadow: 0 0 25px rgba(34,211,238,.06);
+    .input-area:focus-within {
+      border-color:
+        rgba(34,211,238,.38);
+
+      box-shadow:
+        0 0 25px
+        rgba(34,211,238,.06);
     }
 
-    #userInput {
+    .input-area input {
       flex: 1;
       min-width: 0;
 
@@ -575,59 +894,105 @@
       outline: 0;
 
       background: transparent;
+
       color: white;
 
       font-size: 13px;
     }
 
-    #userInput::placeholder {
+    .input-area input::placeholder {
       color: #64748b;
     }
 
-    #sendButton {
-      width: 42px;
-      height: 42px;
+    .send-button {
+      width: 43px;
+      height: 43px;
 
       border: 0;
-      border-radius: 13px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 13px;
 
       background:
         linear-gradient(
           135deg,
-          #0ea5e9,
-          #2563eb
+          var(--blue2),
+          var(--blue)
         );
 
       color: white;
 
       cursor: pointer;
 
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 900;
 
       transition: .2s ease;
     }
 
-    #sendButton:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 7px 22px rgba(37,99,235,.28);
+    .send-button:hover {
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 7px 22px
+        rgba(37,99,235,.28);
     }
 
-    #sendButton:disabled {
+    .send-button:disabled {
       opacity: .5;
       cursor: not-allowed;
       transform: none;
     }
 
-    .input-note {
-      color: #475569;
-      font-size: 9px;
-      text-align: center;
+    /* =====================================================
+       VOICE
+       ===================================================== */
+
+    .voice-control {
+      display: flex;
+
+      justify-content: flex-end;
+
       margin-top: 8px;
+    }
+
+    .voice-button {
+      border:
+        1px solid rgba(148,163,184,.14);
+
+      background:
+        rgba(255,255,255,.035);
+
+      color: #94a3b8;
+
+      border-radius: 22px;
+
+      padding: 7px 11px;
+
+      font-size: 10px;
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    .voice-button.active {
+      color: white;
+
+      background:
+        rgba(37,99,235,.65);
+
+      border-color:
+        rgba(34,211,238,.3);
+    }
+
+    .footer {
+      margin-top: 7px;
+
+      color: #475569;
+
+      font-size: 8px;
+
+      text-align: center;
     }
 
     /* =====================================================
@@ -641,8 +1006,9 @@
       }
 
       .app {
-        height: auto;
+        height: 100vh;
         min-height: 100vh;
+
         padding: 0;
       }
 
@@ -653,34 +1019,56 @@
 
         display: block;
 
-        border-radius: 0;
         border: 0;
+        border-radius: 0;
       }
 
       .sidebar {
         display: none;
       }
 
-      .chat {
+      .chat-panel {
+        width: 100%;
         height: 100vh;
       }
 
       .chat-header {
         min-height: 70px;
-        padding: 13px 16px;
+
+        padding:
+          12px 15px;
       }
 
-      #chatMessages {
-        padding: 18px 15px;
+      .chat-content {
+        padding:
+          16px 13px;
       }
 
       .message {
-        max-width: 88%;
+        max-width: 90%;
+
         font-size: 13px;
       }
 
-      .input-wrap {
-        padding: 10px 10px 12px;
+      .bottom-area {
+        padding:
+          9px 9px 11px;
+      }
+
+      .quick-options {
+        grid-template-columns:
+          1fr;
+      }
+
+      .quick-title {
+        margin-top: 2px;
+      }
+
+      .online {
+        padding:
+          6px 8px;
+
+        font-size: 7px;
       }
     }
 
@@ -689,6 +1077,7 @@
       .ai-avatar {
         width: 39px;
         height: 39px;
+
         border-radius: 13px;
       }
 
@@ -696,13 +1085,24 @@
         font-size: 13px;
       }
 
-      .online {
-        padding: 6px 8px;
-        font-size: 8px;
+      .ai-status {
+        font-size: 9px;
+      }
+
+      .welcome {
+        padding: 17px;
       }
 
       .welcome h2 {
         font-size: 17px;
+      }
+
+      .welcome p {
+        font-size: 11px;
+      }
+
+      .quick-button {
+        padding: 11px;
       }
     }
   </style>
@@ -722,13 +1122,20 @@
 
       <div class="brand">
 
-        <div class="brand-icon">
-          ✦
+        <div class="logo">
+          CI
         </div>
 
-        <div>
-          <strong>COIMTEC IA</strong>
-          <span>Inteligencia Comercial</span>
+        <div class="brand-text">
+
+          <strong>
+            COIMTEC IA
+          </strong>
+
+          <span>
+            Inteligencia Comercial
+          </span>
+
         </div>
 
       </div>
@@ -745,9 +1152,9 @@
         </h1>
 
         <p>
-          Una experiencia inteligente para conocer,
-          comparar y analizar oportunidades inmobiliarias
-          con TVEO Business.
+          Conversa con nuestra inteligencia comercial
+          y encuentra información sobre los proyectos
+          inmobiliarios de TVEO Business.
         </p>
 
       </section>
@@ -756,7 +1163,7 @@
       <div class="project-card">
 
         <div class="project-label">
-          Proyecto activo
+          Proyecto destacado
         </div>
 
         <div class="project-title">
@@ -772,33 +1179,38 @@
       </div>
 
 
-      <div class="quick-actions">
+      <div class="quick-sidebar">
 
         <button
-          class="quick-btn"
-          onclick="quickMessage('Quiero conocer Laguna Norte II')">
-          🏡 Conocer Laguna Norte II
+          type="button"
+          data-message="Quiero información sobre Laguna Norte II."
+        >
+          🌱 Laguna Norte II
         </button>
 
         <button
-          class="quick-btn"
-          onclick="quickMessage('Quiero invertir en un terreno')">
-          📈 Quiero invertir
+          type="button"
+          data-message="Quiero conocer todos los proyectos de TVEO Business."
+        >
+          🏡 Ver proyectos
         </button>
 
         <button
-          class="quick-btn"
-          onclick="quickMessage('Quiero conocer los lotes de 300 m²')">
-          📐 Ver opciones de 300 m²
+          type="button"
+          data-message="Quiero hablar con un asesor comercial."
+        >
+          👨‍💼 Hablar con un asesor
         </button>
 
       </div>
 
 
       <div class="sidebar-footer">
-        COIMTEC IA · TVEO Business
+
+        TVEO Business · Desarrolladora Inmobiliaria
         <br>
-        Asistente comercial inmobiliario.
+        COIMTEC IA
+
       </div>
 
     </aside>
@@ -808,7 +1220,7 @@
          CHAT
          ================================================= -->
 
-    <section class="chat">
+    <section class="chat-panel">
 
       <header class="chat-header">
 
@@ -825,7 +1237,7 @@
             </div>
 
             <div class="ai-status">
-              Asistente Inmobiliario Inteligente
+              Asistente Virtual · TVEO Business
             </div>
 
           </div>
@@ -844,68 +1256,181 @@
       </header>
 
 
-      <div id="chatMessages">
+      <div class="chat-content">
 
-        <div class="welcome">
+        <section class="welcome">
 
           <div class="welcome-top">
-            ✦ Bienvenido
+            ✦ Inteligencia comercial inmobiliaria
           </div>
 
           <h2>
-            Encuentra una oportunidad que tenga sentido para ti.
+            Hola, soy COIMTEC IA 👋
           </h2>
 
           <p>
-            Cuéntame qué estás buscando y te ayudaré a
-            entender tus opciones paso a paso.
+            Estoy aquí para ayudarte a conocer los
+            proyectos de TVEO Business y encontrar
+            la información que necesitas.
           </p>
+
+        </section>
+
+
+        <div class="chat" id="chat">
+
+          <div class="message-row">
+
+            <div class="message assistant">
+
+              ¡Hola! 👋 Soy
+              <strong>COIMTEC IA</strong>,
+              asistente virtual de
+              <strong>TVEO Business</strong>.
+
+              ¿En qué proyecto estás interesado?
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="typing"
+            id="typing"
+          >
+
+            COIMTEC IA está analizando
+
+            <span class="typing-animation">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+
+          </div>
 
         </div>
 
 
-        <div class="message assistant">
+        <!-- =============================================
+             OPCIONES RÁPIDAS
+             ============================================= -->
 
-          ¡Hola! 👋 Soy <strong>COIMTEC IA</strong>,
-          el asistente inmobiliario de TVEO Business.
+        <div
+          class="quick-options"
+          id="quickOptions"
+        >
 
-          <br><br>
+          <div class="quick-title">
+            ¿Qué información estás buscando?
+          </div>
 
-          Antes de mostrarte una opción, quiero entender
-          qué estás buscando.
 
-          <br><br>
+          <button
+            class="quick-button"
+            type="button"
+            data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business. Dame información concreta sobre modelos, precios, cuotas, requisitos, condiciones y disponibilidad."
+          >
+            🏠 Casas a Crédito Directo
+          </button>
 
-          ¿Buscas un terreno para invertir, construir
-          o para vivir?
-          
+
+          <button
+            class="quick-button"
+            type="button"
+            data-message="Quiero información sobre Sinai Eco-Residence. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
+          >
+            🌿 Sinai Eco-Residence
+          </button>
+
+
+          <button
+            class="quick-button"
+            type="button"
+            data-message="Quiero información sobre Berchatti Residence. Dame información concreta sobre ubicación, características, superficies, precios, formas de pago y disponibilidad."
+          >
+            🏡 Berchatti Residence
+          </button>
+
+
+          <button
+            class="quick-button"
+            type="button"
+            data-message="Quiero información sobre Laguna Norte II. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
+          >
+            🌱 Laguna Norte II
+          </button>
+
+
+          <button
+            class="quick-button"
+            type="button"
+            data-message="Quiero conocer todos los proyectos que actualmente ofrece TVEO Business. Muéstrame los proyectos disponibles y dame una breve explicación de cada uno."
+          >
+            📋 Ver todos los proyectos
+          </button>
+
+
+          <button
+            class="quick-button"
+            type="button"
+            data-message="Quiero hablar con un asesor comercial de TVEO Business. Necesito atención personalizada."
+          >
+            👨‍💼 Hablar con un Asesor
+          </button>
+
         </div>
 
       </div>
 
 
-      <div class="input-wrap">
+      <!-- ===============================================
+           PARTE INFERIOR
+           =============================================== -->
 
-        <div class="input-box">
+      <div class="bottom-area">
+
+        <div class="voice-control">
+
+          <button
+            class="voice-button"
+            id="voiceButton"
+            type="button"
+          >
+            🔊 Activar voz
+          </button>
+
+        </div>
+
+
+        <div class="input-area">
 
           <input
-            id="userInput"
             type="text"
-            placeholder="Escribe tu mensaje..."
+            id="messageInput"
+            placeholder="Escribe tu consulta..."
             autocomplete="off"
           >
 
+
           <button
+            class="send-button"
             id="sendButton"
-            aria-label="Enviar">
+            type="button"
+            aria-label="Enviar mensaje"
+          >
             ➤
           </button>
 
         </div>
 
-        <div class="input-note">
-          COIMTEC IA analiza el contexto de esta conversación.
-        </div>
+
+        <footer class="footer">
+
+          TVEO Business · COIMTEC IA
+
+        </footer>
 
       </div>
 
@@ -917,519 +1442,623 @@
 
 
 <!-- =====================================================
-     GEMINI
+     JAVASCRIPT
      ===================================================== -->
 
-<script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://esm.run/@google/genai"
-  }
-}
-</script>
+<script>
 
+const API_URL =
+  "/api/chat";
 
-<script type="module">
 
-import { GoogleGenAI } from "@google/genai";
+const WHATSAPP_URL =
+  "https://wa.me/message/PJBMLOLZEDVPF1";
 
 
-/* =====================================================
-   CONFIGURACIÓN
+const chat =
+  document.getElementById("chat");
 
-   IMPORTANTE:
-   NO publiques una API Key real en GitHub.
 
-   Para esta versión dejamos el marcador.
-   La conexión definitiva debe pasar por Cloudflare
-   Worker / backend para mantener la clave protegida.
-   ===================================================== */
+const messageInput =
+  document.getElementById("messageInput");
 
-const API_KEY = "PEGA_AQUI_TU_API_KEY";
-
-
-/* =====================================================
-   CEREBRO COMERCIAL
-   ===================================================== */
-
-const systemInstruction = `
-
-Eres COIMTEC IA, asistente inmobiliario digital
-de TVEO Business en Santa Cruz de la Sierra.
-
-Tu objetivo NO es simplemente responder preguntas.
-
-Tu función es conversar, comprender y calificar
-comercialmente al prospecto de forma natural.
-
-Debes recordar durante la conversación lo que
-el cliente ya respondió.
-
-==================================================
-FLUJO COMERCIAL
-==================================================
-
-ETAPA 1 — BIENVENIDA
-
-Recibe al cliente de forma amable.
-
-No empieces interrogándolo.
-
-ETAPA 2 — IDENTIFICACIÓN
-
-Obtén naturalmente información como:
-
-- Nombre.
-- Ciudad.
-- Qué está buscando.
-- Si busca vivienda, terreno o inversión.
-- Si leyó la descripción del anuncio.
-- Presupuesto cuando sea pertinente.
-- Horizonte de compra cuando sea pertinente.
-
-No hagas todas las preguntas juntas.
-
-Haz una o dos preguntas según el contexto.
-
-==================================================
-CLASIFICACIÓN INTERNA
-==================================================
-
-Clasifica mentalmente al prospecto como:
-
-🔥 Alta intención
-
-🟡 Interés potencial
-
-🔵 Por investigar
-
-Esta clasificación es INTERNA.
-
-No muestres necesariamente la clasificación
-al cliente salvo que el sistema lo requiera.
-
-==================================================
-REGLA FUNDAMENTAL
-==================================================
-
-NO envíes automáticamente al cliente con un asesor
-solamente porque pregunte por un proyecto.
-
-Primero comprende su necesidad.
-
-Primero conversa.
-
-Primero identifica su interés.
-
-Cuando exista suficiente interés comercial,
-puedes proponer una reunión presencial.
-
-Después puede coordinarse una visita al proyecto.
-
-==================================================
-LAGUNA NORTE II
-==================================================
-
-Proyecto:
-
-URBANIZACIÓN LAGUNA NORTE II
-
-Categoría D.
-
-Superficie:
-
-300 m².
-
-Ubicación:
-
-A pocos minutos del puente nuevo,
-diagonal a Colpacaranda y rodeada de
-proyectos ya habitables.
-
-Google Maps:
-
-https://maps.app.goo.gl/JWusCjnhGWR74WEu9?g_st=ac
-
-==================================================
-CARACTERÍSTICAS
-==================================================
-
-Urbanización abierta con características de cerrada.
-
-Cuenta con:
-
-- Único acceso.
-- Pórtico de ingreso.
-- Perímetro enmallado.
-
-==================================================
-AMENIDADES
-==================================================
-
-- Laguna de pesca.
-- Fútbol 5.
-- Fútbol 7.
-- Vóley.
-- Fútbol Playa.
-- Churrasqueras.
-- Parques infantiles.
-- Club House.
-- Piscina.
-
-Estado informado:
-
-Piscina aproximadamente 70% de avance.
-
-Cimientos del Club House en ejecución.
-
-==================================================
-PRECIO INFORMADO
-==================================================
-
-Categoría D:
-
-Precio regular informado:
-
-14.100 $us.
-
-Promoción al contado informada:
-
-2 lotes por un precio total de 7.050 $us.
-
-Tipo de cambio informado:
-
-6.97.
-
-IMPORTANTE:
-
-No inventes descuentos.
-
-No inventes cuotas.
-
-No inventes financiamiento.
-
-No inventes disponibilidad.
-
-No inventes nuevas promociones.
-
-Si el cliente solicita una condición que no
-aparece aquí, indica que debe ser confirmada
-por TVEO Business.
-
-==================================================
-DOCUMENTACIÓN
-==================================================
-
-Según la información proporcionada:
-
-Los papeles están al día.
-
-Se indica disponibilidad para transferencia
-al momento de la compra.
-
-El proyecto cuenta con información de visado
-por el Viceministerio de Defensa de los Derechos
-del Usuario y del Consumidor.
-
-No agregues garantías legales que no hayan sido
-proporcionadas.
-
-==================================================
-PLANIMETRÍA
-==================================================
-
-https://gosen.sistemas-orange.com.bo/modulos/uv/?mapa=eW9zc2VsaW4&u=4#
-
-Información proporcionada:
-
-🟢 Verde = disponible.
-
-🔴 Rojo = vendido.
-
-🟠 Naranja = Categoría D.
-
-NO afirmes que un lote específico está disponible
-si no tienes información actualizada.
-
-==================================================
-OFICINAS
-==================================================
-
-TVEO Business
-
-Av. Virgen de Cotoca,
-5to Anillo,
-Edificio Ciudad Comercio.
-
-Cuando el cliente tenga suficiente interés,
-puedes invitarlo a oficina para:
-
-- Revisar documentación.
-- Revisar planimetría.
-- Analizar lotes.
-- Resolver dudas.
-- Conocer condiciones comerciales.
-
-Después de la reunión se puede coordinar
-la visita al terreno.
-
-==================================================
-ESTILO
-==================================================
-
-Habla siempre en español.
-
-Sé humano.
-
-Sé profesional.
-
-Sé claro.
-
-Sé comercial sin ser agresivo.
-
-No parezcas un robot.
-
-No hagas interrogatorios.
-
-No repitas información innecesariamente.
-
-No inventes información.
-
-No afirmes que una visita está agendada
-si no existe un sistema real de agenda.
-
-No digas que tienes conciencia real.
-
-Tu inteligencia consiste en analizar el contexto,
-recordar la conversación y adaptar tus respuestas.
-
-`;
-
-
-/* =====================================================
-   ELEMENTOS
-   ===================================================== */
-
-const chatMessages =
-  document.getElementById("chatMessages");
-
-const userInput =
-  document.getElementById("userInput");
 
 const sendButton =
   document.getElementById("sendButton");
 
 
-let chatSession = null;
+const typing =
+  document.getElementById("typing");
+
+
+const quickButtons =
+  document.querySelectorAll(
+    ".quick-button"
+  );
+
+
+const sidebarButtons =
+  document.querySelectorAll(
+    ".quick-sidebar button"
+  );
+
+
+const voiceButton =
+  document.getElementById(
+    "voiceButton"
+  );
+
+
+let vozActiva =
+  false;
 
 
 /* =====================================================
-   CREAR SESIÓN
+   VOZ
    ===================================================== */
 
-function createChat() {
+function hablarRespuesta(texto) {
 
-  if (!API_KEY ||
-      API_KEY === "PEGA_AQUI_TU_API_KEY") {
-
-    return false;
-  }
-
-  const ai = new GoogleGenAI({
-    apiKey: API_KEY
-  });
-
-  chatSession = ai.chats.create({
-
-    model: "gemini-2.5-flash",
-
-    config: {
-      systemInstruction,
-      temperature: 0.7
-    }
-
-  });
-
-  return true;
-}
-
-
-/* =====================================================
-   ESCAPAR HTML
-   ===================================================== */
-
-function escapeHtml(text) {
-
-  return String(text)
-
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
-
-
-/* =====================================================
-   MENSAJES
-   ===================================================== */
-
-function addMessage(text, type) {
-
-  const div = document.createElement("div");
-
-  div.className = `message ${type}`;
-
-  div.innerHTML =
-    escapeHtml(text)
-      .replace(/\n/g, "<br>");
-
-  chatMessages.appendChild(div);
-
-  chatMessages.scrollTop =
-    chatMessages.scrollHeight;
-
-  return div;
-}
-
-
-/* =====================================================
-   INDICADOR IA
-   ===================================================== */
-
-function addThinking() {
-
-  const div = document.createElement("div");
-
-  div.className = "message assistant loading";
-
-  div.innerHTML = `
-    <span class="typing">
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
-    <span style="margin-left:8px;">
-      COIMTEC IA está analizando...
-    </span>
-  `;
-
-  chatMessages.appendChild(div);
-
-  chatMessages.scrollTop =
-    chatMessages.scrollHeight;
-
-  return div;
-}
-
-
-/* =====================================================
-   ENVÍO
-   ===================================================== */
-
-async function sendMessage() {
-
-  const message =
-    userInput.value.trim();
-
-  if (!message) return;
-
-
-  /*
-    Mientras terminamos la conexión segura
-    con Cloudflare, mostramos el estado correcto.
-  */
-
-  if (!API_KEY ||
-      API_KEY === "PEGA_AQUI_TU_API_KEY") {
-
-    addMessage(
-      message,
-      "user"
-    );
-
-    userInput.value = "";
-
-    addMessage(
-      "La conexión con la IA todavía necesita configurarse. Estamos preparando COIMTEC IA.",
-      "assistant"
-    );
-
+  if (
+    !vozActiva ||
+    !("speechSynthesis" in window)
+  ) {
     return;
   }
 
 
-  addMessage(
-    message,
-    "user"
+  const limpia =
+    limpiarRespuesta(texto);
+
+
+  if (!limpia) {
+    return;
+  }
+
+
+  window.speechSynthesis.cancel();
+
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      limpia
+    );
+
+
+  utterance.lang =
+    "es-ES";
+
+
+  utterance.rate =
+    0.95;
+
+
+  utterance.pitch =
+    1;
+
+
+  const voces =
+    window.speechSynthesis
+      .getVoices();
+
+
+  const vozEspanol =
+    voces.find(function(voz) {
+
+      return /^es(-|_)/i
+        .test(voz.lang);
+
+    });
+
+
+  if (vozEspanol) {
+    utterance.voice =
+      vozEspanol;
+  }
+
+
+  window.speechSynthesis
+    .speak(utterance);
+
+}
+
+
+/* =====================================================
+   LIMPIAR RESPUESTA
+   ===================================================== */
+
+function limpiarRespuesta(texto) {
+
+  if (!texto) {
+    return "";
+  }
+
+
+  let respuesta =
+    String(texto);
+
+
+  respuesta =
+    respuesta.replace(
+      /\[[^\]]*\]\(\s*https?:\/\/wa\.me\/[^)]+\)/gi,
+      ""
+    );
+
+
+  respuesta =
+    respuesta.replace(
+      /https?:\/\/wa\.me\/[^\s<>"')]+/gi,
+      ""
+    );
+
+
+  respuesta =
+    respuesta.replace(
+      /[ \t]{2,}/g,
+      " "
+    );
+
+
+  respuesta =
+    respuesta.replace(
+      /\n{3,}/g,
+      "\n\n"
+    );
+
+
+  return respuesta.trim();
+
+}
+
+
+/* =====================================================
+   DETECTAR WHATSAPP / ASESOR
+   ===================================================== */
+
+function contieneWhatsApp(texto) {
+
+  if (!texto) {
+    return false;
+  }
+
+
+  const respuesta =
+    String(texto);
+
+
+  return (
+
+    /https?:\/\/wa\.me\//i
+      .test(respuesta)
+
+    ||
+
+    /wa\.me\//i
+      .test(respuesta)
+
+    ||
+
+    /hablar con un asesor/i
+      .test(respuesta)
+
+    ||
+
+    /asesor comercial/i
+      .test(respuesta)
+
+    ||
+
+    /whatsapp/i
+      .test(respuesta)
+
   );
 
-  userInput.value = "";
+}
 
-  sendButton.disabled = true;
 
-  const loading =
-    addThinking();
+/* =====================================================
+   MENSAJE USUARIO
+   ===================================================== */
+
+function agregarMensajeUsuario(
+  texto
+) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "message-row user";
+
+
+  const message =
+    document.createElement(
+      "div"
+    );
+
+
+  message.className =
+    "message user";
+
+
+  message.textContent =
+    texto;
+
+
+  row.appendChild(
+    message
+  );
+
+
+  chat.insertBefore(
+    row,
+    typing
+  );
+
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+}
+
+
+/* =====================================================
+   WHATSAPP
+   ===================================================== */
+
+function mostrarBotonWhatsApp() {
+
+  const existente =
+    document.querySelector(
+      ".whatsapp-response"
+    );
+
+
+  if (existente) {
+    return;
+  }
+
+
+  const contenedor =
+    document.createElement(
+      "div"
+    );
+
+
+  contenedor.className =
+    "whatsapp-response";
+
+
+  const boton =
+    document.createElement(
+      "a"
+    );
+
+
+  boton.className =
+    "whatsapp-button";
+
+
+  boton.href =
+    WHATSAPP_URL;
+
+
+  boton.target =
+    "_blank";
+
+
+  boton.rel =
+    "noopener noreferrer";
+
+
+  boton.textContent =
+    "💬 HABLAR CON UN ASESOR POR WHATSAPP";
+
+
+  contenedor.appendChild(
+    boton
+  );
+
+
+  chat.insertBefore(
+    contenedor,
+    typing
+  );
+
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+}
+
+
+/* =====================================================
+   MENSAJE ASISTENTE
+   ===================================================== */
+
+function agregarMensajeAsistente(
+  texto,
+  mostrarWhatsApp
+) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "message-row";
+
+
+  const message =
+    document.createElement(
+      "div"
+    );
+
+
+  message.className =
+    "message assistant";
+
+
+  message.textContent =
+    limpiarRespuesta(
+      texto
+    );
+
+
+  row.appendChild(
+    message
+  );
+
+
+  chat.insertBefore(
+    row,
+    typing
+  );
+
+
+  if (mostrarWhatsApp) {
+
+    mostrarBotonWhatsApp();
+
+  }
+
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+}
+
+
+/* =====================================================
+   ERROR
+   ===================================================== */
+
+function mostrarError(
+  texto
+) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "message-row";
+
+
+  const message =
+    document.createElement(
+      "div"
+    );
+
+
+  message.className =
+    "message assistant";
+
+
+  message.textContent =
+    texto;
+
+
+  row.appendChild(
+    message
+  );
+
+
+  chat.insertBefore(
+    row,
+    typing
+  );
+
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+}
+
+
+/* =====================================================
+   ENVIAR MENSAJE
+   ===================================================== */
+
+async function enviarMensaje() {
+
+  const mensaje =
+    messageInput.value.trim();
+
+
+  if (!mensaje) {
+    return;
+  }
+
+
+  agregarMensajeUsuario(
+    mensaje
+  );
+
+
+  messageInput.value =
+    "";
+
+
+  sendButton.disabled =
+    true;
+
+
+  messageInput.disabled =
+    true;
+
+
+  quickButtons.forEach(
+    function(button) {
+
+      button.disabled =
+        true;
+
+    }
+  );
+
+
+  sidebarButtons.forEach(
+    function(button) {
+
+      button.disabled =
+        true;
+
+    }
+  );
+
+
+  typing.style.display =
+    "block";
+
+
+  chat.scrollTop =
+    chat.scrollHeight;
 
 
   try {
 
-    if (!chatSession) {
+    const respuesta =
+      await fetch(
+        API_URL,
+        {
 
-      const ready =
-        createChat();
+          method:
+            "POST",
 
-      if (!ready) {
+          headers: {
 
-        throw new Error(
-          "Gemini no está configurado."
-        );
+            "Content-Type":
+              "application/json"
 
-      }
+          },
+
+          body:
+            JSON.stringify({
+
+              message:
+                mensaje
+
+            })
+
+        }
+      );
+
+
+    if (!respuesta.ok) {
+
+      throw new Error(
+        "Error HTTP " +
+        respuesta.status
+      );
 
     }
 
 
-    const response =
-      await chatSession.sendMessage({
-        message
-      });
+    const data =
+      await respuesta.json();
 
 
-    loading.remove();
+    typing.style.display =
+      "none";
 
 
     const answer =
-      response?.text ||
-      "No recibí una respuesta. Intenta nuevamente.";
+      data.answer ||
+      "No pude procesar tu consulta.";
 
 
-    addMessage(
+    const necesitaWhatsApp =
+      data.whatsapp === true ||
+      contieneWhatsApp(answer);
+
+
+    agregarMensajeAsistente(
       answer,
-      "assistant"
+      necesitaWhatsApp
+    );
+
+
+    hablarRespuesta(
+      answer
     );
 
 
   } catch (error) {
 
     console.error(
-      "COIMTEC IA ERROR:",
+      "Error COIMTEC IA:",
       error
     );
 
-    loading.remove();
 
-    addMessage(
-      "No pude conectar con el servicio de IA en este momento. Intenta nuevamente.",
-      "assistant"
+    typing.style.display =
+      "none";
+
+
+    mostrarError(
+      "Lo siento, en este momento no pude conectarme con el asistente. Por favor, intenta nuevamente."
     );
+
 
   } finally {
 
-    sendButton.disabled = false;
+    sendButton.disabled =
+      false;
 
-    userInput.focus();
+
+    messageInput.disabled =
+      false;
+
+
+    quickButtons.forEach(
+      function(button) {
+
+        button.disabled =
+          false;
+
+      }
+    );
+
+
+    sidebarButtons.forEach(
+      function(button) {
+
+        button.disabled =
+          false;
+
+      }
+    );
+
+
+    messageInput.focus();
 
   }
 
@@ -1437,37 +2066,139 @@ async function sendMessage() {
 
 
 /* =====================================================
-   ACCIONES RÁPIDAS
+   BOTONES DE PROYECTOS
    ===================================================== */
 
-window.quickMessage = function(message) {
+function usarConsulta(
+  consulta
+) {
 
-  userInput.value = message;
+  messageInput.value =
+    consulta;
 
-  sendMessage();
+  enviarMensaje();
 
-};
+}
+
+
+quickButtons.forEach(
+  function(button) {
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        const consulta =
+          button.getAttribute(
+            "data-message"
+          ) || "";
+
+
+        usarConsulta(
+          consulta
+        );
+
+      }
+    );
+
+  }
+);
+
+
+sidebarButtons.forEach(
+  function(button) {
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        const consulta =
+          button.getAttribute(
+            "data-message"
+          ) || "";
+
+
+        usarConsulta(
+          consulta
+        );
+
+      }
+    );
+
+  }
+);
 
 
 /* =====================================================
-   EVENTOS
+   ENVÍO
    ===================================================== */
 
 sendButton.addEventListener(
   "click",
-  sendMessage
+  enviarMensaje
 );
 
 
-userInput.addEventListener(
+messageInput.addEventListener(
   "keydown",
   function(event) {
 
-    if (event.key === "Enter") {
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey
+    ) {
 
       event.preventDefault();
 
-      sendMessage();
+      enviarMensaje();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   VOZ
+   ===================================================== */
+
+voiceButton.addEventListener(
+  "click",
+  function() {
+
+    if (
+      !("speechSynthesis" in window)
+    ) {
+
+      alert(
+        "Tu navegador no permite respuestas por voz."
+      );
+
+      return;
+
+    }
+
+
+    vozActiva =
+      !vozActiva;
+
+
+    voiceButton.classList.toggle(
+      "active",
+      vozActiva
+    );
+
+
+    voiceButton.textContent =
+      vozActiva
+        ? "🔊 Voz activada"
+        : "🔇 Activar voz";
+
+
+    if (!vozActiva) {
+
+      window.speechSynthesis
+        .cancel();
 
     }
 
@@ -1479,7 +2210,7 @@ userInput.addEventListener(
    INICIO
    ===================================================== */
 
-userInput.focus();
+messageInput.focus();
 
 </script>
 
