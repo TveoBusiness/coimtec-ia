@@ -281,6 +281,29 @@
       cursor: not-allowed;
     }
 
+
+    .voice-control {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .voice-button {
+      border: 1px solid #d9e3ef;
+      background: white;
+      color: #0b3d91;
+      border-radius: 22px;
+      padding: 9px 13px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .voice-button.active {
+      background: #0b3d91;
+      color: white;
+    }
+
     .footer {
       text-align: center;
       color: #7a8794;
@@ -402,33 +425,39 @@
       <div class="quick-title">¿Qué información estás buscando?</div>
 
       <button class="quick-button" type="button"
-        data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business.">
+        data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business. Dame información concreta sobre modelos, precios, cuotas, requisitos, condiciones y disponibilidad.">
         🏠 Casas a Crédito Directo
       </button>
 
       <button class="quick-button" type="button"
-        data-message="Quiero información sobre construcción de viviendas personalizadas de TVEO Business.">
-        🏡 Construcción de Viviendas
+        data-message="Quiero información sobre Sinai Eco-Residence. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales.">
+        🌿 Sinai Eco-Residence
       </button>
 
       <button class="quick-button" type="button"
-        data-message="Quiero información sobre los proyectos inmobiliarios de TVEO Business.">
-        🏢 Proyectos Inmobiliarios
+        data-message="Quiero información sobre Berchatti Residence. Dame información concreta sobre ubicación, características, superficies, precios, formas de pago y disponibilidad.">
+        🏡 Berchatti Residence
       </button>
 
       <button class="quick-button" type="button"
-        data-message="Quiero saber cómo puedo desarrollar o aumentar el valor de mi terreno con TVEO Business.">
-        🌱 Desarrollo de mi Terreno
+        data-message="Quiero información sobre Laguna Norte II. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales.">
+        🌱 Laguna Norte II
       </button>
 
       <button class="quick-button" type="button"
-        data-message="Quiero información sobre las opciones de financiamiento de TVEO Business.">
-        💰 Opciones de Financiamiento
+        data-message="Quiero conocer todos los proyectos que actualmente ofrece TVEO Business. Muéstrame los proyectos disponibles y dame una breve explicación de cada uno.">
+        📋 Ver todos los proyectos
       </button>
 
       <button class="quick-button" type="button"
-        data-message="Quiero hablar con un asesor comercial de TVEO Business.">
+        data-message="Quiero hablar con un asesor comercial de TVEO Business. Necesito atención personalizada.">
         👨‍💼 Hablar con un Asesor
+      </button>
+    </div>
+
+    <div class="voice-control">
+      <button class="voice-button" id="voiceButton" type="button">
+        🔊 Activar voz
       </button>
     </div>
 
@@ -483,6 +512,48 @@ const typing =
 
 const quickButtons =
   document.querySelectorAll(".quick-button");
+
+const voiceButton =
+  document.getElementById("voiceButton");
+
+let vozActiva = false;
+
+
+function hablarRespuesta(texto) {
+
+  if (!vozActiva || !("speechSynthesis" in window)) {
+    return;
+  }
+
+  const limpia = limpiarRespuesta(texto);
+
+  if (!limpia) {
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance =
+    new SpeechSynthesisUtterance(limpia);
+
+  utterance.lang = "es-ES";
+  utterance.rate = 0.95;
+  utterance.pitch = 1;
+
+  const voces =
+    window.speechSynthesis.getVoices();
+
+  const vozEspanol =
+    voces.find(function(voz) {
+      return /^es(-|_)/i.test(voz.lang);
+    });
+
+  if (vozEspanol) {
+    utterance.voice = vozEspanol;
+  }
+
+  window.speechSynthesis.speak(utterance);
+}
 
 
 function limpiarRespuesta(texto) {
@@ -765,6 +836,8 @@ async function enviarMensaje() {
       necesitaWhatsApp
     );
 
+    hablarRespuesta(answer);
+
   } catch (error) {
 
     console.error(
@@ -833,6 +906,30 @@ quickButtons.forEach(function(button) {
 });
 
 messageInput.focus();
+
+voiceButton.addEventListener("click", function() {
+
+  if (!("speechSynthesis" in window)) {
+    alert("Tu navegador no permite respuestas por voz.");
+    return;
+  }
+
+  vozActiva = !vozActiva;
+
+  voiceButton.classList.toggle(
+    "active",
+    vozActiva
+  );
+
+  voiceButton.textContent =
+    vozActiva
+      ? "🔊 Voz activada"
+      : "🔇 Activar voz";
+
+  if (!vozActiva) {
+    window.speechSynthesis.cancel();
+  }
+});
 
 </script>
 
