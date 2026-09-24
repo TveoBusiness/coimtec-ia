@@ -198,6 +198,54 @@
       border: none;
     }
 
+
+    .quick-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .quick-title {
+      grid-column: 1 / -1;
+      font-size: 14px;
+      font-weight: 800;
+      color: #0b3d91;
+      margin-bottom: 2px;
+    }
+
+    .quick-button {
+      border: 1px solid #d9e3ef;
+      background: white;
+      color: #0b3d91;
+      border-radius: 14px;
+      padding: 13px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    .quick-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(11,61,145,.12);
+      background: #f7faff;
+    }
+
+    .quick-button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    @media (max-width: 600px) {
+      .quick-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .input-area {
       margin-top: 15px;
       background: white;
@@ -349,6 +397,41 @@
     </section>
 
 
+
+    <div class="quick-options" id="quickOptions">
+      <div class="quick-title">¿Qué información estás buscando?</div>
+
+      <button class="quick-button" type="button"
+        data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business.">
+        🏠 Casas a Crédito Directo
+      </button>
+
+      <button class="quick-button" type="button"
+        data-message="Quiero información sobre construcción de viviendas personalizadas de TVEO Business.">
+        🏡 Construcción de Viviendas
+      </button>
+
+      <button class="quick-button" type="button"
+        data-message="Quiero información sobre los proyectos inmobiliarios de TVEO Business.">
+        🏢 Proyectos Inmobiliarios
+      </button>
+
+      <button class="quick-button" type="button"
+        data-message="Quiero saber cómo puedo desarrollar o aumentar el valor de mi terreno con TVEO Business.">
+        🌱 Desarrollo de mi Terreno
+      </button>
+
+      <button class="quick-button" type="button"
+        data-message="Quiero información sobre las opciones de financiamiento de TVEO Business.">
+        💰 Opciones de Financiamiento
+      </button>
+
+      <button class="quick-button" type="button"
+        data-message="Quiero hablar con un asesor comercial de TVEO Business.">
+        👨‍💼 Hablar con un Asesor
+      </button>
+    </div>
+
     <div class="input-area">
 
       <input
@@ -397,6 +480,9 @@ const sendButton =
 
 const typing =
   document.getElementById("typing");
+
+const quickButtons =
+  document.querySelectorAll(".quick-button");
 
 
 function limpiarRespuesta(texto) {
@@ -620,6 +706,10 @@ async function enviarMensaje() {
   messageInput.disabled =
     true;
 
+  quickButtons.forEach(function(button) {
+    button.disabled = true;
+  });
+
   typing.style.display =
     "block";
 
@@ -697,6 +787,10 @@ async function enviarMensaje() {
     messageInput.disabled =
       false;
 
+    quickButtons.forEach(function(button) {
+      button.disabled = false;
+    });
+
     messageInput.focus();
 
   }
@@ -728,6 +822,15 @@ messageInput.addEventListener(
   }
 );
 
+
+
+quickButtons.forEach(function(button) {
+  button.addEventListener("click", function() {
+    const consulta = button.getAttribute("data-message") || "";
+    messageInput.value = consulta;
+    enviarMensaje();
+  });
+});
 
 messageInput.focus();
 
