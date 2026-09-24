@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -175,6 +176,10 @@
       margin-bottom: 14px;
     }
 
+    /* =========================================
+       OPCIONES DE PROYECTOS
+       ========================================= */
+
     .quick-options {
       background: white;
       border-radius: 18px;
@@ -229,6 +234,10 @@
       transform: none;
     }
 
+    /* =========================================
+       WHATSAPP
+       ========================================= */
+
     .whatsapp-response {
       margin-top: 12px;
       margin-bottom: 18px;
@@ -252,6 +261,10 @@
       cursor: pointer;
       border: none;
     }
+
+    /* =========================================
+       INPUT
+       ========================================= */
 
     .input-area {
       margin-top: 15px;
@@ -299,6 +312,10 @@
       font-size: 11px;
       padding: 15px;
     }
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
 
     @media (max-width: 600px) {
 
@@ -348,169 +365,211 @@
       }
     }
   </style>
+
 </head>
 
 <body>
 
 <div class="app">
 
+  <!-- =========================================
+       ENCABEZADO
+       ========================================= -->
+
   <header class="header">
-    <div class="header-content">
 
-      <div class="brand">
+```
+<div class="header-content">
 
-        <div class="logo">
-          CI
-        </div>
+  <div class="brand">
 
-        <div class="brand-text">
-          <h1>COIMTEC IA</h1>
-          <p>Asistente Virtual · TVEO Business</p>
-        </div>
-
-      </div>
-
-      <a
-        class="header-whatsapp"
-        href="https://wa.me/message/PJBMLOLZEDVPF1"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        💬 WhatsApp
-      </a>
-
+    <div class="logo">
+      CI
     </div>
+
+    <div class="brand-text">
+      <h1>COIMTEC IA</h1>
+      <p>Asistente Virtual · TVEO Business</p>
+    </div>
+
+  </div>
+
+  <a
+    class="header-whatsapp"
+    href="https://wa.me/message/PJBMLOLZEDVPF1"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    💬 WhatsApp
+  </a>
+
+</div>
+```
+
   </header>
 
+  <!-- =========================================
+       CONTENIDO PRINCIPAL
+       ========================================= -->
 
   <main class="main">
 
-    <section class="welcome">
+```
+<!-- PRESENTACIÓN -->
 
-      <h2>Hola, soy COIMTEC IA 👋</h2>
+<section class="welcome">
 
-      <p>
-        Estoy aquí para ayudarte con información sobre los proyectos
-        inmobiliarios de TVEO Business. Selecciona un proyecto o
-        escribe directamente tu consulta.
-      </p>
+  <h2>Hola, soy COIMTEC IA 👋</h2>
 
-    </section>
+  <p>
+    Estoy aquí para ayudarte con información sobre los proyectos
+    inmobiliarios de TVEO Business. Selecciona el proyecto que te
+    interesa o escribe directamente tu consulta.
+  </p>
 
-
-    <section class="chat" id="chat">
-
-      <div class="message-row">
-
-        <div class="message assistant">
-          ¡Hola! 👋 Soy <strong>COIMTEC IA</strong>,
-          asistente virtual de <strong>TVEO Business</strong>.
-          ¿Qué proyecto te interesa conocer?
-        </div>
-
-      </div>
-
-      <div class="typing" id="typing">
-        COIMTEC IA está escribiendo...
-      </div>
-
-    </section>
+</section>
 
 
-    <div class="quick-options" id="quickOptions">
+<!-- =========================================
+     CHAT
+     ========================================= -->
 
-      <div class="quick-title">
-        ¿Qué proyecto te interesa?
-      </div>
+<section class="chat" id="chat">
 
-      <div class="quick-grid">
+  <div class="message-row">
 
-        <button
-          class="quick-button"
-          type="button"
-          data-message="Quiero información completa sobre Berchatti Residence. Indícame ubicación, superficies, precios, formas de pago, características y disponibilidad."
-        >
-          🏡 Berchatti Residence
-        </button>
+    <div class="message assistant">
+      ¡Hola! 👋 Soy <strong>COIMTEC IA</strong>,
+      asistente virtual de <strong>TVEO Business</strong>.
 
-
-        <button
-          class="quick-button"
-          type="button"
-          data-message="Quiero información completa sobre Casas a Crédito Directo de TVEO Business. Explícame cómo funciona, requisitos, precios, cuotas, modalidades y opciones disponibles."
-        >
-          🏠 Casas a Crédito Directo
-        </button>
-
-
-        <button
-          class="quick-button"
-          type="button"
-          data-message="Quiero información completa sobre Laguna Norte II. Indícame ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
-        >
-          🌿 Laguna Norte II
-        </button>
-
-
-        <button
-          class="quick-button"
-          type="button"
-          data-message="Quiero información completa sobre Sinai Eco-Residence. Indícame ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
-        >
-          🌱 Sinai Eco-Residence
-        </button>
-
-
-        <button
-          class="quick-button"
-          type="button"
-          data-message="Quiero conocer todos los proyectos inmobiliarios que actualmente ofrece TVEO Business. Muéstrame las opciones disponibles y explícame brevemente cada una."
-        >
-          📋 Ver todos los proyectos
-        </button>
-
-
-        <button
-          class="quick-button"
-          type="button"
-          data-message="Quiero hablar con un asesor comercial de TVEO Business. Necesito atención personalizada."
-        >
-          👨‍💼 Hablar con un Asesor
-        </button>
-
-      </div>
-
+      ¿Qué proyecto te interesa conocer?
     </div>
 
+  </div>
 
-    <div class="input-area">
+  <div class="typing" id="typing">
+    COIMTEC IA está escribiendo...
+  </div>
 
-      <input
-        type="text"
-        id="messageInput"
-        placeholder="Escribe tu consulta..."
-        autocomplete="off"
-      >
-
-      <button
-        class="send-button"
-        id="sendButton"
-        type="button"
-      >
-        Enviar
-      </button>
-
-    </div>
+</section>
 
 
-    <footer class="footer">
-      TVEO Business Desarrolladora Inmobiliaria · COIMTEC IA
-    </footer>
+<!-- =========================================
+     ÚNICAMENTE PROYECTOS REALES
+     ========================================= -->
+
+<div class="quick-options" id="quickOptions">
+
+  <div class="quick-title">
+    ¿Qué proyecto te interesa?
+  </div>
+
+  <div class="quick-grid">
+
+    <!-- BERCHATTI -->
+
+    <button
+      class="quick-button"
+      type="button"
+      data-message="Quiero información sobre Berchatti Residence. Dame información concreta sobre ubicación, características, superficies, precios, formas de pago y disponibilidad."
+    >
+      🏡 Berchatti Residence
+    </button>
+
+
+    <!-- CASAS A CRÉDITO DIRECTO -->
+
+    <button
+      class="quick-button"
+      type="button"
+      data-message="Quiero información sobre Casas a Crédito Directo de TVEO Business. Explícame cómo funciona, qué opciones tienen, precios, cuotas, requisitos y condiciones."
+    >
+      🏠 Casas a Crédito Directo
+    </button>
+
+
+    <!-- LAGUNA NORTE II -->
+
+    <button
+      class="quick-button"
+      type="button"
+      data-message="Quiero información sobre Laguna Norte II. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
+    >
+      🌿 Laguna Norte II
+    </button>
+
+
+    <!-- SINAI ECO-RESIDENCE -->
+
+    <button
+      class="quick-button"
+      type="button"
+      data-message="Quiero información sobre Sinai Eco-Residence. Dame información concreta sobre ubicación, características, precios, formas de pago, disponibilidad y condiciones comerciales."
+    >
+      🌱 Sinai Eco-Residence
+    </button>
+
+
+    <!-- TODOS LOS PROYECTOS -->
+
+    <button
+      class="quick-button"
+      type="button"
+      data-message="Quiero conocer todos los proyectos que actualmente ofrece TVEO Business. Muéstrame los proyectos disponibles y dame una breve explicación de cada uno."
+    >
+      📋 Ver todos los proyectos
+    </button>
+
+
+    <!-- ASESOR -->
+
+    <button
+      class="quick-button"
+      type="button"
+      data-message="Quiero hablar con un asesor comercial de TVEO Business. Necesito atención personalizada."
+    >
+      👨‍💼 Hablar con un Asesor
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================
+     CAMPO DE CONSULTA
+     ========================================= -->
+
+<div class="input-area">
+
+  <input
+    type="text"
+    id="messageInput"
+    placeholder="Escribe tu consulta..."
+    autocomplete="off"
+  >
+
+  <button
+    class="send-button"
+    id="sendButton"
+    type="button"
+  >
+    Enviar
+  </button>
+
+</div>
+
+
+<!-- PIE -->
+
+<footer class="footer">
+  TVEO Business Desarrolladora Inmobiliaria · COIMTEC IA
+</footer>
+```
 
   </main>
 
 </div>
-
 
 <script>
 
@@ -535,6 +594,10 @@ const typing =
 const quickButtons =
   document.querySelectorAll(".quick-button");
 
+
+/* =========================================
+   LIMPIAR RESPUESTA
+   ========================================= */
 
 function limpiarRespuesta(texto) {
 
@@ -568,6 +631,10 @@ function limpiarRespuesta(texto) {
 }
 
 
+/* =========================================
+   DETECTAR WHATSAPP
+   ========================================= */
+
 function contieneWhatsApp(texto) {
 
   if (!texto) {
@@ -585,6 +652,10 @@ function contieneWhatsApp(texto) {
   );
 }
 
+
+/* =========================================
+   MENSAJE DEL USUARIO
+   ========================================= */
 
 function agregarMensajeUsuario(texto) {
 
@@ -614,6 +685,10 @@ function agregarMensajeUsuario(texto) {
     chat.scrollHeight;
 }
 
+
+/* =========================================
+   BOTÓN WHATSAPP
+   ========================================= */
 
 function mostrarBotonWhatsApp() {
 
@@ -664,6 +739,10 @@ function mostrarBotonWhatsApp() {
 }
 
 
+/* =========================================
+   MENSAJE DEL ASISTENTE
+   ========================================= */
+
 function agregarMensajeAsistente(
   texto,
   mostrarWhatsApp
@@ -700,6 +779,10 @@ function agregarMensajeAsistente(
 }
 
 
+/* =========================================
+   ERROR
+   ========================================= */
+
 function mostrarError(texto) {
 
   const row =
@@ -728,6 +811,10 @@ function mostrarError(texto) {
     chat.scrollHeight;
 }
 
+
+/* =========================================
+   ENVIAR MENSAJE
+   ========================================= */
 
 async function enviarMensaje() {
 
@@ -763,6 +850,7 @@ async function enviarMensaje() {
   chat.scrollTop =
     chat.scrollHeight;
 
+
   try {
 
     const respuesta =
@@ -784,6 +872,7 @@ async function enviarMensaje() {
         }
       );
 
+
     if (!respuesta.ok) {
 
       throw new Error(
@@ -793,24 +882,30 @@ async function enviarMensaje() {
 
     }
 
+
     const data =
       await respuesta.json();
 
+
     typing.style.display =
       "none";
+
 
     const answer =
       data.answer ||
       "No pude procesar tu consulta.";
 
+
     const necesitaWhatsApp =
       data.whatsapp === true ||
       contieneWhatsApp(answer);
+
 
     agregarMensajeAsistente(
       answer,
       necesitaWhatsApp
     );
+
 
   } catch (error) {
 
@@ -819,12 +914,15 @@ async function enviarMensaje() {
       error
     );
 
+
     typing.style.display =
       "none";
+
 
     mostrarError(
       "Lo siento, en este momento no pude conectarme con el asistente. Por favor, intenta nuevamente."
     );
+
 
   } finally {
 
@@ -834,11 +932,13 @@ async function enviarMensaje() {
     messageInput.disabled =
       false;
 
+
     quickButtons.forEach(
       function(button) {
         button.disabled = false;
       }
     );
+
 
     messageInput.focus();
 
@@ -847,11 +947,19 @@ async function enviarMensaje() {
 }
 
 
+/* =========================================
+   BOTÓN ENVIAR
+   ========================================= */
+
 sendButton.addEventListener(
   "click",
   enviarMensaje
 );
 
+
+/* =========================================
+   ENTER PARA ENVIAR
+   ========================================= */
 
 messageInput.addEventListener(
   "keydown",
@@ -872,6 +980,10 @@ messageInput.addEventListener(
 );
 
 
+/* =========================================
+   BOTONES DE PROYECTOS
+   ========================================= */
+
 quickButtons.forEach(
   function(button) {
 
@@ -884,8 +996,15 @@ quickButtons.forEach(
             "data-message"
           ) || "";
 
+
+        if (!consulta) {
+          return;
+        }
+
+
         messageInput.value =
           consulta;
+
 
         enviarMensaje();
 
@@ -895,6 +1014,10 @@ quickButtons.forEach(
   }
 );
 
+
+/* =========================================
+   INICIO
+   ========================================= */
 
 messageInput.focus();
 
